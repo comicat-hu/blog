@@ -84,7 +84,7 @@ class MyException extends Exception
      **/
     public function errorMessage()
     {
-        $errorMsg = 'Error on line' . $this->getline() . ' in ' . 
+        $errorMsg = 'Error on line' . $this->getline() . ' in ' .
                     $this->getFile() . ':<b>' . $this->getMessage() . '</b>';
         return $errorMsg;
     }
