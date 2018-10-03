@@ -86,3 +86,6 @@ deploy:
 
 # Disqus
 disqus_shortname: blog-comicat
+
+# GA
+google_analytics: UA-126897949-1
