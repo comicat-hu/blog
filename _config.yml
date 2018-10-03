@@ -83,3 +83,6 @@ deploy:
   type: git
   repo: https://github.com/comicat-hu/blog.git
   branch: master
+
+# Disqus
+disqus_shortname: blog-comicat
