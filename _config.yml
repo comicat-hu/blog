@@ -4,7 +4,7 @@
 
 # Site
 title: Comicat's Blog
-subtitle: find something funny
+subtitle: Find Something Funny
 description: 
 keywords: 
   - programing
@@ -75,7 +75,7 @@ pagination_dir: page
 # Extensions
 ## Plugins: https://hexo.io/plugins/
 ## Themes: https://hexo.io/themes/
-theme: landscape
+theme: indigo
 
 # Deployment
 ## Docs: https://hexo.io/docs/deployment.html
