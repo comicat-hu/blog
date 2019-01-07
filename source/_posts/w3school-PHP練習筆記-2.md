@@ -11,6 +11,8 @@ tags:
 * PHP Error Handling
 * PHP Exception
 
+<!--more-->
+
 ## PHP Cookies
 
 [php setcookie](http://php.net/manual/zh/function.setcookie.php)

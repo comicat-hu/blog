@@ -17,6 +17,8 @@ tags:
 * 手動透過code deploy部署一個GitHub專案
 * 建立自動從GitHub通知部署的服務
 
+<!--more-->
+
 ## 建立IAM user, role, policy
 
 * 參考 <http://docs.aws.amazon.com/codedeploy/latest/userguide/getting-started-create-service-role.html>

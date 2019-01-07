@@ -7,6 +7,8 @@ tags:
 ---
 Redis是一個BSD開源的key-value快取資料庫，可以保持資料的持久度，有支援多種的資料結構可以儲存
 
+<!--more-->
+
 windows的執行檔可以從這裡找到
 
 <https://github.com/MicrosoftArchive/redis/releases>

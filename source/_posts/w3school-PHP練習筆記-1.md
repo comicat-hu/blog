@@ -21,6 +21,8 @@ tags:
     + PHP File Create/Write
     + PHP File Upload
 
+<!--more-->
+
 ## include vs require
 
 include與require同是引入檔案

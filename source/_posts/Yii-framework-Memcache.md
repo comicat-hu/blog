@@ -11,6 +11,8 @@ memcached是一套分散式的快取系統，但server間並不互相同步，�
 
 memcache有LRU機制(Least Recently Used)，會在內部儲存空間不足時自動讓較少使用到的資料失效(expire)，讓新的資料可以覆蓋到該空間上
 
+<!--more-->
+
 <http://qianshangding.iteye.com/blog/2259411>
 
 ## 閱讀連結

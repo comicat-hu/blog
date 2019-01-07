@@ -21,6 +21,8 @@ tags:
 * MySQL Update Data
 * MySQL Limit Data
 
+<!--more-->
+
 ## SQL
 
 SQL(Structured Query Language)，ANSI標準，可以用來操作存取資料庫系統

@@ -19,6 +19,8 @@ tags:
 
 * 定義事件，raiseEvent: 啟動事件，觸發CList中所有handler
 
+<!--more-->
+
 ```PHP
 public function onFuck($event)
 {

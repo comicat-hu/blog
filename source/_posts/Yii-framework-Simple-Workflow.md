@@ -17,6 +17,8 @@ tags:
 * `$app = Yii::createWebApplication($config)`，建立一個`CWebApplication`物件
 * `$app->run()`啟動它
 
+<!--more-->
+
 ## Application
 
 這裡主要是run()中的processRequest()

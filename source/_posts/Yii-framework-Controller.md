@@ -13,6 +13,8 @@ Controller繼承自CController，但由於可能會有很多Controller，為了�
 
 controller執行時會呼叫相對應的action，action會與model溝通並將結果呈現在view上。
 
+<!--more-->
+
 預設(沒有指定route)的action是index(actionIndex)， `CController::defaultAction = 'xxx'`可以設定預設action
 
 名稱中的`Controller`後綴和`action`前綴都是必須的寫法規則!

@@ -13,6 +13,8 @@ yii framework使用PDO操作資料庫，
 
 在`protected\config\database.php`中設定資料庫連線資訊，預設幫你連到sqlite，這邊我修改成連接到現有的MySQL
 
+<!--more-->
+
 ```PHP
 return array(
     'connectionString' => 'mysql:host=localhost;dbname=mydb',

@@ -19,6 +19,8 @@ xampp 安裝後裡面有附PHPUnit(3.7.21)，
 
 {% asset_img phpunit_version.PNG phpunit version %}
 
+<!--more-->
+
 ## 簡單的測試範例
 
 * 在lib_test.php撰寫test case

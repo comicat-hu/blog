@@ -7,6 +7,8 @@ tags:
 
 演算法解題記錄
 
+<!--more-->
+
 ## 00
 
 Write a function:

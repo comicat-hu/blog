@@ -15,6 +15,8 @@ tags:
 * require`\framework\yii.php`
 * `Yii::createWebApplication($config)->run();`，傳入設定檔並建立一個WebApplication，然後啟動
 
+<!--more-->
+
 ## framework\yii.php
 
 這個檔案只做兩件事，

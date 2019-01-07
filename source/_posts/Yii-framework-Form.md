@@ -11,6 +11,8 @@ model建立在`protected\models`下，config需要設定import
 
 動作流程大概是這樣:
 
+<!--more-->
+
 * 進入`site/login`
 * 在actionLogin中create form data model，catch POST，render login page
 

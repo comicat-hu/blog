@@ -10,6 +10,8 @@ tags:
 
 安裝參考: <http://www.w3big.com/zh-TW/mongodb/mongodb-install-php-driver.html>
 
+<!--more-->
+
 ## connect mongo
 
 預設會連接到`mongodb://localhost:27017`

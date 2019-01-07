@@ -13,6 +13,8 @@ render()預設會去存取`protected/views/ControllerID`資料夾。
 
 而render()時預設會先輸出layouts下的main.php(如果有的話)，這時你要render的內容會被預設放在`$content`這個變數內，使用`<?php echo $content; ?>`輸出它
 
+<!--more-->
+
 ```PHP
 // CController::render()
 

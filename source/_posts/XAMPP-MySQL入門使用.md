@@ -13,6 +13,8 @@ XAMPP內的MySQL是MariaDB。
 XAMPP也內建有資料庫管理工具PhpMyAdmin，啟動MySQL後，在你的主機/phpmyadmin路徑下可以開啟它。
 {% asset_img phpmyadmin.PNG phpmyadmin %}
 
+<!--more-->
+
 當然你也可以用shell登入，不過指令有點多，這邊就先不採用
 {% asset_img mysql_shell.PNG mysql_shell %}
 

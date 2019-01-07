@@ -6,6 +6,8 @@ tags:
 ---
 Learn Url: [https://www.codecademy.com/learn/php](https://www.codecademy.com/learn/php)
 
+<!--more-->
+
 適逢Codecademy整理課程，這版的課程使用的是比較舊的php版本(5.3.10-1ubuntu3.1)，而且Codecademy也已經計畫更新並在主頁下架該課程首頁，不過新版的似乎還沒上架，所以這個url可能會404。
 
 目前還是可以直接連進課程內容練習[Introduction to PHP](https://www.codecademy.com/courses/web-beginner-en-StaFQ/0/1) (已失效)

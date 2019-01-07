@@ -10,6 +10,8 @@ UrlManager主要用來解析URL route，有兩種格式可以設定
 * get: 用query string指定route(/?r=controllerID/actionID)
 * path: 在URL中指定route(/controllerID/actionID)
 
+<!--more-->
+
 在config中可以設定，沒有指定的話get是預設格式
 
 ```PHP

@@ -12,6 +12,8 @@ Yii v1.1.19
 Download: <http://www.yiiframework.com/download/>
 中文參考: <http://www.yiichina.com/>
 
+<!--more-->
+
 ## Step
 
 * 解壓縮檔案到自行建立的yii資料夾，我這邊是直接把資料夾放在xampp/htdocs下

@@ -11,6 +11,8 @@ tags:
 
 這邊我想直接使用CActiveForm造一個簡單的二元數字加減乘除(但要不同頁面)，
 
+<!--more-->
+
 先簡述一下mvc架構
 
 * `MathController extends CController`: 這邊要負責導去不同的action，沒給action預設依然會進index
