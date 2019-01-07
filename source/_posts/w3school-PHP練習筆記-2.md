@@ -3,7 +3,6 @@ title: w3school-PHP練習筆記-2
 date: 2017-09-18 10:08:04
 tags:
   - PHP
-  - 學習筆記
 ---
 * PHP Cookies
 * PHP Sessions

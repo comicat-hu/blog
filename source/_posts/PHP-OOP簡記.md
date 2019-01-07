@@ -3,7 +3,6 @@ title: PHP OOP簡記
 date: 2017-09-22 10:33:49
 tags:
   - PHP
-  - 學習筆記
 ---
 
 * OOP三大用法簡介

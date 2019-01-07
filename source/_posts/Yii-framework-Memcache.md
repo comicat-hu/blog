@@ -4,7 +4,6 @@ date: 2017-10-26 18:35:22
 tags:
   - PHP
   - Yii1.x
-  - Cache
 ---
 memcached是一套分散式的快取系統，但server間並不互相同步，而是由client端去做分散存取(hash計算)，存資料時hash算出要存的server，取資料時用相同的hash算法指到要讀的server
 

@@ -3,7 +3,6 @@ title: PHP5 Codecademy課程學習
 date: 2017-08-29 15:54:06
 tags:
   - PHP
-  - 學習筆記
 ---
 Learn Url: [https://www.codecademy.com/learn/php](https://www.codecademy.com/learn/php)
 

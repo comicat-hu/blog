@@ -3,7 +3,7 @@ title: PHP-MongoDB入門使用
 date: 2017-09-30 15:02:37
 tags:
   - PHP
-  - MongoDB
+  - Storage
 ---
 
 需要安裝PHP mongo extension

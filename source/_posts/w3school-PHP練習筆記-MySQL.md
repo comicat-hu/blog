@@ -3,8 +3,7 @@ title: w3school-PHP練習筆記-MySQL
 date: 2017-09-21 18:03:35
 tags:  
   - PHP
-  - MySQL
-  - 學習筆記
+  - Storage
 ---
 
 <https://www.w3schools.com/php/php_mysql_intro.asp>

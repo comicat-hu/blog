@@ -2,10 +2,7 @@
 title: Cloudflare+GitHub-Pages自訂網域連線設定
 date: 2018-09-28 13:18:27
 tags:
-  - GitHub-Pages
-  - Cloudflare
-  - blog
-  - custom domain
+  - Blog
 ---
 
 以此站為例，我使用了[hexo](https://github.com/hexojs/hexo)搭配Github-Pages來放置這個靜態網站。
