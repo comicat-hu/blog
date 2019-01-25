@@ -1,10 +1,14 @@
 ---
 title: Yii framework - Controller
 date: 2017-10-06 11:59:32
+categories:
+  - 資訊技術
+  - PHP
 tags:
   - PHP
   - Yii1.x
 ---
+
 Controller處理使用者發出並經過經過應用呼叫的request
 
 ## Controller

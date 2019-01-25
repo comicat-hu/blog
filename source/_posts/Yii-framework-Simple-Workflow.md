@@ -1,6 +1,9 @@
 ---
 title: Yii framework - Simple Workflow
 date: 2017-10-16 17:42:18
+categories:
+  - 資訊技術
+  - PHP
 tags:
   - PHP
   - Yii1.x

@@ -1,9 +1,14 @@
 ---
 title: w3school-PHP練習筆記-MySQL
 date: 2017-09-21 18:03:35
+categories:
+  - 資訊技術
+  - PHP
 tags:  
   - PHP
   - Storage
+  - MySQL
+  - w3schools
 ---
 
 <https://www.w3schools.com/php/php_mysql_intro.asp>

@@ -1,9 +1,13 @@
 ---
 title: PHP - Redis
 date: 2017-11-23 10:56:26
+categories:
+  - 資訊技術
+  - PHP
 tags:
   - PHP
   - Storage
+  - Redis
 ---
 Redis是一個BSD開源的key-value快取資料庫，可以保持資料的持久度，有支援多種的資料結構可以儲存
 

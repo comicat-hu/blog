@@ -1,6 +1,9 @@
 ---
 title: Yii framework - Gii CRUD
 date: 2017-10-02 18:06:01
+categories:
+  - 資訊技術
+  - PHP
 tags:
   - PHP
   - Yii1.x

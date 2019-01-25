@@ -1,8 +1,13 @@
 ---
 title: Try PHPUnit
 date: 2017-09-19 14:12:53
+categories:
+  - 資訊技術
+  - PHP
 tags:
   - PHP
+  - PHPUnit
+  - Unit-Test
 ---
 [PHPUnit](https://phpunit.de/index.html)
 

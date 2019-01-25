@@ -1,6 +1,9 @@
 ---
 title: Yii framework - UrlManager
 date: 2017-10-20 18:24:35
+categories:
+  - 資訊技術
+  - PHP
 tags:
   - PHP
   - Yii1.x

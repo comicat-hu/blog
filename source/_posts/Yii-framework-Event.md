@@ -1,6 +1,9 @@
 ---
 title: Yii framework - Event
 date: 2017-10-15 16:39:53
+categories:
+  - 資訊技術
+  - PHP
 tags:
   - PHP
   - Yii1.x

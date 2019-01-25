@@ -1,6 +1,9 @@
 ---
 title: PHP5 Codecademy課程學習
 date: 2017-08-29 15:54:06
+categories:
+  - 資訊技術
+  - PHP
 tags:
   - PHP
 ---

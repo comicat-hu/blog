@@ -1,8 +1,12 @@
 ---
 title: Auto deploy from GitHub using AWS CodeDeploy
 date: 2017-12-18 11:15:09
+categories:
+  - 資訊技術
+  - AWS
 tags:
   - AWS
+  - Deploy
 ---
 以下步驟會透過aws web console操作。
 

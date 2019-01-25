@@ -1,6 +1,9 @@
 ---
 title: AC-Y18解題記錄
 date: 2018-02-12 14:05:56
+categories:
+  - 資訊技術
+  - Algorithm
 tags:
   - Algorithm
 ---

@@ -1,8 +1,12 @@
 ---
 title: PHP OOP簡記
 date: 2017-09-22 10:33:49
+categories:
+  - 資訊技術
+  - PHP
 tags:
   - PHP
+  - OOP
 ---
 
 * OOP三大用法簡介

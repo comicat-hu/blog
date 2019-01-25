@@ -1,6 +1,9 @@
 ---
 title: Yii framework - Form
 date: 2017-10-17 11:45:24
+categories:
+  - 資訊技術
+  - PHP
 tags:
   - PHP
   - Yii1.x

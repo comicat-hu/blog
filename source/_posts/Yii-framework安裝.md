@@ -1,6 +1,9 @@
 ---
 title: Yii framework安裝
 date: 2017-09-30 16:30:21
+categories:
+  - 資訊技術
+  - PHP
 tags:
   - PHP
   - Yii1.x

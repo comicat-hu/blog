@@ -1,6 +1,9 @@
 ---
 title: Yii framework - Entry Script & Basic Application
 date: 2017-10-03 11:41:19
+categories:
+  - 資訊技術
+  - PHP
 tags:
   - PHP
   - Yii1.x

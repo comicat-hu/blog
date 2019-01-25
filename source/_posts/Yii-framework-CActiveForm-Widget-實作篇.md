@@ -1,6 +1,9 @@
 ---
 title: Yii framework - CActiveForm Widget(實作篇)
 date: 2017-10-19 17:50:18
+categories:
+  - 資訊技術
+  - PHP
 tags:
   - PHP
   - Yii1.x

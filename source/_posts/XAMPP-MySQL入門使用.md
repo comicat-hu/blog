@@ -1,9 +1,14 @@
 ---
 title: XAMPP-MySQL入門使用
 date: 2017-09-25 14:39:09
+categories:
+  - 資訊技術
+  - PHP
 tags:
   - PHP
   - Storage
+  - MySQL
+  - XAMPP
 ---
 
 XAMPP內的MySQL是MariaDB。

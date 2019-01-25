@@ -1,8 +1,12 @@
 ---
 title: w3school PHP練習筆記-1
 date: 2017-09-02 18:20:05
+categories:
+  - 資訊技術
+  - PHP
 tags:
   - PHP
+  - w3schools
 ---
 [https://www.w3schools.com/php/php_forms.asp](https://www.w3schools.com/php/php_forms.asp)
 

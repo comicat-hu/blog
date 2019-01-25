@@ -1,8 +1,12 @@
 ---
 title: Google Chrome Puppeteer入門筆記
 date: 2017-11-22 17:12:21
+categories:
+  - 資訊技術
+  - NodeJS
 tags:
   - NodeJS
+  - Puppeteer
 ---
 Puppeteer is a Node library which provides a high-level API to control headless Chrome over the DevTools Protocol. It can also be configured to use full (non-headless) Chrome.
 
