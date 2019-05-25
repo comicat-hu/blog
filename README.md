@@ -21,3 +21,10 @@ theme use [comicat-hu/hexo-theme-cafe](https://github.com/comicat-hu/hexo-theme-
 * `hexo g` (generate files in public folder)
 * `hexo s` (run local server on port 4000)
 * `hexo d` (deploy project follow _config.yml deploy setting)
+
+### write a post
+
+* `hexo new "Post Title"` (create new post)
+* set categories and tags
+* use `<!--more-->` to set post preview
+* use `{% asset_img Picture_Name Picture_ALT %}` to set a picture in post
