@@ -21,6 +21,7 @@ theme use [comicat-hu/hexo-theme-cafe](https://github.com/comicat-hu/hexo-theme-
 * `hexo g` (generate files in public folder)
 * `hexo s` (run local server on port 4000)
 * `hexo d` (deploy project follow _config.yml deploy setting)
+* `hexo clean` (clean all files in public folder, recommand clean after modify any framework and theme file)
 
 ### write a post
 
