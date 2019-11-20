@@ -8,7 +8,8 @@ theme use [comicat-hu/hexo-theme-cafe](https://github.com/comicat-hu/hexo-theme-
 
 ### clone roject
 
-* `git clone https://github.com/comicat-hu/blog -b source --single-branch`
+* `git clone https://github.com/comicat-hu/blog`
+* `git checkout source`
 * `git submodule update --init --recursive`
 
 ### install dependencies
