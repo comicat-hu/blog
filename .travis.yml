@@ -1,25 +1,26 @@
 language: node_js
 
-sudo: false
-
-node_js: 
-  - '12'
+node_js:
+- "12"
 
 cache:
-  apt: true
   directories:
-      - node_modules
+  - node_modules
 
 branches:
   only:
-    - source
+  - source
+
+before_install:
+- npm install hexo-cli -g
+- npm install hexo --save
+- npm install
 
 before_script:
-  - npm install hexo-cli -g
+- sed -i'' "s~https://github.com/comicat-hu/blog.git~https://${GITHUB_TOKEN}:x-oauth-basic@github.com/comicat-hu/blog.git~" _config.yml
 
 script:
-  - hexo clean
-  - hexo generate
+- hexo generate
 
 deploy:
   skip_cleanup: true
