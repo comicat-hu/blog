@@ -24,6 +24,6 @@ script:
 deploy:
   skip_cleanup: true
   provider: script
-  script: "echo deploy doce."
+  script: sh deploy.sh
   on:
     branch: source
