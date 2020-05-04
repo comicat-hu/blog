@@ -52,7 +52,7 @@ tags:
 
 * <https://windows.php.net/download/>
 * <https://windows.php.net/downloads/releases/archives/>  (停止維護的在這裡)
-* 分別解壓縮到php/73、php/72、php/56 (php7需要VC15、php5需要VC11)
+* 分別解壓縮到php/73、php/72、php/56 (php7需要VC15、php5需要VC11) [下載VC11](https://www.microsoft.com/zh-tw/download/details.aspx?id=30679)
 * 複製php-development.ini到php.ini
 
 ### 建立預設的php環境
@@ -77,9 +77,12 @@ tags:
 
 ### 啟用fcgi
 
-* 下載mod_fcgid.so (<https://httpd.apache.org/download.cgi>)
+* 下載mod_fcgid.so (<https://www.apachehaus.com/cgi-bin/download.plx>)
 * 解壓縮到apache的modules目錄
 * httpd.conf加入設定
+    ```ini
+        LoadModule fcgid_module modules/mod_fcgid.so
+    ```
 
     ```ini
         AddHandler fcgid-script .fcgi .php
