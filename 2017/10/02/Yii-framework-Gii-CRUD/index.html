@@ -1,0 +1,417 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <meta charset="utf-8">
+  
+  <title>Yii framework - Gii CRUD | Comicat&#39;s Blog</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
+  <meta name="description" content="在使用yiic webapp建立好的網站雛形上，操作Gii web code generator生成CRUD程式。 設定資料庫連線資訊yii framework使用PDO操作資料庫， 在protected\config\database.php中設定資料庫連線資訊，預設幫你連到sqlite，這邊我修改成連接到現有的MySQL">
+<meta property="og:type" content="article">
+<meta property="og:title" content="Yii framework - Gii CRUD">
+<meta property="og:url" content="https://blog.comicat.me/2017/10/02/Yii-framework-Gii-CRUD/index.html">
+<meta property="og:site_name" content="Comicat&#39;s Blog">
+<meta property="og:description" content="在使用yiic webapp建立好的網站雛形上，操作Gii web code generator生成CRUD程式。 設定資料庫連線資訊yii framework使用PDO操作資料庫， 在protected\config\database.php中設定資料庫連線資訊，預設幫你連到sqlite，這邊我修改成連接到現有的MySQL">
+<meta property="og:locale" content="zh_TW">
+<meta property="og:image" content="https://blog.comicat.me/2017/10/02/Yii-framework-Gii-CRUD/yii_gii.PNG">
+<meta property="og:image" content="https://blog.comicat.me/2017/10/02/Yii-framework-Gii-CRUD/yii_gii_model_generator.PNG">
+<meta property="og:image" content="https://blog.comicat.me/2017/10/02/Yii-framework-Gii-CRUD/yii_gii_crud_generator.PNG">
+<meta property="og:image" content="https://blog.comicat.me/2017/10/02/Yii-framework-Gii-CRUD/yii_read.PNG">
+<meta property="og:image" content="https://blog.comicat.me/2017/10/02/Yii-framework-Gii-CRUD/yii_manage.PNG">
+<meta property="og:image" content="https://blog.comicat.me/2017/10/02/Yii-framework-Gii-CRUD/yii_manage_create.PNG">
+<meta property="og:image" content="https://blog.comicat.me/2017/10/02/Yii-framework-Gii-CRUD/yii_manage_view.PNG">
+<meta property="og:image" content="https://blog.comicat.me/2017/10/02/Yii-framework-Gii-CRUD/yii_manage_update.PNG">
+<meta property="article:published_time" content="2017-10-02T10:06:01.000Z">
+<meta property="article:modified_time" content="2020-05-04T05:26:23.340Z">
+<meta property="article:author" content="comicat">
+<meta property="article:tag" content="PHP">
+<meta property="article:tag" content="Yii1.x">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:image" content="https://blog.comicat.me/2017/10/02/Yii-framework-Gii-CRUD/yii_gii.PNG">
+  
+    <link rel="alternate" href="/atom.xml" title="Comicat&#39;s Blog" type="application/atom+xml">
+  
+  
+    <link rel="icon" href="/images/favicon.ico">
+  
+  
+    
+  
+  
+<link rel="stylesheet" href="/css/style.css">
+
+  
+<!-- Google Analytics -->
+<!--
+<script type="text/javascript">
+(function(i,s,o,g,r,a,m){i['GoogleAnalyticsObject']=r;i[r]=i[r]||function(){
+(i[r].q=i[r].q||[]).push(arguments)},i[r].l=1*new Date();a=s.createElement(o),
+m=s.getElementsByTagName(o)[0];a.async=1;a.src=g;m.parentNode.insertBefore(a,m)
+})(window,document,'script','//www.google-analytics.com/analytics.js','ga');
+
+ga('create', 'UA-126897949-1', 'auto');
+ga('send', 'pageview');
+
+</script>
+-->
+<!-- End Google Analytics -->
+
+<!-- Global Site Tag (gtag.js) - Google Analytics -->
+<script async src="https://www.googletagmanager.com/gtag/js?id=UA-126897949-1"></script>
+<script>
+  window.dataLayer = window.dataLayer || [];
+  function gtag(){dataLayer.push(arguments);}
+  gtag('js', new Date());
+
+  gtag('config', 'UA-126897949-1');
+  gtag('event', 'page_view', { 'send_to': 'UA-126897949-1' });
+</script>
+
+
+<meta name="generator" content="Hexo 4.2.0"></head>
+
+<body>
+  <div id="container">
+    <div id="wrap">
+      <header id="header">
+  <div id="banner"></div>
+  <div id="header-outer" class="outer">
+    
+    <div id="header-inner" class="inner">
+      <nav id="sub-nav">
+        
+          <a id="nav-rss-link" class="nav-icon" href="/atom.xml" title="RSS Feed"></a>
+        
+        <a id="nav-search-btn" class="nav-icon" title="搜尋"></a>
+      </nav>
+      <div id="search-form-wrap">
+        <form action="//google.com/search" method="get" accept-charset="UTF-8" class="search-form"><input type="search" name="q" class="search-form-input" placeholder="Search"><button type="submit" class="search-form-submit">&#xF002;</button><input type="hidden" name="sitesearch" value="https://blog.comicat.me"></form>
+      </div>
+      <nav id="main-nav">
+        <a id="main-nav-toggle" class="nav-icon"></a>
+        
+          <a class="main-nav-link" href="/">Home</a>
+        
+          <a class="main-nav-link" href="/archives">Archives</a>
+        
+          <a class="main-nav-link" href="/tags">Tags</a>
+        
+          <a class="main-nav-link" href="/categories">Categories</a>
+        
+      </nav>
+      
+    </div>
+    <div id="header-title" class="inner">
+      <h1 id="logo-wrap">
+        <a href="/" id="logo">Comicat&#39;s Blog</a>
+      </h1>
+      
+        <h2 id="subtitle-wrap">
+          <a href="/" id="subtitle">Find Something Funny</a>
+        </h2>
+      
+    </div>
+  </div>
+</header>
+      <div class="outer">
+        <section id="main"><article id="post-Yii-framework-Gii-CRUD" class="article article-type-post" itemscope itemprop="blogPost">
+  <div class="article-meta">
+    <a href="/2017/10/02/Yii-framework-Gii-CRUD/" class="article-date">
+  <time datetime="2017-10-02T10:06:01.000Z" itemprop="datePublished">2017-10-02</time>
+</a>
+    
+  <div class="article-category">
+    <a class="article-category-link" href="/categories/%E8%B3%87%E8%A8%8A%E6%8A%80%E8%A1%93/">資訊技術</a>►<a class="article-category-link" href="/categories/%E8%B3%87%E8%A8%8A%E6%8A%80%E8%A1%93/PHP/">PHP</a>
+  </div>
+
+  </div>
+  <div class="article-inner">
+    
+    
+      <header class="article-header">
+        
+  
+    <h1 class="article-title" itemprop="name">
+      Yii framework - Gii CRUD
+    </h1>
+  
+
+      </header>
+    
+    <div class="article-entry" itemprop="articleBody">
+      
+        <!-- Table of Contents -->
+        
+        <p>在使用yiic webapp建立好的網站雛形上，操作Gii web code generator生成CRUD程式。</p>
+<h2 id="設定資料庫連線資訊"><a href="#設定資料庫連線資訊" class="headerlink" title="設定資料庫連線資訊"></a>設定資料庫連線資訊</h2><p>yii framework使用PDO操作資料庫，</p>
+<p>在<code>protected\config\database.php</code>中設定資料庫連線資訊，預設幫你連到sqlite，這邊我修改成連接到現有的MySQL</p>
+<a id="more"></a>
+<figure class="highlight php"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">return</span> <span class="keyword">array</span>(</span><br><span class="line">    <span class="string">'connectionString'</span> =&gt; <span class="string">'mysql:host=localhost;dbname=mydb'</span>,</span><br><span class="line">    <span class="string">'emulatePrepare'</span> =&gt; <span class="keyword">true</span>,</span><br><span class="line">    <span class="string">'username'</span> =&gt; <span class="string">'*****'</span>,</span><br><span class="line">    <span class="string">'password'</span> =&gt; <span class="string">'*****'</span>,</span><br><span class="line">    <span class="string">'charset'</span> =&gt; <span class="string">'utf8'</span>,</span><br><span class="line">);</span><br></pre></td></tr></table></figure>
+<h2 id="Enable-Gii"><a href="#Enable-Gii" class="headerlink" title="Enable Gii"></a>Enable Gii</h2><p>要使用Gii，先到protected\config\main.php中啟用modules gii(拿掉註解)，並且設個password</p>
+<p>連上<code>/index.php?r=gii</code>，輸入密碼後就可以進入gii 介面<br><img src="/2017/10/02/Yii-framework-Gii-CRUD/yii_gii.PNG" title="yii_gii"></p>
+<h2 id="Generate-Model"><a href="#Generate-Model" class="headerlink" title="Generate Model"></a>Generate Model</h2><p>進入Model Generator，如果連線設定正確的話可以順利進入，反之會有exception畫面，</p>
+<p>建立一個table-myguest的model，預覽執行後會在<code>protected\models</code>生成一個Myguests.php<br><img src="/2017/10/02/Yii-framework-Gii-CRUD/yii_gii_model_generator.PNG" title="yii_gii_model_generator"></p>
+<h2 id="Generate-View、Controller"><a href="#Generate-View、Controller" class="headerlink" title="Generate View、Controller"></a>Generate View、Controller</h2><p>進入CRUD Generator，輸入Model Class name，自動新建下列檔案<br><img src="/2017/10/02/Yii-framework-Gii-CRUD/yii_gii_crud_generator.PNG" title="yii_gii_crud_generator"></p>
+<p>完成後連上<code>/index.php?r=myguests</code>就可以看到讀取的資料結果</p>
+<img src="/2017/10/02/Yii-framework-Gii-CRUD/yii_read.PNG" title="yii_read">
+<p>點選manage或進入<code>/index.php?r=site/login</code>，登入之後可到後台進行CUD操作</p>
+<p>預設有”demo/demo”, “admin/admin”兩組帳號密碼可以使用，在<code>\protected\components\UserIdentity.php</code>可以看到一些使用者驗證設定，但這邊先不要修改，因為admin這個帳號跟很多隻檔案連動。</p>
+<p>登入成功後到<code>index.php?r=myguests/admin</code>，可以看到所有資料並且有操作的功能(操作功能會受限於MySQL登入帳號的權限，如果權限不夠操作後會有alert錯誤)<br><img src="/2017/10/02/Yii-framework-Gii-CRUD/yii_manage.PNG" title="yii_manage"></p>
+<ul>
+<li>新增單筆資料(Create)</li>
+</ul>
+<img src="/2017/10/02/Yii-framework-Gii-CRUD/yii_manage_create.PNG" title="yii_manage_create">
+<ul>
+<li>點選放大鏡查看單筆資料(Read)</li>
+</ul>
+<img src="/2017/10/02/Yii-framework-Gii-CRUD/yii_manage_view.PNG" title="yii_manage_view">
+<ul>
+<li>點選鉛筆修改單筆資料(Update)</li>
+</ul>
+<img src="/2017/10/02/Yii-framework-Gii-CRUD/yii_manage_update.PNG" title="yii_manage_update">
+<ul>
+<li>點選刪除單筆資料(Delete)，會跳Alert詢問是否刪除</li>
+</ul>
+
+      
+    </div>
+    <footer class="article-footer">
+      <a data-url="https://blog.comicat.me/2017/10/02/Yii-framework-Gii-CRUD/" data-id="ck9s52xhl001etngfb9jurffe" class="article-share-link">分享</a>
+      
+      
+        <a href="https://blog.comicat.me/2017/10/02/Yii-framework-Gii-CRUD/#disqus_thread" class="article-comment-link">留言</a>
+      
+      
+  <ul class="article-tag-list" itemprop="keywords"><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/PHP/" rel="tag">PHP</a></li><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/Yii1-x/" rel="tag">Yii1.x</a></li></ul>
+
+    </footer>
+  </div>
+  
+    
+ 
+<script src="/jquery/jquery.min.js"></script>
+
+  <div id="random_posts">
+    <h2>推薦文章</h2>
+    <div class="random_posts_ul">
+      <script>
+          var random_count =3
+          var site = {BASE_URI:'/'};
+          function load_random_posts(obj) {
+              var arr=site.posts;
+              if (!obj) return;
+              // var count = $(obj).attr('data-count') || 6;
+              for (var i, tmp, n = arr.length; n; i = Math.floor(Math.random() * n), tmp = arr[--n], arr[n] = arr[i], arr[i] = tmp);
+              arr = arr.slice(0, random_count);
+              var html = '<ul>';
+            
+              for(var j=0;j<arr.length;j++){
+                var item=arr[j];
+                html += '<li><strong>' + 
+                item.date + ':&nbsp;&nbsp;<a href="' + (site.BASE_URI+item.uri) + '">' + 
+                (item.title || item.uri) + '</a></strong>';
+                if(item.excerpt){
+                  html +='<div class="post-excerpt">'+item.excerpt+'</div>';
+                }
+                html +='</li>';
+                
+              }
+              $(obj).html(html + '</ul>');
+          }
+          $('.random_posts_ul').each(function () {
+              var c = this;
+              if (!site.posts || !site.posts.length){
+                  $.getJSON(site.BASE_URI + 'js/posts.js',function(json){site.posts = json;load_random_posts(c)});
+              } 
+               else{
+                load_random_posts(c);
+              }
+          });
+      </script>
+    </div>
+  </div>
+
+    
+<nav id="article-nav">
+  
+    <a href="/2017/10/03/Yii-framework-Entry-Script-Basic-Application/" id="article-nav-newer" class="article-nav-link-wrap">
+      <strong class="article-nav-caption">Newer</strong>
+      <div class="article-nav-title">
+        
+          Yii framework - Entry Script &amp; Basic Application
+        
+      </div>
+    </a>
+  
+  
+    <a href="/2017/09/30/Yii-framework%E5%AE%89%E8%A3%9D/" id="article-nav-older" class="article-nav-link-wrap">
+      <strong class="article-nav-caption">Older</strong>
+      <div class="article-nav-title">Yii framework安裝</div>
+    </a>
+  
+</nav>
+
+  
+</article>
+ 
+     
+  <div class="comments" id="comments">
+    
+     
+    <section id="comments">
+      <div id="disqus_thread">
+        <noscript>
+          Please enable JavaScript to view the
+          <a href="//disqus.com/?ref_noscript" target="_blank" rel="noopener">comments powered by Disqus.</a>
+        </noscript>
+      </div>
+      </section>
+      
+       
+       
+      
+      
+  </div>
+ 
+  
+
+</section>
+           
+    <aside id="sidebar">
+  
+    
+    
+    
+    <div class="widget-wrap">
+    
+      <div class="widget" id="toc-widget-fixed">
+      
+        <strong class="toc-title">文章目錄</strong>
+        <div class="toc-widget-list">
+              <ol class="toc"><li class="toc-item toc-level-2"><a class="toc-link" href="#設定資料庫連線資訊"><span class="toc-number">1.</span> <span class="toc-text">設定資料庫連線資訊</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#Enable-Gii"><span class="toc-number">2.</span> <span class="toc-text">Enable Gii</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#Generate-Model"><span class="toc-number">3.</span> <span class="toc-text">Generate Model</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#Generate-View、Controller"><span class="toc-number">4.</span> <span class="toc-text">Generate View、Controller</span></a></li></ol>
+          </div>
+      </div>
+    </div>
+
+  
+    
+    
+    
+
+  
+    
+    
+    
+  
+    
+    
+    
+
+  
+    
+    
+    
+  
+    
+    
+    
+
+  
+    
+    
+    
+
+  
+</aside>
+
+      </div>
+      <footer id="footer">
+  
+  <div class="outer">
+    <div id="footer-left">
+      &copy; 2017 - 2020 comicat&nbsp;|&nbsp;
+      Theme by <a href="https://github.com/comicat-hu/hexo-theme-cafe" target="_blank">Cafe</a>
+    </div>
+     <div id="footer-right">
+      Contact&nbsp;|&nbsp;comicat.hu@gmail.com
+    </div>
+  </div>
+</footer>
+ 
+<script src="/jquery/jquery.min.js"></script>
+
+    </div>
+    <nav id="mobile-nav">
+  
+    <a href="/" class="mobile-nav-link">Home</a>
+  
+    <a href="/archives" class="mobile-nav-link">Archives</a>
+  
+    <a href="/tags" class="mobile-nav-link">Tags</a>
+  
+    <a href="/categories" class="mobile-nav-link">Categories</a>
+  
+</nav>
+    <img class="back-to-top-btn" src="/images/fly-to-top.png"/>
+<script>
+// Elevator script included on the page, already.
+window.onload = function() {
+  var elevator = new Elevator({
+    selector:'.back-to-top-btn',
+    element: document.querySelector('.back-to-top-btn'),
+    duration: 1000 // milliseconds
+  });
+}
+</script>
+      
+
+<script>
+  var disqus_shortname = 'blog-comicat';
+  
+  var disqus_url = 'https://blog.comicat.me/2017/10/02/Yii-framework-Gii-CRUD/';
+  
+  (function(){
+    var dsq = document.createElement('script');
+    dsq.type = 'text/javascript';
+    dsq.async = true;
+    dsq.src = '//' + disqus_shortname + '.disqus.com/embed.js';
+    (document.getElementsByTagName('head')[0] || document.getElementsByTagName('body')[0]).appendChild(dsq);
+  })();
+</script>
+
+
+
+
+
+
+
+<!-- author:forvoid begin -->
+<!-- author:forvoid begin -->
+
+<!-- author:forvoid end -->
+
+<!-- author:forvoid end -->
+
+
+
+ 
+<script src="/js/is.js"></script>
+
+
+
+  
+<link rel="stylesheet" href="/fancybox/jquery.fancybox.css">
+
+  
+<script src="/fancybox/jquery.fancybox.pack.js"></script>
+
+
+
+
+<script src="/js/script.js"></script>
+
+
+<script src="/js/elevator.js"></script>
+
+  </div>
+</body>
+</html>

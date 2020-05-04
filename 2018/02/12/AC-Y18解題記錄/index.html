@@ -1,0 +1,495 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <meta charset="utf-8">
+  
+  <title>AC-Y18解題記錄 | Comicat&#39;s Blog</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
+  <meta name="description" content="演算法解題記錄">
+<meta property="og:type" content="article">
+<meta property="og:title" content="AC-Y18解題記錄">
+<meta property="og:url" content="https://blog.comicat.me/2018/02/12/AC-Y18%E8%A7%A3%E9%A1%8C%E8%A8%98%E9%8C%84/index.html">
+<meta property="og:site_name" content="Comicat&#39;s Blog">
+<meta property="og:description" content="演算法解題記錄">
+<meta property="og:locale" content="zh_TW">
+<meta property="article:published_time" content="2018-02-12T06:05:56.000Z">
+<meta property="article:modified_time" content="2020-05-04T05:26:23.330Z">
+<meta property="article:author" content="comicat">
+<meta property="article:tag" content="Algorithm">
+<meta name="twitter:card" content="summary">
+  
+    <link rel="alternate" href="/atom.xml" title="Comicat&#39;s Blog" type="application/atom+xml">
+  
+  
+    <link rel="icon" href="/images/favicon.ico">
+  
+  
+    
+  
+  
+<link rel="stylesheet" href="/css/style.css">
+
+  
+<!-- Google Analytics -->
+<!--
+<script type="text/javascript">
+(function(i,s,o,g,r,a,m){i['GoogleAnalyticsObject']=r;i[r]=i[r]||function(){
+(i[r].q=i[r].q||[]).push(arguments)},i[r].l=1*new Date();a=s.createElement(o),
+m=s.getElementsByTagName(o)[0];a.async=1;a.src=g;m.parentNode.insertBefore(a,m)
+})(window,document,'script','//www.google-analytics.com/analytics.js','ga');
+
+ga('create', 'UA-126897949-1', 'auto');
+ga('send', 'pageview');
+
+</script>
+-->
+<!-- End Google Analytics -->
+
+<!-- Global Site Tag (gtag.js) - Google Analytics -->
+<script async src="https://www.googletagmanager.com/gtag/js?id=UA-126897949-1"></script>
+<script>
+  window.dataLayer = window.dataLayer || [];
+  function gtag(){dataLayer.push(arguments);}
+  gtag('js', new Date());
+
+  gtag('config', 'UA-126897949-1');
+  gtag('event', 'page_view', { 'send_to': 'UA-126897949-1' });
+</script>
+
+
+<meta name="generator" content="Hexo 4.2.0"></head>
+
+<body>
+  <div id="container">
+    <div id="wrap">
+      <header id="header">
+  <div id="banner"></div>
+  <div id="header-outer" class="outer">
+    
+    <div id="header-inner" class="inner">
+      <nav id="sub-nav">
+        
+          <a id="nav-rss-link" class="nav-icon" href="/atom.xml" title="RSS Feed"></a>
+        
+        <a id="nav-search-btn" class="nav-icon" title="搜尋"></a>
+      </nav>
+      <div id="search-form-wrap">
+        <form action="//google.com/search" method="get" accept-charset="UTF-8" class="search-form"><input type="search" name="q" class="search-form-input" placeholder="Search"><button type="submit" class="search-form-submit">&#xF002;</button><input type="hidden" name="sitesearch" value="https://blog.comicat.me"></form>
+      </div>
+      <nav id="main-nav">
+        <a id="main-nav-toggle" class="nav-icon"></a>
+        
+          <a class="main-nav-link" href="/">Home</a>
+        
+          <a class="main-nav-link" href="/archives">Archives</a>
+        
+          <a class="main-nav-link" href="/tags">Tags</a>
+        
+          <a class="main-nav-link" href="/categories">Categories</a>
+        
+      </nav>
+      
+    </div>
+    <div id="header-title" class="inner">
+      <h1 id="logo-wrap">
+        <a href="/" id="logo">Comicat&#39;s Blog</a>
+      </h1>
+      
+        <h2 id="subtitle-wrap">
+          <a href="/" id="subtitle">Find Something Funny</a>
+        </h2>
+      
+    </div>
+  </div>
+</header>
+      <div class="outer">
+        <section id="main"><article id="post-AC-Y18解題記錄" class="article article-type-post" itemscope itemprop="blogPost">
+  <div class="article-meta">
+    <a href="/2018/02/12/AC-Y18%E8%A7%A3%E9%A1%8C%E8%A8%98%E9%8C%84/" class="article-date">
+  <time datetime="2018-02-12T06:05:56.000Z" itemprop="datePublished">2018-02-12</time>
+</a>
+    
+  <div class="article-category">
+    <a class="article-category-link" href="/categories/%E8%B3%87%E8%A8%8A%E6%8A%80%E8%A1%93/">資訊技術</a>►<a class="article-category-link" href="/categories/%E8%B3%87%E8%A8%8A%E6%8A%80%E8%A1%93/Algorithm/">Algorithm</a>
+  </div>
+
+  </div>
+  <div class="article-inner">
+    
+    
+      <header class="article-header">
+        
+  
+    <h1 class="article-title" itemprop="name">
+      AC-Y18解題記錄
+    </h1>
+  
+
+      </header>
+    
+    <div class="article-entry" itemprop="articleBody">
+      
+        <!-- Table of Contents -->
+        
+        <p>演算法解題記錄</p>
+<a id="more"></a>
+<h2 id="00"><a href="#00" class="headerlink" title="00"></a>00</h2><p>Write a function:</p>
+<p>  <code>function solution(A);</code></p>
+<p>that, given an array A of N integers, returns the smallest positive integer (greater than 0) that does not occur in A.</p>
+<p>For example, given A = [1, 3, 6, 4, 1, 2], the function should return 5.</p>
+<p>Given A = [1, 2, 3], the function should return 4.<br>Given A = [-1, -3], the function should return 1.</p>
+<p>Assume that:</p>
+<ul>
+<li>N is an integer within the range [1..100,000];</li>
+<li>each element of array A is an integer within the range [-1,000,000..1,000,000].</li>
+</ul>
+<p>Complexity:</p>
+<ul>
+<li>expected worst-case time complexity is O(N);</li>
+<li>expected worst-case space complexity is O(N), beyond input storage (not counting the storage required for input arguments).</li>
+</ul>
+<hr>
+<h3 id="00-JS參考解"><a href="#00-JS參考解" class="headerlink" title="00 JS參考解"></a>00 JS參考解</h3><ul>
+<li>time: O(N), space: O(1)</li>
+<li>使用原輸入陣列來標記(index = value - 1)</li>
+</ul>
+<figure class="highlight js"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br></pre></td><td class="code"><pre><span class="line"><span class="function"><span class="keyword">function</span> <span class="title">solution</span>(<span class="params">A</span>) </span>&#123;</span><br><span class="line">    <span class="keyword">for</span> (<span class="keyword">let</span> i = <span class="number">0</span>; i &lt; A.length; i++) &#123;</span><br><span class="line">        <span class="keyword">if</span> (A[i] &gt; <span class="number">0</span> &amp;&amp; A[i] &lt;= A.length &amp;&amp; A[i] !== A[A[i]<span class="number">-1</span>]) &#123;</span><br><span class="line">            <span class="comment">// swap</span></span><br><span class="line">            <span class="keyword">let</span> temp = A[A[i]<span class="number">-1</span>];</span><br><span class="line">            A[A[i]<span class="number">-1</span>] = A[i];</span><br><span class="line">            A[i] = temp;</span><br><span class="line">            i--;</span><br><span class="line">        &#125;</span><br><span class="line">    &#125;</span><br><span class="line">    <span class="keyword">for</span>(<span class="keyword">let</span> i = <span class="number">0</span>; i &lt; A.length; i++) &#123;</span><br><span class="line">        <span class="keyword">if</span>(A[i] != i + <span class="number">1</span>) &#123;</span><br><span class="line">            <span class="keyword">return</span> i + <span class="number">1</span>;</span><br><span class="line">        &#125;</span><br><span class="line">    &#125;</span><br><span class="line">    <span class="keyword">return</span> A.length + <span class="number">1</span>;</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="built_in">console</span>.log(solution([<span class="number">1</span>, <span class="number">3</span>, <span class="number">6</span>, <span class="number">4</span>, <span class="number">-1</span>, <span class="number">2</span>])) <span class="comment">// 5</span></span><br><span class="line"><span class="built_in">console</span>.log(solution([<span class="number">1</span>, <span class="number">2</span>, <span class="number">3</span>])) <span class="comment">// 4</span></span><br><span class="line"><span class="built_in">console</span>.log(solution([<span class="number">-1</span>, <span class="number">-3</span>])) <span class="comment">// 1</span></span><br></pre></td></tr></table></figure>
+<ul>
+<li>Ref: <a href="https://leetcode.com/problems/first-missing-positive/discuss/17071/My-short-c++-solution-O(1)-space-and-O(n)-time" target="_blank" rel="noopener">https://leetcode.com/problems/first-missing-positive/discuss/17071/My-short-c++-solution-O(1)-space-and-O(n)-time</a></li>
+</ul>
+<hr>
+<hr>
+<h2 id="01"><a href="#01" class="headerlink" title="01"></a>01</h2><p>An interval is a pair (A, B) of integers such that A &lt;= B. Two intervals (A, B) and (C, D) overlap if there exists an integer L such that A &lt;= L &lt;= B and C &lt;= L &lt;= D. Intervals that do not overlap are called disjoint. The union of intervals (A, B) and (C, D) is defined as:</p>
+<ul>
+<li>either a single interval (min(A, C), max(B, D)), when (A, B) and (C, D) overlap, or</li>
+<li>the intervals (A, B) and (C, D) themselves, when they are disjoint.</li>
+</ul>
+<p>Taking the union of two intervals is a commutative and associative operation, so it<br>can be extended to an arbitrary number of intervals.</p>
+<p>For example, consider the following eight intervals:</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">( 1,   5)       (12,   15)        (42,   44)</span><br><span class="line">(70,  72)       (36,   36)        (-4,    2)</span><br><span class="line">(43,  69)       (15,   24)</span><br></pre></td></tr></table></figure>
+<p>Intervals (1, 5) and (-4, 2) overlap and their union is (-4, 5). Intervals (12, 15) and (15, 24) overlap and their union is (12, 24). Intervals (42, 44) and (43, 69) overlap and their union is (42, 69). Intervals (70, 72) and (36, 36) are disjoint and do not overlap with other intervals. The union of all eight intervals consists of the following five pairwise disjoint intervals:</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">(-4,  5)        (12, 24)         (42, 69)</span><br><span class="line">(70, 72)        (36, 36)</span><br></pre></td></tr></table></figure>
+<p>Write a function:</p>
+<p>  <code>function solution(A, B);</code></p>
+<p>that, given two zero-indexed arrays A and B consisting of N elements each, returns the number of pairwise disjoint intervals constituting the union of N intervals described by arrays A and B. The K-th interval, where K is an integer within the range [0..(N - 1)], is defined as (A[K], B[K]).</p>
+<p>For example, given the following arrays A and B consisting of eight elements each:</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">A[0] =  1    A[1] = 12    A[2] = 42</span><br><span class="line">A[3] = 70    A[4] = 36    A[5] = -4</span><br><span class="line">A[6] = 43    A[7] = 15</span><br></pre></td></tr></table></figure>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">B[0] =  5    B[1] = 15    B[2] = 44</span><br><span class="line">B[3] = 72    B[4] = 36    B[5] = 2</span><br><span class="line">B[6] = 69    B[7] = 24</span><br></pre></td></tr></table></figure>
+<p>the function should return 5, because the intervals described by these arrays correspond to the example above. Assume that:</p>
+<ul>
+<li>N is an integer within the range [0..100,000];</li>
+<li>each element of arrays A, B is an integer within the range [-1,000,000,000..1,000,000,000];</li>
+<li>A[K] &lt;= B[K] for integers K within the range [0..(N - 1)].</li>
+</ul>
+<p>Complexity:</p>
+<ul>
+<li>expected worst-case time complexity is O(N*log(N));</li>
+<li>expected worst-case space complexity is O(N), beyond input storage (not counting the storage required for input arguments).</li>
+</ul>
+<hr>
+<h3 id="01-JS參考解"><a href="#01-JS參考解" class="headerlink" title="01 JS參考解"></a>01 JS參考解</h3><ul>
+<li>依區間起始值，由小而大排序</li>
+<li>排完之後會有個特性: 若第n的區間和n-1的區間不相交，那麼n+1的區間和第n-1的區間也不相交</li>
+<li>若目前stack top的區間和當前區間不相交，就直接push</li>
+<li>若目前stack top的區間和當前區間相交(只需考慮區間結束值)，就合併區間</li>
+</ul>
+<figure class="highlight js"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br></pre></td><td class="code"><pre><span class="line"><span class="function"><span class="keyword">function</span> <span class="title">Interval</span>(<span class="params">x, y</span>) </span>&#123;</span><br><span class="line">    <span class="keyword">this</span>.x = x;</span><br><span class="line">    <span class="keyword">this</span>.y = y;</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="function"><span class="keyword">function</span> <span class="title">solution</span>(<span class="params">A, B</span>) </span>&#123;</span><br><span class="line">    <span class="keyword">var</span> intervals = [];</span><br><span class="line">    <span class="keyword">for</span> (<span class="keyword">let</span> i = <span class="number">0</span>; i &lt; A.length; i++) &#123;</span><br><span class="line">        intervals.push(<span class="keyword">new</span> Interval(A[i], B[i]));</span><br><span class="line">    &#125;</span><br><span class="line">    intervals.sort(<span class="function">(<span class="params">intervalA, intervalB</span>) =&gt;</span> intervalA.x - intervalB.x);</span><br><span class="line"></span><br><span class="line">    <span class="keyword">var</span> stack = [];</span><br><span class="line">    stack.push(intervals[<span class="number">0</span>]);</span><br><span class="line"></span><br><span class="line">    <span class="keyword">for</span> (<span class="keyword">let</span> i = <span class="number">1</span>, j = <span class="number">0</span>; i &lt; intervals.length; i++) &#123;</span><br><span class="line">        <span class="keyword">if</span> (intervals[i].x &gt; stack[j].y) &#123;</span><br><span class="line">            stack.push(intervals[i]);</span><br><span class="line">            j++;</span><br><span class="line">        &#125; <span class="keyword">else</span> <span class="keyword">if</span> (intervals[i].y &gt; stack[j].y) &#123;</span><br><span class="line">            stack[j].y = intervals[i].y;</span><br><span class="line">        &#125;</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    <span class="keyword">return</span> stack.length;</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="keyword">var</span> A = [<span class="number">1</span>, <span class="number">12</span>, <span class="number">42</span>, <span class="number">70</span>, <span class="number">36</span>, <span class="number">-4</span>, <span class="number">43</span>, <span class="number">15</span>];</span><br><span class="line"><span class="keyword">var</span> B = [<span class="number">5</span>, <span class="number">15</span>, <span class="number">44</span>, <span class="number">72</span>, <span class="number">36</span>, <span class="number">2</span>, <span class="number">69</span>, <span class="number">24</span>];</span><br><span class="line"></span><br><span class="line"><span class="built_in">console</span>.log(solution(A, B)); <span class="comment">// 5</span></span><br></pre></td></tr></table></figure>
+<p>Ref: <a href="https://www.geeksforgeeks.org/merging-intervals/" target="_blank" rel="noopener">https://www.geeksforgeeks.org/merging-intervals/</a></p>
+<hr>
+<hr>
+<h2 id="03"><a href="#03" class="headerlink" title="03"></a>03</h2><p>A chessboard consisting of N rows and M columns is given. Each square of the board is either empty or blocked.</p>
+<p>A knight is a chess piece that perform the following moves in one turn:</p>
+<ul>
+<li>two squares up and one square left;</li>
+<li>two squares up and one square right;</li>
+<li>one square up and two squares left;</li>
+<li>one square up and two squares right;</li>
+<li>one square down and two squares left;</li>
+<li>one square down and two squares right;</li>
+<li>two squares down and one square left;</li>
+<li>two squares down and one square right.</li>
+</ul>
+<p>The number of possible moves can be reduced if the knight would fall off the board or if the destination square is blocked.</p>
+<p>The board can be described by a zero-indexed matrix consisting of N rows and M columns of integers. A square of the board is empty if its corresponding matrix element has value 0 and blocked if its corresponding matrix element has value 1.</p>
+<p>For example, consider the following matrix A consisting of four rows and three columns:</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line">A[0][0] = 0    A[0][1] = 0    A[0][2] = 0</span><br><span class="line">A[1][0] = 0    A[1][1] = 0    A[1][2] = 1</span><br><span class="line">A[2][0] = 1    A[2][1] = 0    A[2][2] = 0</span><br><span class="line">A[3][0] = 0    A[3][1] = 0    A[3][2] = 0</span><br></pre></td></tr></table></figure>
+<p>Consider a knight standing on the upper-left square. It requires seven turns to move to the lower-right square:</p>
+<ul>
+<li>in the first turn the knight moves from square (0, 0) to square (2, 1);</li>
+<li>in the second turn the knight moves from square (2, 1) to square (0, 2);</li>
+<li>in the third turn the knight moves from square (0, 2) to square (1, 0);</li>
+<li>in the fourth turn the knight moves from square (1, 0) to square (2, 2);</li>
+<li>in the fifth turn the knight moves from square (2, 2) to square (3, 0);</li>
+<li>in the sixth turn the knight moves from square (3, 0) to square (1, 1);</li>
+<li>in the seventh turn the knight moves from square (1, 1) to square (3, 2).</li>
+</ul>
+<p>Note that a shorter path of length three exists, but the knight cannot take it because some of the squares along this path are blocked.</p>
+<p>Write a function:</p>
+<p>  <code>function solution(A);</code></p>
+<p>that, given a zero-indexed matrix A consisting of N rows and M columns describing chessboard, returns the minimum number of turns that the knight requires to move from the upper-left square to the lower-right square. The function should return -1 if it is impossible for the knight to move from the upper-left square to the lower-right square.</p>
+<p>Assume that:</p>
+<ul>
+<li>N and M are integers within the range [1..1,000,000];</li>
+<li>the number of elements in matrix A is within the range [1..1,000,000];</li>
+<li>each element of matrix A is an integer that can have one of the following values: 0, 1;</li>
+<li>A[0][0] = A[N-1][M-1] = 0</li>
+</ul>
+<p>For example, given matrix A consisting of four rows and three columns such that:</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line">A[0][0] = 0    A[0][1] = 0    A[0][2] = 0</span><br><span class="line">A[1][0] = 0    A[1][1] = 0    A[1][2] = 1</span><br><span class="line">A[2][0] = 1    A[2][1] = 0    A[2][2] = 0</span><br><span class="line">A[3][0] = 0    A[3][1] = 0    A[3][2] = 0</span><br></pre></td></tr></table></figure>
+<p>the function should return 7, as explained in the example above.</p>
+<p>Complexity:</p>
+<ul>
+<li>expected worst-case time complexity is O(N*M);</li>
+<li>expected worst-case space complexity is O(N*M).</li>
+</ul>
+<hr>
+<h2 id="03-JS參考解"><a href="#03-JS參考解" class="headerlink" title="03 JS參考解"></a>03 JS參考解</h2><ul>
+<li>BFS，優先走到終點的就是最短路徑了</li>
+<li>用queue存每步的所有情況</li>
+</ul>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br><span class="line">44</span><br><span class="line">45</span><br><span class="line">46</span><br><span class="line">47</span><br><span class="line">48</span><br><span class="line">49</span><br><span class="line">50</span><br><span class="line">51</span><br><span class="line">52</span><br><span class="line">53</span><br><span class="line">54</span><br><span class="line">55</span><br><span class="line">56</span><br><span class="line">57</span><br></pre></td><td class="code"><pre><span class="line">function initRecord(N, M) &#123;</span><br><span class="line">    let arr = [];</span><br><span class="line">    for (let i = 0; i &lt; N; i++) &#123;</span><br><span class="line">        arr.push([]);</span><br><span class="line">        for (let j = 0; j &lt; M; j++) &#123;</span><br><span class="line">            arr[i].push(false);</span><br><span class="line">        &#125;</span><br><span class="line">    &#125;</span><br><span class="line">    arr[0][0] = true;</span><br><span class="line">    return arr;</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line">function Move(x, y, step) &#123;</span><br><span class="line">    this.x = x;</span><br><span class="line">    this.y = y;</span><br><span class="line">    this.step = step;</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line">function solution(A) &#123;</span><br><span class="line">    const N = A.length;</span><br><span class="line">    const M = A[0].length;</span><br><span class="line">    let record = initRecord(N, M);</span><br><span class="line">    let dir = [</span><br><span class="line">        [2, -1],</span><br><span class="line">        [2, 1],</span><br><span class="line">        [1, -2],</span><br><span class="line">        [1, 2],</span><br><span class="line">        [-1, -2],</span><br><span class="line">        [-1, 2],</span><br><span class="line">        [-2, -1],</span><br><span class="line">        [-2, 1]</span><br><span class="line">    ];</span><br><span class="line">    let queue = [new Move(0, 0, 0)];</span><br><span class="line">    while (queue.length &gt; 0) &#123;</span><br><span class="line">        let now = queue.shift();</span><br><span class="line">        if (now.x == N - 1 &amp;&amp; now.y == M - 1) &#123;</span><br><span class="line">            return now.step;</span><br><span class="line">        &#125;</span><br><span class="line">        for (let i = 0; i &lt; dir.length; i++) &#123;</span><br><span class="line">            let mx = dir[i][0] + now.x;</span><br><span class="line">            let my = dir[i][1] + now.y;</span><br><span class="line">            if (mx &gt;= 0 &amp;&amp; mx &lt; N &amp;&amp; my &gt;= 0 &amp;&amp; my &lt; M &amp;&amp; (A[mx][my] != 1) &amp;&amp; (record[mx][my] == false)) &#123;</span><br><span class="line">                record[mx][my] = true;</span><br><span class="line">                queue.push(new Move(mx, my, now.step + 1));</span><br><span class="line">            &#125;</span><br><span class="line">        &#125;</span><br><span class="line">    &#125;</span><br><span class="line">    return -1;</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line">var A = [</span><br><span class="line">    [0, 0, 0],</span><br><span class="line">    [0, 0, 1],</span><br><span class="line">    [1, 0, 0],</span><br><span class="line">    [0, 0, 0],</span><br><span class="line">];</span><br><span class="line">console.log(solution(A)); // 7</span><br></pre></td></tr></table></figure>
+<p>Ref: <a href="https://www.geeksforgeeks.org/minimum-steps-reach-target-knight/" target="_blank" rel="noopener">https://www.geeksforgeeks.org/minimum-steps-reach-target-knight/</a></p>
+
+      
+    </div>
+    <footer class="article-footer">
+      <a data-url="https://blog.comicat.me/2018/02/12/AC-Y18%E8%A7%A3%E9%A1%8C%E8%A8%98%E9%8C%84/" data-id="ck9s52xgt0003tngff9s4cb97" class="article-share-link">分享</a>
+      
+      
+        <a href="https://blog.comicat.me/2018/02/12/AC-Y18%E8%A7%A3%E9%A1%8C%E8%A8%98%E9%8C%84/#disqus_thread" class="article-comment-link">留言</a>
+      
+      
+  <ul class="article-tag-list" itemprop="keywords"><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/Algorithm/" rel="tag">Algorithm</a></li></ul>
+
+    </footer>
+  </div>
+  
+    
+ 
+<script src="/jquery/jquery.min.js"></script>
+
+  <div id="random_posts">
+    <h2>推薦文章</h2>
+    <div class="random_posts_ul">
+      <script>
+          var random_count =3
+          var site = {BASE_URI:'/'};
+          function load_random_posts(obj) {
+              var arr=site.posts;
+              if (!obj) return;
+              // var count = $(obj).attr('data-count') || 6;
+              for (var i, tmp, n = arr.length; n; i = Math.floor(Math.random() * n), tmp = arr[--n], arr[n] = arr[i], arr[i] = tmp);
+              arr = arr.slice(0, random_count);
+              var html = '<ul>';
+            
+              for(var j=0;j<arr.length;j++){
+                var item=arr[j];
+                html += '<li><strong>' + 
+                item.date + ':&nbsp;&nbsp;<a href="' + (site.BASE_URI+item.uri) + '">' + 
+                (item.title || item.uri) + '</a></strong>';
+                if(item.excerpt){
+                  html +='<div class="post-excerpt">'+item.excerpt+'</div>';
+                }
+                html +='</li>';
+                
+              }
+              $(obj).html(html + '</ul>');
+          }
+          $('.random_posts_ul').each(function () {
+              var c = this;
+              if (!site.posts || !site.posts.length){
+                  $.getJSON(site.BASE_URI + 'js/posts.js',function(json){site.posts = json;load_random_posts(c)});
+              } 
+               else{
+                load_random_posts(c);
+              }
+          });
+      </script>
+    </div>
+  </div>
+
+    
+<nav id="article-nav">
+  
+    <a href="/2018/09/28/Cloudflare-GitHub-Pages%E8%87%AA%E8%A8%82%E7%B6%B2%E5%9F%9F%E9%80%A3%E7%B7%9A%E8%A8%AD%E5%AE%9A/" id="article-nav-newer" class="article-nav-link-wrap">
+      <strong class="article-nav-caption">Newer</strong>
+      <div class="article-nav-title">
+        
+          Cloudflare+GitHub-Pages自訂網域連線設定
+        
+      </div>
+    </a>
+  
+  
+    <a href="/2017/12/18/Auto-deploy-from-GitHub-using-AWS-CodeDeploy/" id="article-nav-older" class="article-nav-link-wrap">
+      <strong class="article-nav-caption">Older</strong>
+      <div class="article-nav-title">Auto deploy from GitHub using AWS CodeDeploy</div>
+    </a>
+  
+</nav>
+
+  
+</article>
+ 
+     
+  <div class="comments" id="comments">
+    
+     
+    <section id="comments">
+      <div id="disqus_thread">
+        <noscript>
+          Please enable JavaScript to view the
+          <a href="//disqus.com/?ref_noscript" target="_blank" rel="noopener">comments powered by Disqus.</a>
+        </noscript>
+      </div>
+      </section>
+      
+       
+       
+      
+      
+  </div>
+ 
+  
+
+</section>
+           
+    <aside id="sidebar">
+  
+    
+    
+    
+    <div class="widget-wrap">
+    
+      <div class="widget" id="toc-widget-fixed">
+      
+        <strong class="toc-title">文章目錄</strong>
+        <div class="toc-widget-list">
+              <ol class="toc"><li class="toc-item toc-level-2"><a class="toc-link" href="#00"><span class="toc-number">1.</span> <span class="toc-text">00</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#00-JS參考解"><span class="toc-number">1.1.</span> <span class="toc-text">00 JS參考解</span></a></li></ol></li><li class="toc-item toc-level-2"><a class="toc-link" href="#01"><span class="toc-number">2.</span> <span class="toc-text">01</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#01-JS參考解"><span class="toc-number">2.1.</span> <span class="toc-text">01 JS參考解</span></a></li></ol></li><li class="toc-item toc-level-2"><a class="toc-link" href="#03"><span class="toc-number">3.</span> <span class="toc-text">03</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#03-JS參考解"><span class="toc-number">4.</span> <span class="toc-text">03 JS參考解</span></a></li></ol>
+          </div>
+      </div>
+    </div>
+
+  
+    
+    
+    
+
+  
+    
+    
+    
+  
+    
+    
+    
+
+  
+    
+    
+    
+  
+    
+    
+    
+
+  
+    
+    
+    
+
+  
+</aside>
+
+      </div>
+      <footer id="footer">
+  
+  <div class="outer">
+    <div id="footer-left">
+      &copy; 2017 - 2020 comicat&nbsp;|&nbsp;
+      Theme by <a href="https://github.com/comicat-hu/hexo-theme-cafe" target="_blank">Cafe</a>
+    </div>
+     <div id="footer-right">
+      Contact&nbsp;|&nbsp;comicat.hu@gmail.com
+    </div>
+  </div>
+</footer>
+ 
+<script src="/jquery/jquery.min.js"></script>
+
+    </div>
+    <nav id="mobile-nav">
+  
+    <a href="/" class="mobile-nav-link">Home</a>
+  
+    <a href="/archives" class="mobile-nav-link">Archives</a>
+  
+    <a href="/tags" class="mobile-nav-link">Tags</a>
+  
+    <a href="/categories" class="mobile-nav-link">Categories</a>
+  
+</nav>
+    <img class="back-to-top-btn" src="/images/fly-to-top.png"/>
+<script>
+// Elevator script included on the page, already.
+window.onload = function() {
+  var elevator = new Elevator({
+    selector:'.back-to-top-btn',
+    element: document.querySelector('.back-to-top-btn'),
+    duration: 1000 // milliseconds
+  });
+}
+</script>
+      
+
+<script>
+  var disqus_shortname = 'blog-comicat';
+  
+  var disqus_url = 'https://blog.comicat.me/2018/02/12/AC-Y18%E8%A7%A3%E9%A1%8C%E8%A8%98%E9%8C%84/';
+  
+  (function(){
+    var dsq = document.createElement('script');
+    dsq.type = 'text/javascript';
+    dsq.async = true;
+    dsq.src = '//' + disqus_shortname + '.disqus.com/embed.js';
+    (document.getElementsByTagName('head')[0] || document.getElementsByTagName('body')[0]).appendChild(dsq);
+  })();
+</script>
+
+
+
+
+
+
+
+<!-- author:forvoid begin -->
+<!-- author:forvoid begin -->
+
+<!-- author:forvoid end -->
+
+<!-- author:forvoid end -->
+
+
+
+ 
+<script src="/js/is.js"></script>
+
+
+
+  
+<link rel="stylesheet" href="/fancybox/jquery.fancybox.css">
+
+  
+<script src="/fancybox/jquery.fancybox.pack.js"></script>
+
+
+
+
+<script src="/js/script.js"></script>
+
+
+<script src="/js/elevator.js"></script>
+
+  </div>
+</body>
+</html>

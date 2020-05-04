@@ -1,0 +1,860 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <meta charset="utf-8">
+  
+  <title>Comicat&#39;s Blog</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
+  <meta name="description" content="comicat的部落格，程式技術、生活分享">
+<meta property="og:type" content="website">
+<meta property="og:title" content="Comicat&#39;s Blog">
+<meta property="og:url" content="https://blog.comicat.me/index.html">
+<meta property="og:site_name" content="Comicat&#39;s Blog">
+<meta property="og:description" content="comicat的部落格，程式技術、生活分享">
+<meta property="og:locale" content="zh_TW">
+<meta property="article:author" content="comicat">
+<meta property="article:tag" content="programing">
+<meta property="article:tag" content="life">
+<meta name="twitter:card" content="summary">
+  
+    <link rel="alternate" href="/atom.xml" title="Comicat&#39;s Blog" type="application/atom+xml">
+  
+  
+    <link rel="icon" href="/images/favicon.ico">
+  
+  
+    
+  
+  
+<link rel="stylesheet" href="/css/style.css">
+
+  
+<!-- Google Analytics -->
+<!--
+<script type="text/javascript">
+(function(i,s,o,g,r,a,m){i['GoogleAnalyticsObject']=r;i[r]=i[r]||function(){
+(i[r].q=i[r].q||[]).push(arguments)},i[r].l=1*new Date();a=s.createElement(o),
+m=s.getElementsByTagName(o)[0];a.async=1;a.src=g;m.parentNode.insertBefore(a,m)
+})(window,document,'script','//www.google-analytics.com/analytics.js','ga');
+
+ga('create', 'UA-126897949-1', 'auto');
+ga('send', 'pageview');
+
+</script>
+-->
+<!-- End Google Analytics -->
+
+<!-- Global Site Tag (gtag.js) - Google Analytics -->
+<script async src="https://www.googletagmanager.com/gtag/js?id=UA-126897949-1"></script>
+<script>
+  window.dataLayer = window.dataLayer || [];
+  function gtag(){dataLayer.push(arguments);}
+  gtag('js', new Date());
+
+  gtag('config', 'UA-126897949-1');
+  gtag('event', 'page_view', { 'send_to': 'UA-126897949-1' });
+</script>
+
+
+<meta name="generator" content="Hexo 4.2.0"></head>
+
+<body>
+  <div id="container">
+    <div id="wrap">
+      <header id="header">
+  <div id="banner"></div>
+  <div id="header-outer" class="outer">
+    
+    <div id="header-inner" class="inner">
+      <nav id="sub-nav">
+        
+          <a id="nav-rss-link" class="nav-icon" href="/atom.xml" title="RSS Feed"></a>
+        
+        <a id="nav-search-btn" class="nav-icon" title="搜尋"></a>
+      </nav>
+      <div id="search-form-wrap">
+        <form action="//google.com/search" method="get" accept-charset="UTF-8" class="search-form"><input type="search" name="q" class="search-form-input" placeholder="Search"><button type="submit" class="search-form-submit">&#xF002;</button><input type="hidden" name="sitesearch" value="https://blog.comicat.me"></form>
+      </div>
+      <nav id="main-nav">
+        <a id="main-nav-toggle" class="nav-icon"></a>
+        
+          <a class="main-nav-link" href="/">Home</a>
+        
+          <a class="main-nav-link" href="/archives">Archives</a>
+        
+          <a class="main-nav-link" href="/tags">Tags</a>
+        
+          <a class="main-nav-link" href="/categories">Categories</a>
+        
+      </nav>
+      
+    </div>
+    <div id="header-title" class="inner">
+      <h1 id="logo-wrap">
+        <a href="/" id="logo">Comicat&#39;s Blog</a>
+      </h1>
+      
+        <h2 id="subtitle-wrap">
+          <a href="/" id="subtitle">Find Something Funny</a>
+        </h2>
+      
+    </div>
+  </div>
+</header>
+      <div class="outer">
+        <section id="main">
+  
+    <article id="post-PHP程式效能分析小工具Cachegrind" class="article article-type-post" itemscope itemprop="blogPost">
+  <div class="article-meta">
+    <a href="/2019/10/20/PHP%E7%A8%8B%E5%BC%8F%E6%95%88%E8%83%BD%E5%88%86%E6%9E%90%E5%B0%8F%E5%B7%A5%E5%85%B7Cachegrind/" class="article-date">
+  <time datetime="2019-10-20T07:31:54.000Z" itemprop="datePublished">2019-10-20</time>
+</a>
+    
+  <div class="article-category">
+    <a class="article-category-link" href="/categories/%E8%B3%87%E8%A8%8A%E6%8A%80%E8%A1%93/">資訊技術</a>►<a class="article-category-link" href="/categories/%E8%B3%87%E8%A8%8A%E6%8A%80%E8%A1%93/PHP/">PHP</a>
+  </div>
+
+  </div>
+  <div class="article-inner">
+    
+    
+      <header class="article-header">
+        
+  
+    <h1 itemprop="name">
+      <a class="article-title" href="/2019/10/20/PHP%E7%A8%8B%E5%BC%8F%E6%95%88%E8%83%BD%E5%88%86%E6%9E%90%E5%B0%8F%E5%B7%A5%E5%85%B7Cachegrind/">PHP程式效能分析小工具Cachegrind</a>
+    </h1>
+  
+
+      </header>
+    
+    <div class="article-entry" itemprop="articleBody">
+      
+        <p>借助XDebug Profiler記錄callstack，再用Cachegrind工具圖形化顯示，讓我們可以快速簡單地瞭解程式碼效能瓶頸，在追蹤程式碼時也十分好用。</p>
+<img src="/2019/10/20/PHP程式效能分析小工具Cachegrind/qcachegring介面參考.png" title="qcachegring介面參考">
+        
+          <p class="article-more-link">
+            <a href="/2019/10/20/PHP%E7%A8%8B%E5%BC%8F%E6%95%88%E8%83%BD%E5%88%86%E6%9E%90%E5%B0%8F%E5%B7%A5%E5%85%B7Cachegrind/#more">Read More »</a>
+          </p>
+        
+      
+    </div>
+    <footer class="article-footer">
+      <a data-url="https://blog.comicat.me/2019/10/20/PHP%E7%A8%8B%E5%BC%8F%E6%95%88%E8%83%BD%E5%88%86%E6%9E%90%E5%B0%8F%E5%B7%A5%E5%85%B7Cachegrind/" data-id="ck9s52xhb000stngfmk73ga0p" class="article-share-link">分享</a>
+      
+      
+        <a href="https://blog.comicat.me/2019/10/20/PHP%E7%A8%8B%E5%BC%8F%E6%95%88%E8%83%BD%E5%88%86%E6%9E%90%E5%B0%8F%E5%B7%A5%E5%85%B7Cachegrind/#disqus_thread" class="article-comment-link">留言</a>
+      
+      
+  <ul class="article-tag-list" itemprop="keywords"><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/PHP/" rel="tag">PHP</a></li></ul>
+
+    </footer>
+  </div>
+  
+</article>
+ 
+
+
+  
+    <article id="post-Apache-run-multiple-php-version-by-port-based-vHosts" class="article article-type-post" itemscope itemprop="blogPost">
+  <div class="article-meta">
+    <a href="/2019/09/08/Apache-run-multiple-php-version-by-port-based-vHosts/" class="article-date">
+  <time datetime="2019-09-07T17:15:44.000Z" itemprop="datePublished">2019-09-08</time>
+</a>
+    
+  <div class="article-category">
+    <a class="article-category-link" href="/categories/%E8%B3%87%E8%A8%8A%E6%8A%80%E8%A1%93/">資訊技術</a>►<a class="article-category-link" href="/categories/%E8%B3%87%E8%A8%8A%E6%8A%80%E8%A1%93/PHP/">PHP</a>
+  </div>
+
+  </div>
+  <div class="article-inner">
+    
+    
+      <header class="article-header">
+        
+  
+    <h1 itemprop="name">
+      <a class="article-title" href="/2019/09/08/Apache-run-multiple-php-version-by-port-based-vHosts/">Apache run multiple php version by port-based vHosts</a>
+    </h1>
+  
+
+      </header>
+    
+    <div class="article-entry" itemprop="articleBody">
+      
+        <p>這篇記錄一下在windows 10 上設定Apache2.4的vHosts，透過不同的port來跑多版本的PHP。</p>
+<p>像這樣:</p>
+<ul>
+<li>localhost:8056 (php5.6)</li>
+<li>localhost:8072 (php7.2)</li>
+<li>localhost:8073 (php7.3)</li>
+</ul>
+        
+          <p class="article-more-link">
+            <a href="/2019/09/08/Apache-run-multiple-php-version-by-port-based-vHosts/#more">Read More »</a>
+          </p>
+        
+      
+    </div>
+    <footer class="article-footer">
+      <a data-url="https://blog.comicat.me/2019/09/08/Apache-run-multiple-php-version-by-port-based-vHosts/" data-id="ck9s52xgp0001tngfa4omdgl9" class="article-share-link">分享</a>
+      
+      
+        <a href="https://blog.comicat.me/2019/09/08/Apache-run-multiple-php-version-by-port-based-vHosts/#disqus_thread" class="article-comment-link">留言</a>
+      
+      
+  <ul class="article-tag-list" itemprop="keywords"><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/Apache/" rel="tag">Apache</a></li><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/PHP/" rel="tag">PHP</a></li></ul>
+
+    </footer>
+  </div>
+  
+</article>
+ 
+
+
+  
+    <article id="post-PHP-select-mysql-bit-column-return-not-correct-value" class="article article-type-post" itemscope itemprop="blogPost">
+  <div class="article-meta">
+    <a href="/2019/05/25/PHP-select-mysql-bit-column-return-not-correct-value/" class="article-date">
+  <time datetime="2019-05-25T02:59:56.000Z" itemprop="datePublished">2019-05-25</time>
+</a>
+    
+  <div class="article-category">
+    <a class="article-category-link" href="/categories/%E8%B3%87%E8%A8%8A%E6%8A%80%E8%A1%93/">資訊技術</a>►<a class="article-category-link" href="/categories/%E8%B3%87%E8%A8%8A%E6%8A%80%E8%A1%93/PHP/">PHP</a>
+  </div>
+
+  </div>
+  <div class="article-inner">
+    
+    
+      <header class="article-header">
+        
+  
+    <h1 itemprop="name">
+      <a class="article-title" href="/2019/05/25/PHP-select-mysql-bit-column-return-not-correct-value/">PHP select mysql bit column return not correct value</a>
+    </h1>
+  
+
+      </header>
+    
+    <div class="article-entry" itemprop="articleBody">
+      
+        <p>最近在一個PHP5.3的專案中遇到存取MySQL bit型態欄位取值總是拿到0的狀況，</p>
+<p>不要問我為什麼還在PHP5.3，嘛~ 萬惡歷史淵源嘛~ 進入正題~</p>
+<h2 id="狀況摘要"><a href="#狀況摘要" class="headerlink" title="狀況摘要"></a>狀況摘要</h2><p>經查發現，</p>
+<p>取bit=1，php這邊得到</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">string(1)&quot;\001&quot;</span><br></pre></td></tr></table></figure>
+<p>取bit=0，php這邊得到</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">string(1)&quot;\000&quot;</span><br></pre></td></tr></table></figure>
+        
+          <p class="article-more-link">
+            <a href="/2019/05/25/PHP-select-mysql-bit-column-return-not-correct-value/#more">Read More »</a>
+          </p>
+        
+      
+    </div>
+    <footer class="article-footer">
+      <a data-url="https://blog.comicat.me/2019/05/25/PHP-select-mysql-bit-column-return-not-correct-value/" data-id="ck9s52xh7000itngfpgdy4wpl" class="article-share-link">分享</a>
+      
+      
+        <a href="https://blog.comicat.me/2019/05/25/PHP-select-mysql-bit-column-return-not-correct-value/#disqus_thread" class="article-comment-link">留言</a>
+      
+      
+  <ul class="article-tag-list" itemprop="keywords"><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/MySQL/" rel="tag">MySQL</a></li><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/PHP/" rel="tag">PHP</a></li></ul>
+
+    </footer>
+  </div>
+  
+</article>
+ 
+
+
+  
+    <article id="post-Javascript-async-loop" class="article article-type-post" itemscope itemprop="blogPost">
+  <div class="article-meta">
+    <a href="/2019/01/30/Javascript-async-loop/" class="article-date">
+  <time datetime="2019-01-30T08:27:21.000Z" itemprop="datePublished">2019-01-30</time>
+</a>
+    
+  <div class="article-category">
+    <a class="article-category-link" href="/categories/%E8%B3%87%E8%A8%8A%E6%8A%80%E8%A1%93/">資訊技術</a>►<a class="article-category-link" href="/categories/%E8%B3%87%E8%A8%8A%E6%8A%80%E8%A1%93/Javascript/">Javascript</a>
+  </div>
+
+  </div>
+  <div class="article-inner">
+    
+    
+      <header class="article-header">
+        
+  
+    <h1 itemprop="name">
+      <a class="article-title" href="/2019/01/30/Javascript-async-loop/">Javascript async loop</a>
+    </h1>
+  
+
+      </header>
+    
+    <div class="article-entry" itemprop="articleBody">
+      
+        <p>Javascript 自ES7後支援潮潮的async-await語法，解決的許多不順眼的promise同步語法，</p>
+<p>但是<code>Array.prototype.forEach</code>是沒有支援到async function的用法哦~ (天真的踩雷</p>
+<p>底下給了一些程式片段範例:</p>
+        
+          <p class="article-more-link">
+            <a href="/2019/01/30/Javascript-async-loop/#more">Read More »</a>
+          </p>
+        
+      
+    </div>
+    <footer class="article-footer">
+      <a data-url="https://blog.comicat.me/2019/01/30/Javascript-async-loop/" data-id="ck9s52xh1000ctngflgl9jav8" class="article-share-link">分享</a>
+      
+      
+        <a href="https://blog.comicat.me/2019/01/30/Javascript-async-loop/#disqus_thread" class="article-comment-link">留言</a>
+      
+      
+  <ul class="article-tag-list" itemprop="keywords"><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/Javascript/" rel="tag">Javascript</a></li></ul>
+
+    </footer>
+  </div>
+  
+</article>
+ 
+
+
+  
+    <article id="post-Cloudflare-GitHub-Pages自訂網域連線設定" class="article article-type-post" itemscope itemprop="blogPost">
+  <div class="article-meta">
+    <a href="/2018/09/28/Cloudflare-GitHub-Pages%E8%87%AA%E8%A8%82%E7%B6%B2%E5%9F%9F%E9%80%A3%E7%B7%9A%E8%A8%AD%E5%AE%9A/" class="article-date">
+  <time datetime="2018-09-28T05:18:27.000Z" itemprop="datePublished">2018-09-28</time>
+</a>
+    
+  <div class="article-category">
+    <a class="article-category-link" href="/categories/%E8%B3%87%E8%A8%8A%E6%8A%80%E8%A1%93/">資訊技術</a>►<a class="article-category-link" href="/categories/%E8%B3%87%E8%A8%8A%E6%8A%80%E8%A1%93/Blog/">Blog</a>
+  </div>
+
+  </div>
+  <div class="article-inner">
+    
+    
+      <header class="article-header">
+        
+  
+    <h1 itemprop="name">
+      <a class="article-title" href="/2018/09/28/Cloudflare-GitHub-Pages%E8%87%AA%E8%A8%82%E7%B6%B2%E5%9F%9F%E9%80%A3%E7%B7%9A%E8%A8%AD%E5%AE%9A/">Cloudflare+GitHub-Pages自訂網域連線設定</a>
+    </h1>
+  
+
+      </header>
+    
+    <div class="article-entry" itemprop="articleBody">
+      
+        <!-- Table of Contents -->
+        
+        <p>以此站為例，我使用了<a href="https://github.com/hexojs/hexo" target="_blank" rel="noopener">hexo</a>搭配Github-Pages來放置這個靜態網站。</p>
+<p>建立Github-Pages的步驟很簡單，只要在專案設定中啟用並且將網站程式碼push上來就可以了。</p>
+<p>首先我建了一個blog專案來使用，產生出的網址是<a href="http://comicat-hu.github.io/blog" target="_blank" rel="noopener">http://comicat-hu.github.io/blog</a></p>
+<p>接著在專案設定中填入custom domain並儲存，這時你的專案會自動新增一個commit來創建<code>CNAME</code>這個檔案，內容包含了你自訂的domain，若是要讓hexo在每次deploy時不會洗掉這個檔案，可以將其加入hexo專案的source資料夾下，_config.yml的url設定值也要記得一併修改。</p>
+<p>再來因為我的domain先前已經給cloudflare代管(需要到網域管理商那邊將cloudflare NameServer設定進去)，並且啟用了免費的SSL服務，所以這邊要設定一下：</p>
+<ul>
+<li>新增A record分別指到github，參考<a href="https://help.github.com/articles/troubleshooting-custom-domains/#dns-configuration-errors" target="_blank" rel="noopener">troubleshooting-custom-domains/#dns-configuration-errors</a></li>
+<li>新增CNAME綁入自訂的subdomain，並指到yourdomain.github.io上</li>
+<li>接者要等待一段時間才會生效哦</li>
+</ul>
+<img src="/2018/09/28/Cloudflare-GitHub-Pages自訂網域連線設定/use_cloudflare_to_github_page.PNG" title="cloudflare DNS 設定">
+      
+    </div>
+    <footer class="article-footer">
+      <a data-url="https://blog.comicat.me/2018/09/28/Cloudflare-GitHub-Pages%E8%87%AA%E8%A8%82%E7%B6%B2%E5%9F%9F%E9%80%A3%E7%B7%9A%E8%A8%AD%E5%AE%9A/" data-id="ck9s52xgw0007tngfahms6m8n" class="article-share-link">分享</a>
+      
+      
+        <a href="https://blog.comicat.me/2018/09/28/Cloudflare-GitHub-Pages%E8%87%AA%E8%A8%82%E7%B6%B2%E5%9F%9F%E9%80%A3%E7%B7%9A%E8%A8%AD%E5%AE%9A/#disqus_thread" class="article-comment-link">留言</a>
+      
+      
+  <ul class="article-tag-list" itemprop="keywords"><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/Blog/" rel="tag">Blog</a></li><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/Deploy/" rel="tag">Deploy</a></li><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/GitHub-Pages/" rel="tag">GitHub-Pages</a></li></ul>
+
+    </footer>
+  </div>
+  
+</article>
+ 
+
+
+  
+    <article id="post-AC-Y18解題記錄" class="article article-type-post" itemscope itemprop="blogPost">
+  <div class="article-meta">
+    <a href="/2018/02/12/AC-Y18%E8%A7%A3%E9%A1%8C%E8%A8%98%E9%8C%84/" class="article-date">
+  <time datetime="2018-02-12T06:05:56.000Z" itemprop="datePublished">2018-02-12</time>
+</a>
+    
+  <div class="article-category">
+    <a class="article-category-link" href="/categories/%E8%B3%87%E8%A8%8A%E6%8A%80%E8%A1%93/">資訊技術</a>►<a class="article-category-link" href="/categories/%E8%B3%87%E8%A8%8A%E6%8A%80%E8%A1%93/Algorithm/">Algorithm</a>
+  </div>
+
+  </div>
+  <div class="article-inner">
+    
+    
+      <header class="article-header">
+        
+  
+    <h1 itemprop="name">
+      <a class="article-title" href="/2018/02/12/AC-Y18%E8%A7%A3%E9%A1%8C%E8%A8%98%E9%8C%84/">AC-Y18解題記錄</a>
+    </h1>
+  
+
+      </header>
+    
+    <div class="article-entry" itemprop="articleBody">
+      
+        <p>演算法解題記錄</p>
+        
+          <p class="article-more-link">
+            <a href="/2018/02/12/AC-Y18%E8%A7%A3%E9%A1%8C%E8%A8%98%E9%8C%84/#more">Read More »</a>
+          </p>
+        
+      
+    </div>
+    <footer class="article-footer">
+      <a data-url="https://blog.comicat.me/2018/02/12/AC-Y18%E8%A7%A3%E9%A1%8C%E8%A8%98%E9%8C%84/" data-id="ck9s52xgt0003tngff9s4cb97" class="article-share-link">分享</a>
+      
+      
+        <a href="https://blog.comicat.me/2018/02/12/AC-Y18%E8%A7%A3%E9%A1%8C%E8%A8%98%E9%8C%84/#disqus_thread" class="article-comment-link">留言</a>
+      
+      
+  <ul class="article-tag-list" itemprop="keywords"><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/Algorithm/" rel="tag">Algorithm</a></li></ul>
+
+    </footer>
+  </div>
+  
+</article>
+ 
+
+
+  
+    <article id="post-Auto-deploy-from-GitHub-using-AWS-CodeDeploy" class="article article-type-post" itemscope itemprop="blogPost">
+  <div class="article-meta">
+    <a href="/2017/12/18/Auto-deploy-from-GitHub-using-AWS-CodeDeploy/" class="article-date">
+  <time datetime="2017-12-18T03:15:09.000Z" itemprop="datePublished">2017-12-18</time>
+</a>
+    
+  <div class="article-category">
+    <a class="article-category-link" href="/categories/%E8%B3%87%E8%A8%8A%E6%8A%80%E8%A1%93/">資訊技術</a>►<a class="article-category-link" href="/categories/%E8%B3%87%E8%A8%8A%E6%8A%80%E8%A1%93/AWS/">AWS</a>
+  </div>
+
+  </div>
+  <div class="article-inner">
+    
+    
+      <header class="article-header">
+        
+  
+    <h1 itemprop="name">
+      <a class="article-title" href="/2017/12/18/Auto-deploy-from-GitHub-using-AWS-CodeDeploy/">Auto deploy from GitHub using AWS CodeDeploy</a>
+    </h1>
+  
+
+      </header>
+    
+    <div class="article-entry" itemprop="articleBody">
+      
+        <p>以下步驟會透過aws web console操作。</p>
+<p>本篇使用個人的專案為實驗，僅供參考。</p>
+<h2 id="流程摘要"><a href="#流程摘要" class="headerlink" title="流程摘要"></a>流程摘要</h2><ul>
+<li>建立IAM user, role, policy</li>
+<li>建立EC2, 安裝codedeploy-agent</li>
+<li>建立專案部署設定檔<code>appspec.yml</code></li>
+<li>建立code deploy application</li>
+<li>手動透過code deploy部署一個GitHub專案</li>
+<li>建立自動從GitHub通知部署的服務</li>
+</ul>
+        
+          <p class="article-more-link">
+            <a href="/2017/12/18/Auto-deploy-from-GitHub-using-AWS-CodeDeploy/#more">Read More »</a>
+          </p>
+        
+      
+    </div>
+    <footer class="article-footer">
+      <a data-url="https://blog.comicat.me/2017/12/18/Auto-deploy-from-GitHub-using-AWS-CodeDeploy/" data-id="ck9s52xgy0008tngfxhjqqose" class="article-share-link">分享</a>
+      
+      
+        <a href="https://blog.comicat.me/2017/12/18/Auto-deploy-from-GitHub-using-AWS-CodeDeploy/#disqus_thread" class="article-comment-link">留言</a>
+      
+      
+  <ul class="article-tag-list" itemprop="keywords"><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/AWS/" rel="tag">AWS</a></li><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/Deploy/" rel="tag">Deploy</a></li></ul>
+
+    </footer>
+  </div>
+  
+</article>
+ 
+
+
+  
+    <article id="post-PHP-Redis" class="article article-type-post" itemscope itemprop="blogPost">
+  <div class="article-meta">
+    <a href="/2017/11/23/PHP-Redis/" class="article-date">
+  <time datetime="2017-11-23T02:56:26.000Z" itemprop="datePublished">2017-11-23</time>
+</a>
+    
+  <div class="article-category">
+    <a class="article-category-link" href="/categories/%E8%B3%87%E8%A8%8A%E6%8A%80%E8%A1%93/">資訊技術</a>►<a class="article-category-link" href="/categories/%E8%B3%87%E8%A8%8A%E6%8A%80%E8%A1%93/PHP/">PHP</a>
+  </div>
+
+  </div>
+  <div class="article-inner">
+    
+    
+      <header class="article-header">
+        
+  
+    <h1 itemprop="name">
+      <a class="article-title" href="/2017/11/23/PHP-Redis/">PHP - Redis</a>
+    </h1>
+  
+
+      </header>
+    
+    <div class="article-entry" itemprop="articleBody">
+      
+        <p>Redis是一個BSD開源的key-value快取資料庫，可以保持資料的持久度，有支援多種的資料結構可以儲存</p>
+        
+          <p class="article-more-link">
+            <a href="/2017/11/23/PHP-Redis/#more">Read More »</a>
+          </p>
+        
+      
+    </div>
+    <footer class="article-footer">
+      <a data-url="https://blog.comicat.me/2017/11/23/PHP-Redis/" data-id="ck9s52xh6000gtngfrmmdjtl8" class="article-share-link">分享</a>
+      
+      
+        <a href="https://blog.comicat.me/2017/11/23/PHP-Redis/#disqus_thread" class="article-comment-link">留言</a>
+      
+      
+  <ul class="article-tag-list" itemprop="keywords"><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/PHP/" rel="tag">PHP</a></li><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/Redis/" rel="tag">Redis</a></li><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/Storage/" rel="tag">Storage</a></li></ul>
+
+    </footer>
+  </div>
+  
+</article>
+ 
+
+
+  
+    <article id="post-Google-Chrome-Puppeteer入門筆記" class="article article-type-post" itemscope itemprop="blogPost">
+  <div class="article-meta">
+    <a href="/2017/11/22/Google-Chrome-Puppeteer%E5%85%A5%E9%96%80%E7%AD%86%E8%A8%98/" class="article-date">
+  <time datetime="2017-11-22T09:12:21.000Z" itemprop="datePublished">2017-11-22</time>
+</a>
+    
+  <div class="article-category">
+    <a class="article-category-link" href="/categories/%E8%B3%87%E8%A8%8A%E6%8A%80%E8%A1%93/">資訊技術</a>►<a class="article-category-link" href="/categories/%E8%B3%87%E8%A8%8A%E6%8A%80%E8%A1%93/NodeJS/">NodeJS</a>
+  </div>
+
+  </div>
+  <div class="article-inner">
+    
+    
+      <header class="article-header">
+        
+  
+    <h1 itemprop="name">
+      <a class="article-title" href="/2017/11/22/Google-Chrome-Puppeteer%E5%85%A5%E9%96%80%E7%AD%86%E8%A8%98/">Google Chrome Puppeteer入門筆記</a>
+    </h1>
+  
+
+      </header>
+    
+    <div class="article-entry" itemprop="articleBody">
+      
+        <p>Puppeteer is a Node library which provides a high-level API to control headless Chrome over the DevTools Protocol. It can also be configured to use full (non-headless) Chrome.</p>
+<p>官方GitHub: <a href="https://github.com/GoogleChrome/puppeteer" target="_blank" rel="noopener">https://github.com/GoogleChrome/puppeteer</a></p>
+<p>Puppeteer 最低支援到Node v6.4，但是官方提供的範例必須要使用Node v7.6以上，目前Node穩定版已經推到v8，所以我裝v8.8.1</p>
+<p>在專案中<code>npm i puppeteer</code>就可以安裝</p>
+<p>主要是基於chromium來模擬各種動作，</p>
+        
+          <p class="article-more-link">
+            <a href="/2017/11/22/Google-Chrome-Puppeteer%E5%85%A5%E9%96%80%E7%AD%86%E8%A8%98/#more">Read More »</a>
+          </p>
+        
+      
+    </div>
+    <footer class="article-footer">
+      <a data-url="https://blog.comicat.me/2017/11/22/Google-Chrome-Puppeteer%E5%85%A5%E9%96%80%E7%AD%86%E8%A8%98/" data-id="ck9s52xgz0009tngffqosnbmt" class="article-share-link">分享</a>
+      
+      
+        <a href="https://blog.comicat.me/2017/11/22/Google-Chrome-Puppeteer%E5%85%A5%E9%96%80%E7%AD%86%E8%A8%98/#disqus_thread" class="article-comment-link">留言</a>
+      
+      
+  <ul class="article-tag-list" itemprop="keywords"><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/NodeJS/" rel="tag">NodeJS</a></li><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/Puppeteer/" rel="tag">Puppeteer</a></li></ul>
+
+    </footer>
+  </div>
+  
+</article>
+ 
+
+
+  
+    <article id="post-Yii-framework-Memcache" class="article article-type-post" itemscope itemprop="blogPost">
+  <div class="article-meta">
+    <a href="/2017/10/26/Yii-framework-Memcache/" class="article-date">
+  <time datetime="2017-10-26T10:35:22.000Z" itemprop="datePublished">2017-10-26</time>
+</a>
+    
+  <div class="article-category">
+    <a class="article-category-link" href="/categories/%E8%B3%87%E8%A8%8A%E6%8A%80%E8%A1%93/">資訊技術</a>►<a class="article-category-link" href="/categories/%E8%B3%87%E8%A8%8A%E6%8A%80%E8%A1%93/PHP/">PHP</a>
+  </div>
+
+  </div>
+  <div class="article-inner">
+    
+    
+      <header class="article-header">
+        
+  
+    <h1 itemprop="name">
+      <a class="article-title" href="/2017/10/26/Yii-framework-Memcache/">Yii framework - Memcache</a>
+    </h1>
+  
+
+      </header>
+    
+    <div class="article-entry" itemprop="articleBody">
+      
+        <p>memcached是一套分散式的快取系統，但server間並不互相同步，而是由client端去做分散存取(hash計算)，存資料時hash算出要存的server，取資料時用相同的hash算法指到要讀的server</p>
+<p>用key-value的方式儲存資料</p>
+<p>memcache有LRU機制(Least Recently Used)，會在內部儲存空間不足時自動讓較少使用到的資料失效(expire)，讓新的資料可以覆蓋到該空間上</p>
+        
+          <p class="article-more-link">
+            <a href="/2017/10/26/Yii-framework-Memcache/#more">Read More »</a>
+          </p>
+        
+      
+    </div>
+    <footer class="article-footer">
+      <a data-url="https://blog.comicat.me/2017/10/26/Yii-framework-Memcache/" data-id="ck9s52xho001ltngfkghcre4g" class="article-share-link">分享</a>
+      
+      
+        <a href="https://blog.comicat.me/2017/10/26/Yii-framework-Memcache/#disqus_thread" class="article-comment-link">留言</a>
+      
+      
+  <ul class="article-tag-list" itemprop="keywords"><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/Memcache/" rel="tag">Memcache</a></li><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/PHP/" rel="tag">PHP</a></li><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/Yii1-x/" rel="tag">Yii1.x</a></li></ul>
+
+    </footer>
+  </div>
+  
+</article>
+ 
+
+
+  
+
+
+  <nav id="page-nav">
+    <span class="page-number current">1</span><a class="page-number" href="/page/2/">2</a><a class="page-number" href="/page/3/">3</a><a class="extend next" rel="next" href="/page/2/">下一頁&amp;raquo;</a>
+  </nav>
+</section>
+           
+    <aside id="sidebar">
+  
+    
+    
+    
+  
+    
+    
+    
+  <div class="widget-wrap">
+     
+        <h3 class="follow-title ">Follow me</h3>
+     
+    <div class="widget follow">
+      
+              <a class="github" aria-hidden="true" href="https://github.com/comicat-hu" target="_blank" title="Github"></a>
+      
+      
+      
+      
+      
+            <a class="telegram" aria-hidden="true"  href="https://t.me/comicat" target="_blank" title="Telegram"></a>
+      
+    </div>
+  </div>
+
+
+  
+    
+    
+    
+  <div class="widget-wrap">
+    <h3 class="widget-title recent-posts">最新文章</h3>
+    <div class="widget">
+      <ul>
+        
+          <li>
+            <a href="/2019/10/20/PHP%E7%A8%8B%E5%BC%8F%E6%95%88%E8%83%BD%E5%88%86%E6%9E%90%E5%B0%8F%E5%B7%A5%E5%85%B7Cachegrind/">PHP程式效能分析小工具Cachegrind</a>
+          </li>
+        
+          <li>
+            <a href="/2019/09/08/Apache-run-multiple-php-version-by-port-based-vHosts/">Apache run multiple php version by port-based vHosts</a>
+          </li>
+        
+          <li>
+            <a href="/2019/05/25/PHP-select-mysql-bit-column-return-not-correct-value/">PHP select mysql bit column return not correct value</a>
+          </li>
+        
+          <li>
+            <a href="/2019/01/30/Javascript-async-loop/">Javascript async loop</a>
+          </li>
+        
+          <li>
+            <a href="/2018/09/28/Cloudflare-GitHub-Pages%E8%87%AA%E8%A8%82%E7%B6%B2%E5%9F%9F%E9%80%A3%E7%B7%9A%E8%A8%AD%E5%AE%9A/">Cloudflare+GitHub-Pages自訂網域連線設定</a>
+          </li>
+        
+      </ul>
+    </div>
+  </div>
+
+  
+    
+    
+    
+  <div class="widget-wrap">
+    <h3 class="widget-title categories">分類</h3>
+    <div class="widget" id="categories">
+      <ul class="category-list"><li class="category-list-item"><a class="category-list-link" href="/categories/%E8%B3%87%E8%A8%8A%E6%8A%80%E8%A1%93/">資訊技術</a><span class="category-list-count">28</span><ul class="category-list-child"><li class="category-list-item"><a class="category-list-link" href="/categories/%E8%B3%87%E8%A8%8A%E6%8A%80%E8%A1%93/AWS/">AWS</a><span class="category-list-count">1</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/%E8%B3%87%E8%A8%8A%E6%8A%80%E8%A1%93/Algorithm/">Algorithm</a><span class="category-list-count">1</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/%E8%B3%87%E8%A8%8A%E6%8A%80%E8%A1%93/Blog/">Blog</a><span class="category-list-count">1</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/%E8%B3%87%E8%A8%8A%E6%8A%80%E8%A1%93/Javascript/">Javascript</a><span class="category-list-count">1</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/%E8%B3%87%E8%A8%8A%E6%8A%80%E8%A1%93/NodeJS/">NodeJS</a><span class="category-list-count">1</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/%E8%B3%87%E8%A8%8A%E6%8A%80%E8%A1%93/PHP/">PHP</a><span class="category-list-count">23</span></li></ul></li></ul>
+    </div>
+  </div>
+
+
+  
+    
+    
+    
+  <div class="widget-wrap">
+    <h3 class="widget-title tagcloud">標籤雲</h3>
+    <div class="widget tagcloud">
+      <a href="/tags/AWS/" style="font-size: 14px; color: #00f">AWS</a> <a href="/tags/Algorithm/" style="font-size: 14px; color: #00f">Algorithm</a> <a href="/tags/Apache/" style="font-size: 14px; color: #00f">Apache</a> <a href="/tags/Blog/" style="font-size: 14px; color: #00f">Blog</a> <a href="/tags/Deploy/" style="font-size: 16.2px; color: #301afc">Deploy</a> <a href="/tags/GitHub-Pages/" style="font-size: 14px; color: #00f">GitHub-Pages</a> <a href="/tags/Javascript/" style="font-size: 14px; color: #00f">Javascript</a> <a href="/tags/Memcache/" style="font-size: 14px; color: #00f">Memcache</a> <a href="/tags/MongoDB/" style="font-size: 14px; color: #00f">MongoDB</a> <a href="/tags/MySQL/" style="font-size: 18.4px; color: #5f34f8">MySQL</a> <a href="/tags/NodeJS/" style="font-size: 14px; color: #00f">NodeJS</a> <a href="/tags/OOP/" style="font-size: 14px; color: #00f">OOP</a> <a href="/tags/PHP/" style="font-size: 25px; color: #ee82ee">PHP</a> <a href="/tags/PHPUnit/" style="font-size: 14px; color: #00f">PHPUnit</a> <a href="/tags/Puppeteer/" style="font-size: 14px; color: #00f">Puppeteer</a> <a href="/tags/Redis/" style="font-size: 14px; color: #00f">Redis</a> <a href="/tags/Storage/" style="font-size: 20.6px; color: #8f4ef5">Storage</a> <a href="/tags/Unit-Test/" style="font-size: 14px; color: #00f">Unit-Test</a> <a href="/tags/XAMPP/" style="font-size: 14px; color: #00f">XAMPP</a> <a href="/tags/Yii1-x/" style="font-size: 22.8px; color: #be68f1">Yii1.x</a> <a href="/tags/w3schools/" style="font-size: 18.4px; color: #5f34f8">w3schools</a>
+    </div>
+  </div>
+
+  
+    
+    
+    
+  <div class="widget-wrap">
+    <h3 class="widget-title tags">標籤</h3>
+    <div class="widget">
+      <ul class="tag-list" itemprop="keywords"><li class="tag-list-item"><a class="tag-list-link" href="/tags/AWS/" rel="tag">AWS</a><span class="tag-list-count">1</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/Algorithm/" rel="tag">Algorithm</a><span class="tag-list-count">1</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/Apache/" rel="tag">Apache</a><span class="tag-list-count">1</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/Blog/" rel="tag">Blog</a><span class="tag-list-count">1</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/Deploy/" rel="tag">Deploy</a><span class="tag-list-count">2</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/GitHub-Pages/" rel="tag">GitHub-Pages</a><span class="tag-list-count">1</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/Javascript/" rel="tag">Javascript</a><span class="tag-list-count">1</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/Memcache/" rel="tag">Memcache</a><span class="tag-list-count">1</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/MongoDB/" rel="tag">MongoDB</a><span class="tag-list-count">1</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/MySQL/" rel="tag">MySQL</a><span class="tag-list-count">3</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/NodeJS/" rel="tag">NodeJS</a><span class="tag-list-count">1</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/OOP/" rel="tag">OOP</a><span class="tag-list-count">1</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/PHP/" rel="tag">PHP</a><span class="tag-list-count">23</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/PHPUnit/" rel="tag">PHPUnit</a><span class="tag-list-count">1</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/Puppeteer/" rel="tag">Puppeteer</a><span class="tag-list-count">1</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/Redis/" rel="tag">Redis</a><span class="tag-list-count">1</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/Storage/" rel="tag">Storage</a><span class="tag-list-count">4</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/Unit-Test/" rel="tag">Unit-Test</a><span class="tag-list-count">1</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/XAMPP/" rel="tag">XAMPP</a><span class="tag-list-count">1</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/Yii1-x/" rel="tag">Yii1.x</a><span class="tag-list-count">11</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/w3schools/" rel="tag">w3schools</a><span class="tag-list-count">3</span></li></ul>
+    </div>
+  </div>
+
+
+  
+    
+    
+    
+  <div class="widget-wrap">
+    <h3 class="widget-title archive">彙整</h3>
+    <div class="widget">
+      <ul class="archive-list"><li class="archive-list-item"><a class="archive-list-link" href="/archives/2019/10/">十月 2019</a><span class="archive-list-count">1</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2019/09/">九月 2019</a><span class="archive-list-count">1</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2019/05/">五月 2019</a><span class="archive-list-count">1</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2019/01/">一月 2019</a><span class="archive-list-count">1</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2018/09/">九月 2018</a><span class="archive-list-count">1</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2018/02/">二月 2018</a><span class="archive-list-count">1</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2017/12/">十二月 2017</a><span class="archive-list-count">1</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2017/11/">十一月 2017</a><span class="archive-list-count">2</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2017/10/">十月 2017</a><span class="archive-list-count">10</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2017/09/">九月 2017</a><span class="archive-list-count">8</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2017/08/">八月 2017</a><span class="archive-list-count">1</span></li></ul>
+    </div>
+  </div>
+
+
+  
+</aside>
+
+      </div>
+      <footer id="footer">
+  
+  <div class="outer">
+    <div id="footer-left">
+      &copy; 2017 - 2020 comicat&nbsp;|&nbsp;
+      Theme by <a href="https://github.com/comicat-hu/hexo-theme-cafe" target="_blank">Cafe</a>
+    </div>
+     <div id="footer-right">
+      Contact&nbsp;|&nbsp;comicat.hu@gmail.com
+    </div>
+  </div>
+</footer>
+ 
+<script src="/jquery/jquery.min.js"></script>
+
+    </div>
+    <nav id="mobile-nav">
+  
+    <a href="/" class="mobile-nav-link">Home</a>
+  
+    <a href="/archives" class="mobile-nav-link">Archives</a>
+  
+    <a href="/tags" class="mobile-nav-link">Tags</a>
+  
+    <a href="/categories" class="mobile-nav-link">Categories</a>
+  
+</nav>
+    <img class="back-to-top-btn" src="/images/fly-to-top.png"/>
+<script>
+// Elevator script included on the page, already.
+window.onload = function() {
+  var elevator = new Elevator({
+    selector:'.back-to-top-btn',
+    element: document.querySelector('.back-to-top-btn'),
+    duration: 1000 // milliseconds
+  });
+}
+</script>
+      
+
+<script>
+  var disqus_shortname = 'blog-comicat';
+  
+  (function(){
+    var dsq = document.createElement('script');
+    dsq.type = 'text/javascript';
+    dsq.async = true;
+    dsq.src = '//' + disqus_shortname + '.disqus.com/count.js';
+    (document.getElementsByTagName('head')[0] || document.getElementsByTagName('body')[0]).appendChild(dsq);
+  })();
+</script>
+
+
+
+
+
+
+
+<!-- author:forvoid begin -->
+<!-- author:forvoid begin -->
+
+<!-- author:forvoid end -->
+
+<!-- author:forvoid end -->
+
+
+
+ 
+<script src="/js/is.js"></script>
+
+
+
+  
+<link rel="stylesheet" href="/fancybox/jquery.fancybox.css">
+
+  
+<script src="/fancybox/jquery.fancybox.pack.js"></script>
+
+
+
+
+<script src="/js/script.js"></script>
+
+
+<script src="/js/elevator.js"></script>
+
+  </div>
+</body>
+</html>

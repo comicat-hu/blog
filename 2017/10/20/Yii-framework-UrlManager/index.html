@@ -1,0 +1,429 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <meta charset="utf-8">
+  
+  <title>Yii framework - UrlManager | Comicat&#39;s Blog</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
+  <meta name="description" content="UrlManager主要用來解析URL route，有兩種格式可以設定  get: 用query string指定route(&#x2F;?r&#x3D;controllerID&#x2F;actionID) path: 在URL中指定route(&#x2F;controllerID&#x2F;actionID)">
+<meta property="og:type" content="article">
+<meta property="og:title" content="Yii framework - UrlManager">
+<meta property="og:url" content="https://blog.comicat.me/2017/10/20/Yii-framework-UrlManager/index.html">
+<meta property="og:site_name" content="Comicat&#39;s Blog">
+<meta property="og:description" content="UrlManager主要用來解析URL route，有兩種格式可以設定  get: 用query string指定route(&#x2F;?r&#x3D;controllerID&#x2F;actionID) path: 在URL中指定route(&#x2F;controllerID&#x2F;actionID)">
+<meta property="og:locale" content="zh_TW">
+<meta property="article:published_time" content="2017-10-20T10:24:35.000Z">
+<meta property="article:modified_time" content="2020-05-04T05:26:23.340Z">
+<meta property="article:author" content="comicat">
+<meta property="article:tag" content="PHP">
+<meta property="article:tag" content="Yii1.x">
+<meta name="twitter:card" content="summary">
+  
+    <link rel="alternate" href="/atom.xml" title="Comicat&#39;s Blog" type="application/atom+xml">
+  
+  
+    <link rel="icon" href="/images/favicon.ico">
+  
+  
+    
+  
+  
+<link rel="stylesheet" href="/css/style.css">
+
+  
+<!-- Google Analytics -->
+<!--
+<script type="text/javascript">
+(function(i,s,o,g,r,a,m){i['GoogleAnalyticsObject']=r;i[r]=i[r]||function(){
+(i[r].q=i[r].q||[]).push(arguments)},i[r].l=1*new Date();a=s.createElement(o),
+m=s.getElementsByTagName(o)[0];a.async=1;a.src=g;m.parentNode.insertBefore(a,m)
+})(window,document,'script','//www.google-analytics.com/analytics.js','ga');
+
+ga('create', 'UA-126897949-1', 'auto');
+ga('send', 'pageview');
+
+</script>
+-->
+<!-- End Google Analytics -->
+
+<!-- Global Site Tag (gtag.js) - Google Analytics -->
+<script async src="https://www.googletagmanager.com/gtag/js?id=UA-126897949-1"></script>
+<script>
+  window.dataLayer = window.dataLayer || [];
+  function gtag(){dataLayer.push(arguments);}
+  gtag('js', new Date());
+
+  gtag('config', 'UA-126897949-1');
+  gtag('event', 'page_view', { 'send_to': 'UA-126897949-1' });
+</script>
+
+
+<meta name="generator" content="Hexo 4.2.0"></head>
+
+<body>
+  <div id="container">
+    <div id="wrap">
+      <header id="header">
+  <div id="banner"></div>
+  <div id="header-outer" class="outer">
+    
+    <div id="header-inner" class="inner">
+      <nav id="sub-nav">
+        
+          <a id="nav-rss-link" class="nav-icon" href="/atom.xml" title="RSS Feed"></a>
+        
+        <a id="nav-search-btn" class="nav-icon" title="搜尋"></a>
+      </nav>
+      <div id="search-form-wrap">
+        <form action="//google.com/search" method="get" accept-charset="UTF-8" class="search-form"><input type="search" name="q" class="search-form-input" placeholder="Search"><button type="submit" class="search-form-submit">&#xF002;</button><input type="hidden" name="sitesearch" value="https://blog.comicat.me"></form>
+      </div>
+      <nav id="main-nav">
+        <a id="main-nav-toggle" class="nav-icon"></a>
+        
+          <a class="main-nav-link" href="/">Home</a>
+        
+          <a class="main-nav-link" href="/archives">Archives</a>
+        
+          <a class="main-nav-link" href="/tags">Tags</a>
+        
+          <a class="main-nav-link" href="/categories">Categories</a>
+        
+      </nav>
+      
+    </div>
+    <div id="header-title" class="inner">
+      <h1 id="logo-wrap">
+        <a href="/" id="logo">Comicat&#39;s Blog</a>
+      </h1>
+      
+        <h2 id="subtitle-wrap">
+          <a href="/" id="subtitle">Find Something Funny</a>
+        </h2>
+      
+    </div>
+  </div>
+</header>
+      <div class="outer">
+        <section id="main"><article id="post-Yii-framework-UrlManager" class="article article-type-post" itemscope itemprop="blogPost">
+  <div class="article-meta">
+    <a href="/2017/10/20/Yii-framework-UrlManager/" class="article-date">
+  <time datetime="2017-10-20T10:24:35.000Z" itemprop="datePublished">2017-10-20</time>
+</a>
+    
+  <div class="article-category">
+    <a class="article-category-link" href="/categories/%E8%B3%87%E8%A8%8A%E6%8A%80%E8%A1%93/">資訊技術</a>►<a class="article-category-link" href="/categories/%E8%B3%87%E8%A8%8A%E6%8A%80%E8%A1%93/PHP/">PHP</a>
+  </div>
+
+  </div>
+  <div class="article-inner">
+    
+    
+      <header class="article-header">
+        
+  
+    <h1 class="article-title" itemprop="name">
+      Yii framework - UrlManager
+    </h1>
+  
+
+      </header>
+    
+    <div class="article-entry" itemprop="articleBody">
+      
+        <!-- Table of Contents -->
+        
+        <p>UrlManager主要用來解析URL route，有兩種格式可以設定</p>
+<ul>
+<li>get: 用query string指定route(/?r=controllerID/actionID)</li>
+<li>path: 在URL中指定route(/controllerID/actionID)</li>
+</ul>
+<a id="more"></a>
+<p>在config中可以設定，沒有指定的話get是預設格式</p>
+<figure class="highlight php"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br></pre></td><td class="code"><pre><span class="line"><span class="string">"components"</span> =&gt; <span class="keyword">array</span>(</span><br><span class="line">    <span class="string">'urlManager'</span> =&gt; <span class="keyword">array</span>(</span><br><span class="line">        <span class="string">'urlFormat'</span> =&gt; <span class="string">'path'</span>,</span><br><span class="line">        <span class="string">'rules'</span> =&gt; <span class="keyword">array</span>(</span><br><span class="line">            <span class="comment">// 格式化規則</span></span><br><span class="line">        ),</span><br><span class="line">    ),</span><br><span class="line">),</span><br></pre></td></tr></table></figure>
+<h2 id="CWebApplication-processRequest"><a href="#CWebApplication-processRequest" class="headerlink" title="CWebApplication::processRequest()"></a>CWebApplication::processRequest()</h2><p><code>$route = $this-&gt;getUrlManager()-&gt;parseUrl($this-&gt;getRequest());</code></p>
+<h2 id="CApplication-getUrlManager"><a href="#CApplication-getUrlManager" class="headerlink" title="CApplication::getUrlManager()"></a>CApplication::getUrlManager()</h2><p><code>return $this-&gt;getComponent(&#39;urlManager&#39;);</code></p>
+<p>在getComponent()，如果在應用程式中urlManager沒有被建立，這時會createComponent，</p>
+<p>這邊插一下createComponent($config)，這邊傳入的config其實是從建立CWebApplication物件時configure()後的__componenetConfig中取出的對應內容(<code>__componentConfig[&#39;urlManager&#39;]</code>)，這個陣列其中就包含了該id對應的class以及我們在config中設定的urlFormat, showScript, rules…等等。</p>
+<p>createComponent()在YiiBase中定義，進去之後會依照class的名稱去import(Yii的import)檔案，new出對應的物件，並且foreach從傳入的config直接<code>$object-&gt;$key=$value;</code>(直接改物件的public參數或是call __set())</p>
+<p>最後回傳物件。</p>
+<p>接下來會有個init()的過程(call CUrlManager::init())，</p>
+<figure class="highlight php"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">parent</span>::init();</span><br><span class="line"><span class="keyword">$this</span>-&gt;processRules();</span><br></pre></td></tr></table></figure>
+<p>CUrlManager的父類別是CApplicationComponent，在這裡的init()有兩件事</p>
+<ul>
+<li>attachBehavoirs (預設behaviors是空陣列)</li>
+<li>set <code>_initialized</code> = true (有個public getIsInitialized()方法可以調用)</li>
+</ul>
+<h2 id="processRules"><a href="#processRules" class="headerlink" title="processRules()"></a>processRules()</h2><ul>
+<li>rules為設定或是urlFormat = ‘get’，直接return</li>
+<li>先檢查cache中是否有已解析的route，有就回傳它</li>
+<li>再來才是foreach解析每條rule</li>
+</ul>
+<figure class="highlight php"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">foreach</span>(<span class="keyword">$this</span>-&gt;rules <span class="keyword">as</span> $pattern =&gt; $route)</span><br><span class="line">    <span class="keyword">$this</span>-&gt;_rules[] = <span class="keyword">$this</span>-&gt;createUrlRule($route,$pattern);</span><br></pre></td></tr></table></figure>
+<p>createUrlRule()中會先判斷使否有指定class，沒有的話會使用預設的CUrlRule(<code>$this-&gt;urlRuleClass</code>)，然後依照傳入的route, pattern回傳CUrlRule實體。(CUrlRule定義在CUrlManager.php中)</p>
+<ul>
+<li>將解析好的route存入cache</li>
+</ul>
+<h2 id="rule"><a href="#rule" class="headerlink" title="rule"></a>rule</h2><p>rules可以直接以<code>&#39;pattern&#39; =&gt; &#39;route&#39;</code>的格式定義，或是<code>&#39;pattern&#39; =&gt; [&#39;route&#39;]</code>陣列中選填一些參數，urlSuffix, caseSensitive, defaultParams, matchValue</p>
+<p>rules中可以使用<code>&lt;ParamName&gt;</code>來包含一個參數，並且可以使用<code>:</code>加入regex，格式是這樣<code>&lt;ParamName:ParamRegex&gt;</code>，且該參數會直接套用到GET定義的屬性中。</p>
+<p>e.g.:</p>
+<ul>
+<li>將該controller指定為該位置的參數，並且要求符合文數字格式([A-Za-z0-9_])</li>
+</ul>
+<p><code>&lt;controller:\w+&gt;</code></p>
+<ul>
+<li>拿之前的計算範例來改，math路徑下要求符合一個數字a，任意四種action，一個數字b。符合該規則的route會對應到相應的四種math/actionID，a,b 會直接被帶進GET對應的參數。</li>
+</ul>
+<figure class="highlight php"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line"><span class="string">'math/&lt;a:\d+&gt;&lt;action:(add|div|mul|sub)&gt;&lt;b:\d+&gt;'</span> =&gt; <span class="string">'math/&lt;action&gt;'</span></span><br></pre></td></tr></table></figure>
+<h2 id="使用-htaccess隱藏index-php"><a href="#使用-htaccess隱藏index-php" class="headerlink" title="使用.htaccess隱藏index.php"></a>使用.htaccess隱藏index.php</h2><p>一般我們在url路徑中需要包含index.php(尤其是在urlFormat = path時)，但是這樣非常麻煩而且不友善</p>
+<p>所以我們可以在index.php入口的同層路徑中加入.htaccess檔案</p>
+<p>確認httpd.conf有<code>LoadModule rewrite_module modules/mod_rewrite.so</code></p>
+<p>確認httpd.conf須設定AllowOverride ALL，表示允許該檔案的設定可以被覆寫(要開對地方，xampp的話是在<code>&lt;Directory &quot;C:/xampp/htdocs&quot;&gt;</code>的那個設定裡)</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br></pre></td><td class="code"><pre><span class="line"># 啟用FollowSymLinks</span><br><span class="line">Options +FollowSymLinks</span><br><span class="line">IndexIgnore */*</span><br><span class="line"></span><br><span class="line"># 啟用rewrite功能</span><br><span class="line">RewriteEngine on</span><br><span class="line"></span><br><span class="line"># 請求的檔案 資料夾都不存在</span><br><span class="line">RewriteCond %&#123;REQUEST_FILENAME&#125; !-f</span><br><span class="line">RewriteCond %&#123;REQUEST_FILENAME&#125; !-d</span><br><span class="line"></span><br><span class="line"># forward到index.php這隻檔案</span><br><span class="line">RewriteRule . index.php</span><br></pre></td></tr></table></figure>
+<h2 id="參考資料"><a href="#參考資料" class="headerlink" title="參考資料"></a>參考資料</h2><ul>
+<li><a href="http://www.yiichina.com/doc/guide/1.1/topics.url" target="_blank" rel="noopener">http://www.yiichina.com/doc/guide/1.1/topics.url</a></li>
+<li><a href="http://blog.xiayf.cn/2014/11/12/read-yii-code-2/" target="_blank" rel="noopener">http://blog.xiayf.cn/2014/11/12/read-yii-code-2/</a></li>
+</ul>
+
+      
+    </div>
+    <footer class="article-footer">
+      <a data-url="https://blog.comicat.me/2017/10/20/Yii-framework-UrlManager/" data-id="ck9s52xhq001otngfkpleyj8i" class="article-share-link">分享</a>
+      
+      
+        <a href="https://blog.comicat.me/2017/10/20/Yii-framework-UrlManager/#disqus_thread" class="article-comment-link">留言</a>
+      
+      
+  <ul class="article-tag-list" itemprop="keywords"><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/PHP/" rel="tag">PHP</a></li><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/Yii1-x/" rel="tag">Yii1.x</a></li></ul>
+
+    </footer>
+  </div>
+  
+    
+ 
+<script src="/jquery/jquery.min.js"></script>
+
+  <div id="random_posts">
+    <h2>推薦文章</h2>
+    <div class="random_posts_ul">
+      <script>
+          var random_count =3
+          var site = {BASE_URI:'/'};
+          function load_random_posts(obj) {
+              var arr=site.posts;
+              if (!obj) return;
+              // var count = $(obj).attr('data-count') || 6;
+              for (var i, tmp, n = arr.length; n; i = Math.floor(Math.random() * n), tmp = arr[--n], arr[n] = arr[i], arr[i] = tmp);
+              arr = arr.slice(0, random_count);
+              var html = '<ul>';
+            
+              for(var j=0;j<arr.length;j++){
+                var item=arr[j];
+                html += '<li><strong>' + 
+                item.date + ':&nbsp;&nbsp;<a href="' + (site.BASE_URI+item.uri) + '">' + 
+                (item.title || item.uri) + '</a></strong>';
+                if(item.excerpt){
+                  html +='<div class="post-excerpt">'+item.excerpt+'</div>';
+                }
+                html +='</li>';
+                
+              }
+              $(obj).html(html + '</ul>');
+          }
+          $('.random_posts_ul').each(function () {
+              var c = this;
+              if (!site.posts || !site.posts.length){
+                  $.getJSON(site.BASE_URI + 'js/posts.js',function(json){site.posts = json;load_random_posts(c)});
+              } 
+               else{
+                load_random_posts(c);
+              }
+          });
+      </script>
+    </div>
+  </div>
+
+    
+<nav id="article-nav">
+  
+    <a href="/2017/10/26/Yii-framework-Memcache/" id="article-nav-newer" class="article-nav-link-wrap">
+      <strong class="article-nav-caption">Newer</strong>
+      <div class="article-nav-title">
+        
+          Yii framework - Memcache
+        
+      </div>
+    </a>
+  
+  
+    <a href="/2017/10/19/Yii-framework-CActiveForm-Widget-%E5%AF%A6%E4%BD%9C%E7%AF%87/" id="article-nav-older" class="article-nav-link-wrap">
+      <strong class="article-nav-caption">Older</strong>
+      <div class="article-nav-title">Yii framework - CActiveForm Widget(實作篇)</div>
+    </a>
+  
+</nav>
+
+  
+</article>
+ 
+     
+  <div class="comments" id="comments">
+    
+     
+    <section id="comments">
+      <div id="disqus_thread">
+        <noscript>
+          Please enable JavaScript to view the
+          <a href="//disqus.com/?ref_noscript" target="_blank" rel="noopener">comments powered by Disqus.</a>
+        </noscript>
+      </div>
+      </section>
+      
+       
+       
+      
+      
+  </div>
+ 
+  
+
+</section>
+           
+    <aside id="sidebar">
+  
+    
+    
+    
+    <div class="widget-wrap">
+    
+      <div class="widget" id="toc-widget-fixed">
+      
+        <strong class="toc-title">文章目錄</strong>
+        <div class="toc-widget-list">
+              <ol class="toc"><li class="toc-item toc-level-2"><a class="toc-link" href="#CWebApplication-processRequest"><span class="toc-number">1.</span> <span class="toc-text">CWebApplication::processRequest()</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#CApplication-getUrlManager"><span class="toc-number">2.</span> <span class="toc-text">CApplication::getUrlManager()</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#processRules"><span class="toc-number">3.</span> <span class="toc-text">processRules()</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#rule"><span class="toc-number">4.</span> <span class="toc-text">rule</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#使用-htaccess隱藏index-php"><span class="toc-number">5.</span> <span class="toc-text">使用.htaccess隱藏index.php</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#參考資料"><span class="toc-number">6.</span> <span class="toc-text">參考資料</span></a></li></ol>
+          </div>
+      </div>
+    </div>
+
+  
+    
+    
+    
+
+  
+    
+    
+    
+  
+    
+    
+    
+
+  
+    
+    
+    
+  
+    
+    
+    
+
+  
+    
+    
+    
+
+  
+</aside>
+
+      </div>
+      <footer id="footer">
+  
+  <div class="outer">
+    <div id="footer-left">
+      &copy; 2017 - 2020 comicat&nbsp;|&nbsp;
+      Theme by <a href="https://github.com/comicat-hu/hexo-theme-cafe" target="_blank">Cafe</a>
+    </div>
+     <div id="footer-right">
+      Contact&nbsp;|&nbsp;comicat.hu@gmail.com
+    </div>
+  </div>
+</footer>
+ 
+<script src="/jquery/jquery.min.js"></script>
+
+    </div>
+    <nav id="mobile-nav">
+  
+    <a href="/" class="mobile-nav-link">Home</a>
+  
+    <a href="/archives" class="mobile-nav-link">Archives</a>
+  
+    <a href="/tags" class="mobile-nav-link">Tags</a>
+  
+    <a href="/categories" class="mobile-nav-link">Categories</a>
+  
+</nav>
+    <img class="back-to-top-btn" src="/images/fly-to-top.png"/>
+<script>
+// Elevator script included on the page, already.
+window.onload = function() {
+  var elevator = new Elevator({
+    selector:'.back-to-top-btn',
+    element: document.querySelector('.back-to-top-btn'),
+    duration: 1000 // milliseconds
+  });
+}
+</script>
+      
+
+<script>
+  var disqus_shortname = 'blog-comicat';
+  
+  var disqus_url = 'https://blog.comicat.me/2017/10/20/Yii-framework-UrlManager/';
+  
+  (function(){
+    var dsq = document.createElement('script');
+    dsq.type = 'text/javascript';
+    dsq.async = true;
+    dsq.src = '//' + disqus_shortname + '.disqus.com/embed.js';
+    (document.getElementsByTagName('head')[0] || document.getElementsByTagName('body')[0]).appendChild(dsq);
+  })();
+</script>
+
+
+
+
+
+
+
+<!-- author:forvoid begin -->
+<!-- author:forvoid begin -->
+
+<!-- author:forvoid end -->
+
+<!-- author:forvoid end -->
+
+
+
+ 
+<script src="/js/is.js"></script>
+
+
+
+  
+<link rel="stylesheet" href="/fancybox/jquery.fancybox.css">
+
+  
+<script src="/fancybox/jquery.fancybox.pack.js"></script>
+
+
+
+
+<script src="/js/script.js"></script>
+
+
+<script src="/js/elevator.js"></script>
+
+  </div>
+</body>
+</html>

@@ -1,0 +1,456 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <meta charset="utf-8">
+  
+  <title>Yii framework - Memcache | Comicat&#39;s Blog</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
+  <meta name="description" content="memcached是一套分散式的快取系統，但server間並不互相同步，而是由client端去做分散存取(hash計算)，存資料時hash算出要存的server，取資料時用相同的hash算法指到要讀的server 用key-value的方式儲存資料 memcache有LRU機制(Least Recently Used)，會在內部儲存空間不足時自動讓較少使用到的資料失效(expire)，讓新的資料可">
+<meta property="og:type" content="article">
+<meta property="og:title" content="Yii framework - Memcache">
+<meta property="og:url" content="https://blog.comicat.me/2017/10/26/Yii-framework-Memcache/index.html">
+<meta property="og:site_name" content="Comicat&#39;s Blog">
+<meta property="og:description" content="memcached是一套分散式的快取系統，但server間並不互相同步，而是由client端去做分散存取(hash計算)，存資料時hash算出要存的server，取資料時用相同的hash算法指到要讀的server 用key-value的方式儲存資料 memcache有LRU機制(Least Recently Used)，會在內部儲存空間不足時自動讓較少使用到的資料失效(expire)，讓新的資料可">
+<meta property="og:locale" content="zh_TW">
+<meta property="og:image" content="https://blog.comicat.me/2017/10/26/Yii-framework-Memcache/memcache_stats.PNG">
+<meta property="article:published_time" content="2017-10-26T10:35:22.000Z">
+<meta property="article:modified_time" content="2020-05-04T05:26:23.340Z">
+<meta property="article:author" content="comicat">
+<meta property="article:tag" content="PHP">
+<meta property="article:tag" content="Yii1.x">
+<meta property="article:tag" content="Memcache">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:image" content="https://blog.comicat.me/2017/10/26/Yii-framework-Memcache/memcache_stats.PNG">
+  
+    <link rel="alternate" href="/atom.xml" title="Comicat&#39;s Blog" type="application/atom+xml">
+  
+  
+    <link rel="icon" href="/images/favicon.ico">
+  
+  
+    
+  
+  
+<link rel="stylesheet" href="/css/style.css">
+
+  
+<!-- Google Analytics -->
+<!--
+<script type="text/javascript">
+(function(i,s,o,g,r,a,m){i['GoogleAnalyticsObject']=r;i[r]=i[r]||function(){
+(i[r].q=i[r].q||[]).push(arguments)},i[r].l=1*new Date();a=s.createElement(o),
+m=s.getElementsByTagName(o)[0];a.async=1;a.src=g;m.parentNode.insertBefore(a,m)
+})(window,document,'script','//www.google-analytics.com/analytics.js','ga');
+
+ga('create', 'UA-126897949-1', 'auto');
+ga('send', 'pageview');
+
+</script>
+-->
+<!-- End Google Analytics -->
+
+<!-- Global Site Tag (gtag.js) - Google Analytics -->
+<script async src="https://www.googletagmanager.com/gtag/js?id=UA-126897949-1"></script>
+<script>
+  window.dataLayer = window.dataLayer || [];
+  function gtag(){dataLayer.push(arguments);}
+  gtag('js', new Date());
+
+  gtag('config', 'UA-126897949-1');
+  gtag('event', 'page_view', { 'send_to': 'UA-126897949-1' });
+</script>
+
+
+<meta name="generator" content="Hexo 4.2.0"></head>
+
+<body>
+  <div id="container">
+    <div id="wrap">
+      <header id="header">
+  <div id="banner"></div>
+  <div id="header-outer" class="outer">
+    
+    <div id="header-inner" class="inner">
+      <nav id="sub-nav">
+        
+          <a id="nav-rss-link" class="nav-icon" href="/atom.xml" title="RSS Feed"></a>
+        
+        <a id="nav-search-btn" class="nav-icon" title="搜尋"></a>
+      </nav>
+      <div id="search-form-wrap">
+        <form action="//google.com/search" method="get" accept-charset="UTF-8" class="search-form"><input type="search" name="q" class="search-form-input" placeholder="Search"><button type="submit" class="search-form-submit">&#xF002;</button><input type="hidden" name="sitesearch" value="https://blog.comicat.me"></form>
+      </div>
+      <nav id="main-nav">
+        <a id="main-nav-toggle" class="nav-icon"></a>
+        
+          <a class="main-nav-link" href="/">Home</a>
+        
+          <a class="main-nav-link" href="/archives">Archives</a>
+        
+          <a class="main-nav-link" href="/tags">Tags</a>
+        
+          <a class="main-nav-link" href="/categories">Categories</a>
+        
+      </nav>
+      
+    </div>
+    <div id="header-title" class="inner">
+      <h1 id="logo-wrap">
+        <a href="/" id="logo">Comicat&#39;s Blog</a>
+      </h1>
+      
+        <h2 id="subtitle-wrap">
+          <a href="/" id="subtitle">Find Something Funny</a>
+        </h2>
+      
+    </div>
+  </div>
+</header>
+      <div class="outer">
+        <section id="main"><article id="post-Yii-framework-Memcache" class="article article-type-post" itemscope itemprop="blogPost">
+  <div class="article-meta">
+    <a href="/2017/10/26/Yii-framework-Memcache/" class="article-date">
+  <time datetime="2017-10-26T10:35:22.000Z" itemprop="datePublished">2017-10-26</time>
+</a>
+    
+  <div class="article-category">
+    <a class="article-category-link" href="/categories/%E8%B3%87%E8%A8%8A%E6%8A%80%E8%A1%93/">資訊技術</a>►<a class="article-category-link" href="/categories/%E8%B3%87%E8%A8%8A%E6%8A%80%E8%A1%93/PHP/">PHP</a>
+  </div>
+
+  </div>
+  <div class="article-inner">
+    
+    
+      <header class="article-header">
+        
+  
+    <h1 class="article-title" itemprop="name">
+      Yii framework - Memcache
+    </h1>
+  
+
+      </header>
+    
+    <div class="article-entry" itemprop="articleBody">
+      
+        <!-- Table of Contents -->
+        
+        <p>memcached是一套分散式的快取系統，但server間並不互相同步，而是由client端去做分散存取(hash計算)，存資料時hash算出要存的server，取資料時用相同的hash算法指到要讀的server</p>
+<p>用key-value的方式儲存資料</p>
+<p>memcache有LRU機制(Least Recently Used)，會在內部儲存空間不足時自動讓較少使用到的資料失效(expire)，讓新的資料可以覆蓋到該空間上</p>
+<a id="more"></a>
+<p><a href="http://qianshangding.iteye.com/blog/2259411" target="_blank" rel="noopener">http://qianshangding.iteye.com/blog/2259411</a></p>
+<h2 id="閱讀連結"><a href="#閱讀連結" class="headerlink" title="閱讀連結"></a>閱讀連結</h2><p>官網: <a href="http://memcached.org/" target="_blank" rel="noopener">memcached.org</a><br>經典名著: <a href="http://docs.linuxtone.org/ebooks/NOSQL/memcached/memcached%E5%85%A8%E9%9D%A2%E5%89%96%E6%9E%90.pdf" target="_blank" rel="noopener">memcached全面剖析.pdf</a><br>windows版執行檔: <a href="http://www.runoob.com/memcached/window-install-memcached.html" target="_blank" rel="noopener">window-install-memcached</a><br>PHP memcache extension api: <a href="http://php.net/manual/en/class.memcache.php" target="_blank" rel="noopener">class.memcache.php</a></p>
+<h2 id="Getting-start"><a href="#Getting-start" class="headerlink" title="Getting start"></a>Getting start</h2><p>官方沒有提供windows版的memcached，所以只好找別人編好的執行檔來跑，</p>
+<p>我用x86 1.4.4版，打開啟動memcached.exe，預設就會在localhost:11211啟動了</p>
+<p><code>memcached -help</code>可以查看指令，</p>
+<p>memcached可以直接telnet登入，<code>telnet 127.0.0.1 11211</code>後，下<code>stats</code>指令可以看到一些memcache的狀態，也可以直接在上面操作存取資料</p>
+<img src="/2017/10/26/Yii-framework-Memcache/memcache_stats.PNG" title="memcache_stats">
+<h2 id="PHP-memcache"><a href="#PHP-memcache" class="headerlink" title="PHP memcache"></a>PHP memcache</h2><p>使用PHP操作memcache需要裝memcache extension，之前使用Yii時也用工具檢查過了，就不多說，用的是3.0.8版。</p>
+<p>直接使用PHP來操作(也可以參考文末)</p>
+<figure class="highlight php"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line">$memcache = <span class="keyword">new</span> Memcache;</span><br><span class="line">$memcache-&gt;addServer(<span class="string">'localhost'</span>);</span><br><span class="line">$memcache-&gt;set(<span class="string">'a'</span>, <span class="string">'apple'</span>);</span><br><span class="line"><span class="keyword">echo</span> $memcache-&gt;get(<span class="string">'a'</span>); <span class="comment">// apple</span></span><br></pre></td></tr></table></figure>
+<p>addServer是將一個memcache server加入到MemcachePool，但實際上並不會連線，而是真正要執行須要連線的指令時才執行，所以該動作通常都不會出錯，回傳1</p>
+<p>都沒有addServer到MemcachePool中就操作，會得到<code>No servers added to memcache connection in</code>警告</p>
+<p>執行其它動作(像是get, set時)，如果memcache server沒有啟動會警告，然後是一堆亂碼我也不知道為啥..，不過錯誤代號通常會是(10060)或(10061)或<code>無法連線，因為目標電腦拒絕連線。</code>，然後似乎沒有一個比較好的api來檢測server是不是啟動中…</p>
+<p>折衷的辦法，github找到有人是用connect()來判斷，所以稍微改一下是這樣</p>
+<figure class="highlight php"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line">$isMemcacheAvaliable = @$memcache-&gt;connect(<span class="string">'localhost'</span>);</span><br><span class="line"><span class="keyword">if</span> (!$isMemcacheAvaliable) &#123;</span><br><span class="line">    <span class="keyword">die</span>(<span class="string">'Memcache Not Avaliable.'</span>);</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<p>connect()方法是直接去連某台memcache server，然後那台如果shutdown，依然會出1006x的警告，所以我們就用<code>@</code>把訊息弄掉，這時因為連接失敗所以<code>$isMemcacheAvaliable</code> false，就可以抓出failed的那台機器了</p>
+<p><code>$memcache-&gt;getVersion();</code>拿到的版本資訊是<code>1.4.4-14-g9c660c0</code></p>
+<p>在Yii裡面，如果有上述情況，頁面會直接噴掉去錯誤頁(500 server internel error)，有開debug模式會告訴你正是在urlManager嘗試要去存取cache時錯誤的。錯誤點在<code>CMemCache::getValue()</code>，使用memcache的get()那行，可以自行改善這個問題</p>
+<h2 id="在Yii-config-components中的配置"><a href="#在Yii-config-components中的配置" class="headerlink" title="在Yii config components中的配置"></a>在Yii config components中的配置</h2><figure class="highlight php"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br></pre></td><td class="code"><pre><span class="line"><span class="string">'cache'</span> =&gt; [</span><br><span class="line">            <span class="string">'class'</span> =&gt; <span class="string">'CMemCache'</span>,</span><br><span class="line">            <span class="string">'useMemcached'</span> =&gt; <span class="keyword">false</span>,</span><br><span class="line">            <span class="string">'keyPrefix'</span> =&gt; <span class="string">''</span>,</span><br><span class="line">            <span class="string">'hashKey'</span> =&gt; <span class="keyword">false</span>,</span><br><span class="line">            <span class="string">'serializer'</span> =&gt; <span class="keyword">false</span>,</span><br><span class="line">            <span class="string">'servers'</span> =&gt; [</span><br><span class="line">                [</span><br><span class="line">                    <span class="string">'host'</span> =&gt; <span class="string">'xxxx'</span>,</span><br><span class="line">                    <span class="string">'port'</span> =&gt; <span class="string">'11211'</span>,</span><br><span class="line">                    <span class="string">'weight'</span> =&gt; <span class="string">'50'</span>,</span><br><span class="line">                ],</span><br><span class="line">                [</span><br><span class="line">                    <span class="string">'host'</span> =&gt; <span class="string">'xxxx'</span>,</span><br><span class="line">                    <span class="string">'port'</span> =&gt; <span class="string">'11212'</span>,</span><br><span class="line">                    <span class="string">'weight'</span> =&gt; <span class="string">'50'</span>,</span><br><span class="line">                ],</span><br><span class="line">            ],</span><br><span class="line">        ],</span><br></pre></td></tr></table></figure>
+<ul>
+<li>useMemcached預設是關的</li>
+<li>servers預設是空的，會預設用localhost</li>
+<li>keyPrefix(key加前綴字，預設是用<code>Yii::app()-&gt;getId()</code>的結果當前綴), hashKey(key做md5), serializer這三項是yii預設開啟的，要用原始的標準可以都關掉</li>
+<li>serializer序列化資料</li>
+<li>weight可以設定該server的權重，這對memcache在做hash計算去找server時會有影響</li>
+</ul>
+<h2 id="Yii-操作-memcache"><a href="#Yii-操作-memcache" class="headerlink" title="Yii 操作 memcache"></a>Yii 操作 memcache</h2><p><code>Yii::app()-&gt;getComponent(&#39;cache&#39;)</code>或<code>Yii::app()-&gt;cache</code>取得CMemCache實體(extends CCache)</p>
+<p><code>CMemCache::getMemCache()</code>取得Memcache實體(原始的那個，可以呼叫原生方法)</p>
+<p>但yii在CCache中有實作get, set等方法，所以透過CMemCache實體呼叫get(), set()也可以存取資料(實際上也是去呼叫原生方法)</p>
+<h2 id="flush-與delete"><a href="#flush-與delete" class="headerlink" title="flush()與delete()"></a>flush()與delete()</h2><p>memcache中可以設定expire讓資料在特定時間”失效”</p>
+<p>flush()方法可以讓整個memcache中的資料都失效</p>
+<p>delete()則是刪除某筆資料</p>
+<p>兩者原理略有不同</p>
+<h2 id="Important-note"><a href="#Important-note" class="headerlink" title="Important note"></a>Important note</h2><ul>
+<li><p>如果使用了connect疑似會造成MemcachePool被清空(?</p>
+</li>
+<li><p>addServer方法的參數有這些，一定要依照格式填寫!!</p>
+</li>
+</ul>
+<figure class="highlight php"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">bool Memcache::addServer ( string $host [, int $port = <span class="number">11211</span> [, bool $persistent [, int $weight [, int $timeout [, int $retry_interval [, bool $status [, callable $failure_callback [, int $timeoutms ]]]]]]]] )</span><br></pre></td></tr></table></figure>
+<ul>
+<li>Yii的memcache預設值在<code>CMemCacheServerConfiguration</code>類別中(同樣放在CMemCache)</li>
+</ul>
+<figure class="highlight php"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">public</span> $host;</span><br><span class="line"></span><br><span class="line"><span class="keyword">public</span> $port=<span class="number">11211</span>;</span><br><span class="line"></span><br><span class="line"><span class="keyword">public</span> $persistent=<span class="keyword">true</span>;</span><br><span class="line"></span><br><span class="line"><span class="keyword">public</span> $weight=<span class="number">1</span>;</span><br><span class="line"></span><br><span class="line"><span class="keyword">public</span> $timeout=<span class="number">15</span>;</span><br><span class="line"></span><br><span class="line"><span class="keyword">public</span> $retryInterval=<span class="number">15</span>;</span><br><span class="line"></span><br><span class="line"><span class="keyword">public</span> $status=<span class="keyword">true</span>;</span><br></pre></td></tr></table></figure>
+<p>如果config有設就會用config的值取代掉，</p>
+<p>很重要的一點是你存值時的設定都會影響到hash計算，所以取值時也要用一模一樣的設定，才能保證取的到值(如果只有連一台就沒差)，疑似連addServer的順序都會有影響，當然如果存值後增減server也可能會導致hash計算指不到正確的server!!!!!!!</p>
+<h2 id="memcache-getAvaliableServers-程式參考"><a href="#memcache-getAvaliableServers-程式參考" class="headerlink" title="memcache getAvaliableServers 程式參考"></a>memcache getAvaliableServers 程式參考</h2><figure class="highlight php"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br></pre></td><td class="code"><pre><span class="line"><span class="function"><span class="keyword">function</span> <span class="title">getAvaliableServers</span><span class="params">($servers)</span></span></span><br><span class="line"><span class="function"></span>&#123;</span><br><span class="line">    $memcache = <span class="keyword">new</span> Memcache;</span><br><span class="line">    $avaliableServers = [];</span><br><span class="line">    <span class="keyword">foreach</span> ($servers <span class="keyword">as</span> $server) &#123;</span><br><span class="line">        $isMemcacheAvaliable = @$memcache-&gt;connect($server[<span class="string">'host'</span>], $server[<span class="string">'port'</span>]);</span><br><span class="line">        $memcache-&gt;close();</span><br><span class="line">        <span class="keyword">if</span> ($isMemcacheAvaliable) &#123;</span><br><span class="line">            array_push($avaliableServers, $server);</span><br><span class="line">        &#125;</span><br><span class="line">    &#125;</span><br><span class="line">    <span class="keyword">return</span> $avaliableServers;</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line">$avaliableServers = getAvaliableServers($servers);</span><br><span class="line"></span><br><span class="line"><span class="keyword">if</span> (count($avaliableServers) === <span class="number">0</span>) &#123;</span><br><span class="line">    <span class="keyword">die</span>(<span class="string">'Memcache Not Avaliable.'</span>);</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<h2 id="stats指令查看到的一些參數說明"><a href="#stats指令查看到的一些參數說明" class="headerlink" title="stats指令查看到的一些參數說明"></a>stats指令查看到的一些參數說明</h2><ul>
+<li>pid: 該程式執行的PID</li>
+<li>uptime: 啟動後的總執行秒數</li>
+<li>time: 當前的timestamp</li>
+<li>pointer_size: 32位元或64位元</li>
+<li>curr_connection: 當前的開放的連接數</li>
+<li>total_connection: 啟動後打開的總連接束</li>
+<li>cmd_get: 執行get命令的總數</li>
+<li>cmd_set: 執行set命令的總數</li>
+<li>cmd_flush: 執行flush命令的總數</li>
+<li>xxx_misses: 執行xxx命令未命中的總數</li>
+<li>xxx_hits: 執行xxx命令命中次數</li>
+<li>cas_badval: 使用擦拭次數(?</li>
+<li>bytes_read: 從網路讀取的總位元組數</li>
+<li>bytes_written: 傳送的總位元組數</li>
+<li>limit_maxbytes: 可儲存的最大位元組數</li>
+<li>accepting_conns: 目前接受的連接數</li>
+<li>threads: 執行緒數</li>
+<li>conn_yields: 連線主動放棄的數量</li>
+<li>bytes: 當前儲存資料佔的大小</li>
+<li>curr_items: 當前儲存的項目數量</li>
+<li>total_items: 啟動以來儲存的項目數量</li>
+<li>evictions: 被LRU算法釋放掉的項目數量</li>
+</ul>
+
+      
+    </div>
+    <footer class="article-footer">
+      <a data-url="https://blog.comicat.me/2017/10/26/Yii-framework-Memcache/" data-id="ck9s52xho001ltngfkghcre4g" class="article-share-link">分享</a>
+      
+      
+        <a href="https://blog.comicat.me/2017/10/26/Yii-framework-Memcache/#disqus_thread" class="article-comment-link">留言</a>
+      
+      
+  <ul class="article-tag-list" itemprop="keywords"><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/Memcache/" rel="tag">Memcache</a></li><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/PHP/" rel="tag">PHP</a></li><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/Yii1-x/" rel="tag">Yii1.x</a></li></ul>
+
+    </footer>
+  </div>
+  
+    
+ 
+<script src="/jquery/jquery.min.js"></script>
+
+  <div id="random_posts">
+    <h2>推薦文章</h2>
+    <div class="random_posts_ul">
+      <script>
+          var random_count =3
+          var site = {BASE_URI:'/'};
+          function load_random_posts(obj) {
+              var arr=site.posts;
+              if (!obj) return;
+              // var count = $(obj).attr('data-count') || 6;
+              for (var i, tmp, n = arr.length; n; i = Math.floor(Math.random() * n), tmp = arr[--n], arr[n] = arr[i], arr[i] = tmp);
+              arr = arr.slice(0, random_count);
+              var html = '<ul>';
+            
+              for(var j=0;j<arr.length;j++){
+                var item=arr[j];
+                html += '<li><strong>' + 
+                item.date + ':&nbsp;&nbsp;<a href="' + (site.BASE_URI+item.uri) + '">' + 
+                (item.title || item.uri) + '</a></strong>';
+                if(item.excerpt){
+                  html +='<div class="post-excerpt">'+item.excerpt+'</div>';
+                }
+                html +='</li>';
+                
+              }
+              $(obj).html(html + '</ul>');
+          }
+          $('.random_posts_ul').each(function () {
+              var c = this;
+              if (!site.posts || !site.posts.length){
+                  $.getJSON(site.BASE_URI + 'js/posts.js',function(json){site.posts = json;load_random_posts(c)});
+              } 
+               else{
+                load_random_posts(c);
+              }
+          });
+      </script>
+    </div>
+  </div>
+
+    
+<nav id="article-nav">
+  
+    <a href="/2017/11/22/Google-Chrome-Puppeteer%E5%85%A5%E9%96%80%E7%AD%86%E8%A8%98/" id="article-nav-newer" class="article-nav-link-wrap">
+      <strong class="article-nav-caption">Newer</strong>
+      <div class="article-nav-title">
+        
+          Google Chrome Puppeteer入門筆記
+        
+      </div>
+    </a>
+  
+  
+    <a href="/2017/10/20/Yii-framework-UrlManager/" id="article-nav-older" class="article-nav-link-wrap">
+      <strong class="article-nav-caption">Older</strong>
+      <div class="article-nav-title">Yii framework - UrlManager</div>
+    </a>
+  
+</nav>
+
+  
+</article>
+ 
+     
+  <div class="comments" id="comments">
+    
+     
+    <section id="comments">
+      <div id="disqus_thread">
+        <noscript>
+          Please enable JavaScript to view the
+          <a href="//disqus.com/?ref_noscript" target="_blank" rel="noopener">comments powered by Disqus.</a>
+        </noscript>
+      </div>
+      </section>
+      
+       
+       
+      
+      
+  </div>
+ 
+  
+
+</section>
+           
+    <aside id="sidebar">
+  
+    
+    
+    
+    <div class="widget-wrap">
+    
+      <div class="widget" id="toc-widget-fixed">
+      
+        <strong class="toc-title">文章目錄</strong>
+        <div class="toc-widget-list">
+              <ol class="toc"><li class="toc-item toc-level-2"><a class="toc-link" href="#閱讀連結"><span class="toc-number">1.</span> <span class="toc-text">閱讀連結</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#Getting-start"><span class="toc-number">2.</span> <span class="toc-text">Getting start</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#PHP-memcache"><span class="toc-number">3.</span> <span class="toc-text">PHP memcache</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#在Yii-config-components中的配置"><span class="toc-number">4.</span> <span class="toc-text">在Yii config components中的配置</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#Yii-操作-memcache"><span class="toc-number">5.</span> <span class="toc-text">Yii 操作 memcache</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#flush-與delete"><span class="toc-number">6.</span> <span class="toc-text">flush()與delete()</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#Important-note"><span class="toc-number">7.</span> <span class="toc-text">Important note</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#memcache-getAvaliableServers-程式參考"><span class="toc-number">8.</span> <span class="toc-text">memcache getAvaliableServers 程式參考</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#stats指令查看到的一些參數說明"><span class="toc-number">9.</span> <span class="toc-text">stats指令查看到的一些參數說明</span></a></li></ol>
+          </div>
+      </div>
+    </div>
+
+  
+    
+    
+    
+
+  
+    
+    
+    
+  
+    
+    
+    
+
+  
+    
+    
+    
+  
+    
+    
+    
+
+  
+    
+    
+    
+
+  
+</aside>
+
+      </div>
+      <footer id="footer">
+  
+  <div class="outer">
+    <div id="footer-left">
+      &copy; 2017 - 2020 comicat&nbsp;|&nbsp;
+      Theme by <a href="https://github.com/comicat-hu/hexo-theme-cafe" target="_blank">Cafe</a>
+    </div>
+     <div id="footer-right">
+      Contact&nbsp;|&nbsp;comicat.hu@gmail.com
+    </div>
+  </div>
+</footer>
+ 
+<script src="/jquery/jquery.min.js"></script>
+
+    </div>
+    <nav id="mobile-nav">
+  
+    <a href="/" class="mobile-nav-link">Home</a>
+  
+    <a href="/archives" class="mobile-nav-link">Archives</a>
+  
+    <a href="/tags" class="mobile-nav-link">Tags</a>
+  
+    <a href="/categories" class="mobile-nav-link">Categories</a>
+  
+</nav>
+    <img class="back-to-top-btn" src="/images/fly-to-top.png"/>
+<script>
+// Elevator script included on the page, already.
+window.onload = function() {
+  var elevator = new Elevator({
+    selector:'.back-to-top-btn',
+    element: document.querySelector('.back-to-top-btn'),
+    duration: 1000 // milliseconds
+  });
+}
+</script>
+      
+
+<script>
+  var disqus_shortname = 'blog-comicat';
+  
+  var disqus_url = 'https://blog.comicat.me/2017/10/26/Yii-framework-Memcache/';
+  
+  (function(){
+    var dsq = document.createElement('script');
+    dsq.type = 'text/javascript';
+    dsq.async = true;
+    dsq.src = '//' + disqus_shortname + '.disqus.com/embed.js';
+    (document.getElementsByTagName('head')[0] || document.getElementsByTagName('body')[0]).appendChild(dsq);
+  })();
+</script>
+
+
+
+
+
+
+
+<!-- author:forvoid begin -->
+<!-- author:forvoid begin -->
+
+<!-- author:forvoid end -->
+
+<!-- author:forvoid end -->
+
+
+
+ 
+<script src="/js/is.js"></script>
+
+
+
+  
+<link rel="stylesheet" href="/fancybox/jquery.fancybox.css">
+
+  
+<script src="/fancybox/jquery.fancybox.pack.js"></script>
+
+
+
+
+<script src="/js/script.js"></script>
+
+
+<script src="/js/elevator.js"></script>
+
+  </div>
+</body>
+</html>

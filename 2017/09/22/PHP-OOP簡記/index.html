@@ -1,0 +1,494 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <meta charset="utf-8">
+  
+  <title>PHP OOP簡記 | Comicat&#39;s Blog</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
+  <meta name="description" content="OOP三大用法簡介 $this , self, parent __construct() 和 __destruct() 物件複製 abstract 和 interface trait namespace , use , as 用法 spl_autoload_register()">
+<meta property="og:type" content="article">
+<meta property="og:title" content="PHP OOP簡記">
+<meta property="og:url" content="https://blog.comicat.me/2017/09/22/PHP-OOP%E7%B0%A1%E8%A8%98/index.html">
+<meta property="og:site_name" content="Comicat&#39;s Blog">
+<meta property="og:description" content="OOP三大用法簡介 $this , self, parent __construct() 和 __destruct() 物件複製 abstract 和 interface trait namespace , use , as 用法 spl_autoload_register()">
+<meta property="og:locale" content="zh_TW">
+<meta property="og:image" content="https://blog.comicat.me/2017/09/22/PHP-OOP%E7%B0%A1%E8%A8%98/namespace_level.PNG">
+<meta property="article:published_time" content="2017-09-22T02:33:49.000Z">
+<meta property="article:modified_time" content="2020-05-04T05:26:23.340Z">
+<meta property="article:author" content="comicat">
+<meta property="article:tag" content="PHP">
+<meta property="article:tag" content="OOP">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:image" content="https://blog.comicat.me/2017/09/22/PHP-OOP%E7%B0%A1%E8%A8%98/namespace_level.PNG">
+  
+    <link rel="alternate" href="/atom.xml" title="Comicat&#39;s Blog" type="application/atom+xml">
+  
+  
+    <link rel="icon" href="/images/favicon.ico">
+  
+  
+    
+  
+  
+<link rel="stylesheet" href="/css/style.css">
+
+  
+<!-- Google Analytics -->
+<!--
+<script type="text/javascript">
+(function(i,s,o,g,r,a,m){i['GoogleAnalyticsObject']=r;i[r]=i[r]||function(){
+(i[r].q=i[r].q||[]).push(arguments)},i[r].l=1*new Date();a=s.createElement(o),
+m=s.getElementsByTagName(o)[0];a.async=1;a.src=g;m.parentNode.insertBefore(a,m)
+})(window,document,'script','//www.google-analytics.com/analytics.js','ga');
+
+ga('create', 'UA-126897949-1', 'auto');
+ga('send', 'pageview');
+
+</script>
+-->
+<!-- End Google Analytics -->
+
+<!-- Global Site Tag (gtag.js) - Google Analytics -->
+<script async src="https://www.googletagmanager.com/gtag/js?id=UA-126897949-1"></script>
+<script>
+  window.dataLayer = window.dataLayer || [];
+  function gtag(){dataLayer.push(arguments);}
+  gtag('js', new Date());
+
+  gtag('config', 'UA-126897949-1');
+  gtag('event', 'page_view', { 'send_to': 'UA-126897949-1' });
+</script>
+
+
+<meta name="generator" content="Hexo 4.2.0"></head>
+
+<body>
+  <div id="container">
+    <div id="wrap">
+      <header id="header">
+  <div id="banner"></div>
+  <div id="header-outer" class="outer">
+    
+    <div id="header-inner" class="inner">
+      <nav id="sub-nav">
+        
+          <a id="nav-rss-link" class="nav-icon" href="/atom.xml" title="RSS Feed"></a>
+        
+        <a id="nav-search-btn" class="nav-icon" title="搜尋"></a>
+      </nav>
+      <div id="search-form-wrap">
+        <form action="//google.com/search" method="get" accept-charset="UTF-8" class="search-form"><input type="search" name="q" class="search-form-input" placeholder="Search"><button type="submit" class="search-form-submit">&#xF002;</button><input type="hidden" name="sitesearch" value="https://blog.comicat.me"></form>
+      </div>
+      <nav id="main-nav">
+        <a id="main-nav-toggle" class="nav-icon"></a>
+        
+          <a class="main-nav-link" href="/">Home</a>
+        
+          <a class="main-nav-link" href="/archives">Archives</a>
+        
+          <a class="main-nav-link" href="/tags">Tags</a>
+        
+          <a class="main-nav-link" href="/categories">Categories</a>
+        
+      </nav>
+      
+    </div>
+    <div id="header-title" class="inner">
+      <h1 id="logo-wrap">
+        <a href="/" id="logo">Comicat&#39;s Blog</a>
+      </h1>
+      
+        <h2 id="subtitle-wrap">
+          <a href="/" id="subtitle">Find Something Funny</a>
+        </h2>
+      
+    </div>
+  </div>
+</header>
+      <div class="outer">
+        <section id="main"><article id="post-PHP-OOP簡記" class="article article-type-post" itemscope itemprop="blogPost">
+  <div class="article-meta">
+    <a href="/2017/09/22/PHP-OOP%E7%B0%A1%E8%A8%98/" class="article-date">
+  <time datetime="2017-09-22T02:33:49.000Z" itemprop="datePublished">2017-09-22</time>
+</a>
+    
+  <div class="article-category">
+    <a class="article-category-link" href="/categories/%E8%B3%87%E8%A8%8A%E6%8A%80%E8%A1%93/">資訊技術</a>►<a class="article-category-link" href="/categories/%E8%B3%87%E8%A8%8A%E6%8A%80%E8%A1%93/PHP/">PHP</a>
+  </div>
+
+  </div>
+  <div class="article-inner">
+    
+    
+      <header class="article-header">
+        
+  
+    <h1 class="article-title" itemprop="name">
+      PHP OOP簡記
+    </h1>
+  
+
+      </header>
+    
+    <div class="article-entry" itemprop="articleBody">
+      
+        <!-- Table of Contents -->
+        
+        <ul>
+<li>OOP三大用法簡介</li>
+<li>$this , self, parent</li>
+<li>__construct() 和 __destruct()</li>
+<li>物件複製</li>
+<li>abstract 和 interface</li>
+<li>trait</li>
+<li>namespace , use , as 用法</li>
+<li>spl_autoload_register()</li>
+</ul>
+<a id="more"></a>
+<p>另外找到還不錯的系列文章</p>
+<ul>
+<li><a href="http://ithelp.ithome.com.tw/search?search=PHP%E7%89%A9%E4%BB%B6%E5%B0%8E%E5%90%91&amp;tab=article" target="_blank" rel="noopener">iT邦幫忙: PHP物件導向</a></li>
+<li><a href="http://oomusou.io/php/php-namespace/#Version" target="_blank" rel="noopener">http://oomusou.io/php/php-namespace/#Version</a></li>
+<li><a href="http://ithelp.ithome.com.tw/users/20000108/ironman/690?page=1" target="_blank" rel="noopener">http://ithelp.ithome.com.tw/users/20000108/ironman/690?page=1</a></li>
+</ul>
+<h2 id="OOP-三大用法簡介"><a href="#OOP-三大用法簡介" class="headerlink" title="OOP 三大用法簡介"></a>OOP 三大用法簡介</h2><ul>
+<li><p>封裝(Encapsulation) : 將功能相近的變數(屬性)、函式(方法)使用類別(class)包裝，使用public、private、protected關鍵字宣告，區分變數及函式的存取權限。</p>
+<ul>
+<li>public    : 開放物件本身及外部程式使用</li>
+<li>private   : 限定物件本身使用(通常私有成員會在命名前加上_區別)</li>
+<li>protected : 限定物件本身及繼承類別使用</li>
+</ul>
+</li>
+<li><p>繼承(Inheritance) : 類別可以使用extends來繼承父類別的屬性及方法。(PHP不能多重繼承)</p>
+</li>
+</ul>
+<figure class="highlight php"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br></pre></td><td class="code"><pre><span class="line"><span class="class"><span class="keyword">class</span> <span class="title">Transportation</span></span></span><br><span class="line"><span class="class"></span>&#123;</span><br><span class="line">    <span class="keyword">public</span> $cost = <span class="number">100</span>;</span><br><span class="line">    <span class="keyword">private</span> $_hasDriver = <span class="keyword">true</span>;</span><br><span class="line"></span><br><span class="line">    <span class="keyword">public</span> <span class="function"><span class="keyword">function</span> <span class="title">run</span><span class="params">()</span></span></span><br><span class="line"><span class="function">    </span>&#123;</span><br><span class="line">        <span class="keyword">echo</span> <span class="string">'Go!'</span>;</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="class"><span class="keyword">class</span> <span class="title">Car</span> <span class="keyword">extends</span> <span class="title">Transportation</span></span></span><br><span class="line"><span class="class"></span>&#123;</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line">$myCar = <span class="keyword">new</span> Car();</span><br><span class="line"></span><br><span class="line">$myCar-&gt;run(); <span class="comment">// Go!</span></span><br></pre></td></tr></table></figure>
+<p>繼承後子類別擁有父類別的所有屬性和方法，但可以被重載(overloading)</p>
+<ul>
+<li>多型(Polymorphism) : 基於同一個class或interface可以去定義不同的class並實作</li>
+</ul>
+<h2 id="this-self-parent"><a href="#this-self-parent" class="headerlink" title="$this , self, parent"></a>$this , self, parent</h2><ul>
+<li>$this在物件實體化時指向物件主體，使用<code>-&gt;</code></li>
+<li>self指向類別本身，通常會用在存取靜態成員，使用<code>::</code></li>
+<li>parent指向父類別，存取父類別的成員，使用<code>::</code></li>
+</ul>
+<p>參考: <a href="http://www.howzhi.com/group/php/discuss/10022" target="_blank" rel="noopener">http://www.howzhi.com/group/php/discuss/10022</a></p>
+<h2 id="construct-和-destruct"><a href="#construct-和-destruct" class="headerlink" title="__construct() 和 __destruct()"></a>__construct() 和 __destruct()</h2><ul>
+<li>__construct()中定義物件實體化時要做的事，基本原則會用來預設屬性值或預執行函式</li>
+<li>__destruct()用於定義物件銷毀前做的事，一般在程式結束前物件會被自動銷毀</li>
+</ul>
+<figure class="highlight php"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br></pre></td><td class="code"><pre><span class="line"><span class="class"><span class="keyword">class</span> <span class="title">Demo</span></span></span><br><span class="line"><span class="class"></span>&#123;</span><br><span class="line">    <span class="keyword">public</span> $hello = <span class="string">'Hello World'</span> . <span class="string">"\n"</span>;</span><br><span class="line"></span><br><span class="line">    <span class="keyword">public</span> <span class="function"><span class="keyword">function</span> <span class="title">__construct</span><span class="params">()</span></span></span><br><span class="line"><span class="function">    </span>&#123;</span><br><span class="line">        <span class="keyword">echo</span> <span class="string">'run __construct()'</span> . <span class="string">"\n"</span>;</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    <span class="keyword">public</span> <span class="function"><span class="keyword">function</span> <span class="title">__destruct</span><span class="params">()</span></span></span><br><span class="line"><span class="function">    </span>&#123;</span><br><span class="line">        <span class="keyword">echo</span> <span class="string">'run __destruct()'</span> . <span class="string">"\n"</span>;</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    <span class="keyword">public</span> <span class="function"><span class="keyword">function</span> <span class="title">hello</span><span class="params">()</span></span></span><br><span class="line"><span class="function">    </span>&#123;</span><br><span class="line">        <span class="keyword">echo</span> <span class="keyword">$this</span>-&gt;hello;</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line">$demo = <span class="keyword">new</span> Demo();</span><br><span class="line">$demo-&gt;hello();</span><br></pre></td></tr></table></figure>
+<p>Output:</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">run __construct()</span><br><span class="line">Hello World</span><br><span class="line">run __destruct()</span><br></pre></td></tr></table></figure>
+<p>使用同類別名稱也可以定義建構式，但PHP5後通常不會這麼使用也不建議</p>
+<figure class="highlight php"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line"><span class="class"><span class="keyword">class</span> <span class="title">Demo</span></span></span><br><span class="line"><span class="class"></span>&#123;</span><br><span class="line">    <span class="keyword">public</span> <span class="function"><span class="keyword">function</span> <span class="title">Demo</span><span class="params">()</span></span></span><br><span class="line"><span class="function">    </span>&#123;</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<p><strong>這類由雙底線開頭的方法，稱為magic method，系統會在特定的時機調用這些方法。</strong><br>可以參考:</p>
+<ul>
+<li><a href="http://ithelp.ithome.com.tw/articles/10135522" target="_blank" rel="noopener">PHP的語言特性 : magic methods</a></li>
+<li><a href="http://www.php.net/manual/en/language.oop5.magic.php" target="_blank" rel="noopener">PHP手冊 magic methods</a></li>
+</ul>
+<h2 id="物件複製"><a href="#物件複製" class="headerlink" title="物件複製"></a>物件複製</h2><p>先上類別定義</p>
+<figure class="highlight php"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br></pre></td><td class="code"><pre><span class="line"><span class="class"><span class="keyword">class</span> <span class="title">A</span></span></span><br><span class="line"><span class="class"></span>&#123;</span><br><span class="line">    <span class="keyword">public</span> $count = <span class="number">1</span>;</span><br><span class="line">    <span class="keyword">public</span> <span class="function"><span class="keyword">function</span> <span class="title">__clone</span><span class="params">()</span></span></span><br><span class="line"><span class="function">    </span>&#123;</span><br><span class="line">        <span class="keyword">$this</span>-&gt;count ++;</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<ul>
+<li>方式1，直接assign(reference)</li>
+</ul>
+<figure class="highlight php"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br></pre></td><td class="code"><pre><span class="line">$a = <span class="keyword">new</span> A();</span><br><span class="line"></span><br><span class="line">$b = $a;</span><br><span class="line"></span><br><span class="line">var_dump($a);</span><br><span class="line">var_dump($b);</span><br><span class="line"></span><br><span class="line">var_dump($a === $b);</span><br></pre></td></tr></table></figure>
+<p>Output:</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br></pre></td><td class="code"><pre><span class="line">class A#1 (1) &#123;</span><br><span class="line">  public $count =&gt;</span><br><span class="line">  int(1)</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line">class A#1 (1) &#123;</span><br><span class="line">  public $count =&gt;</span><br><span class="line">  int(1)</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line">bool(true)</span><br></pre></td></tr></table></figure>
+<p>這時$b完全參照$a，而且兩邊會一起變動，如果<code>$b-&gt;count = 99</code>改了count值，<code>$a-&gt;count</code>也等於99</p>
+<ul>
+<li>方式2，使用clone(shallow copy)</li>
+</ul>
+<figure class="highlight php"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br></pre></td><td class="code"><pre><span class="line">$a = <span class="keyword">new</span> A();</span><br><span class="line"></span><br><span class="line">$b = <span class="keyword">clone</span> $a;</span><br><span class="line"></span><br><span class="line">var_dump($a);</span><br><span class="line">var_dump($b);</span><br><span class="line"></span><br><span class="line">var_dump($a === $b);</span><br></pre></td></tr></table></figure>
+<p>Output:</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br></pre></td><td class="code"><pre><span class="line">class A#1 (1) &#123;</span><br><span class="line">  public $count =&gt;</span><br><span class="line">  int(1)</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line">class A#2 (1) &#123;</span><br><span class="line">  public $count =&gt;</span><br><span class="line">  int(2)</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line">bool(false)</span><br></pre></td></tr></table></figure>
+<p>結果有些不一樣了，當使用clone複製完後，系統會自動去執行<code>__clone()</code>這個magic method，而且修改count值並不會改變另一邊</p>
+<p>不過當物件的屬性值是參考或是物件時，仍然會是以參考的形式複製</p>
+<p>我們把class宣告改一下</p>
+<figure class="highlight php"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br></pre></td><td class="code"><pre><span class="line"><span class="class"><span class="keyword">class</span> <span class="title">A</span></span></span><br><span class="line"><span class="class"></span>&#123;</span><br><span class="line">    <span class="keyword">public</span> $count = <span class="number">1</span>;</span><br><span class="line">    <span class="keyword">public</span> $obj;</span><br><span class="line"></span><br><span class="line">    <span class="keyword">public</span> <span class="function"><span class="keyword">function</span> <span class="title">__construct</span><span class="params">()</span></span></span><br><span class="line"><span class="function">    </span>&#123;</span><br><span class="line">        <span class="keyword">$this</span>-&gt;obj = <span class="keyword">new</span> B();</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    <span class="keyword">public</span> <span class="function"><span class="keyword">function</span> <span class="title">__clone</span><span class="params">()</span></span></span><br><span class="line"><span class="function">    </span>&#123;</span><br><span class="line">        <span class="keyword">$this</span>-&gt;count ++;</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="class"><span class="keyword">class</span> <span class="title">B</span></span></span><br><span class="line"><span class="class"></span>&#123;</span><br><span class="line">    <span class="keyword">public</span> $say = <span class="string">'yes'</span>;</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"></span><br><span class="line">$a = <span class="keyword">new</span> A();</span><br><span class="line"></span><br><span class="line">$b = <span class="keyword">clone</span> $a;</span><br><span class="line"></span><br><span class="line">var_dump($a);</span><br><span class="line">var_dump($b);</span><br><span class="line"></span><br><span class="line">$b-&gt;obj-&gt;say = <span class="string">'no'</span>;</span><br><span class="line"></span><br><span class="line">var_dump($a);</span><br><span class="line">var_dump($b);</span><br></pre></td></tr></table></figure>
+<p>Output:</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br></pre></td><td class="code"><pre><span class="line">class A#1 (2) &#123;</span><br><span class="line">  public $count =&gt;</span><br><span class="line">  int(1)</span><br><span class="line">  public $obj =&gt;</span><br><span class="line">  class B#2 (1) &#123;</span><br><span class="line">    public $say =&gt;</span><br><span class="line">    string(3) &quot;yes&quot;</span><br><span class="line">  &#125;</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line">class A#3 (2) &#123;</span><br><span class="line">  public $count =&gt;</span><br><span class="line">  int(2)</span><br><span class="line">  public $obj =&gt;</span><br><span class="line">  class B#2 (1) &#123;</span><br><span class="line">    public $say =&gt;</span><br><span class="line">    string(3) &quot;yes&quot;</span><br><span class="line">  &#125;</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line">class A#1 (2) &#123;</span><br><span class="line">  public $count =&gt;</span><br><span class="line">  int(1)</span><br><span class="line">  public $obj =&gt;</span><br><span class="line">  class B#2 (1) &#123;</span><br><span class="line">    public $say =&gt;</span><br><span class="line">    string(2) &quot;no&quot;</span><br><span class="line">  &#125;</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line">class A#3 (2) &#123;</span><br><span class="line">  public $count =&gt;</span><br><span class="line">  int(2)</span><br><span class="line">  public $obj =&gt;</span><br><span class="line">  class B#2 (1) &#123;</span><br><span class="line">    public $say =&gt;</span><br><span class="line">    string(2) &quot;no&quot;</span><br><span class="line">  &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<p>可以發現我們改了<code>$b-&gt;obj-&gt;say</code>，連$a那邊的也被改了</p>
+<h3 id="解決辦法"><a href="#解決辦法" class="headerlink" title="解決辦法"></a>解決辦法</h3><p>這時我們只要在<code>__clone()</code>中加上<code>$this-&gt;obj = clone $this-&gt;obj;</code>，把該物件另外再複製一份，就可以獨立兩邊的值了。</p>
+<h2 id="abstract-和-interface"><a href="#abstract-和-interface" class="headerlink" title="abstract 和 interface"></a>abstract 和 interface</h2><p>先上程式碼</p>
+<figure class="highlight php"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br></pre></td><td class="code"><pre><span class="line"><span class="class"><span class="keyword">interface</span> <span class="title">Action</span></span></span><br><span class="line"><span class="class"></span>&#123;</span><br><span class="line">    <span class="keyword">public</span> <span class="function"><span class="keyword">function</span> <span class="title">run</span><span class="params">()</span></span>;</span><br><span class="line">    <span class="keyword">public</span> <span class="function"><span class="keyword">function</span> <span class="title">fast</span><span class="params">()</span></span>;</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="keyword">abstract</span> <span class="class"><span class="keyword">class</span> <span class="title">Animal</span> <span class="keyword">implements</span> <span class="title">Action</span></span></span><br><span class="line"><span class="class"></span>&#123;</span><br><span class="line">    <span class="keyword">public</span> <span class="function"><span class="keyword">function</span> <span class="title">run</span><span class="params">()</span></span></span><br><span class="line"><span class="function">    </span>&#123;</span><br><span class="line">        <span class="keyword">$this</span>-&gt;fast();</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="class"><span class="keyword">class</span> <span class="title">Dog</span> <span class="keyword">extends</span> <span class="title">Animal</span></span></span><br><span class="line"><span class="class"></span>&#123;</span><br><span class="line">    <span class="keyword">public</span> <span class="function"><span class="keyword">function</span> <span class="title">fast</span><span class="params">()</span></span></span><br><span class="line"><span class="function">    </span>&#123;</span><br><span class="line">        <span class="keyword">echo</span> <span class="string">'very fast.'</span>;</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="class"><span class="keyword">class</span> <span class="title">Cat</span> <span class="keyword">extends</span> <span class="title">Animal</span></span></span><br><span class="line"><span class="class"></span>&#123;</span><br><span class="line">    <span class="keyword">public</span> <span class="function"><span class="keyword">function</span> <span class="title">fast</span><span class="params">()</span></span></span><br><span class="line"><span class="function">    </span>&#123;</span><br><span class="line">        <span class="keyword">echo</span> <span class="string">'very slow.'</span>;</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line">$myDog = <span class="keyword">new</span> Dog();</span><br><span class="line">$myCat = <span class="keyword">new</span> Cat();</span><br><span class="line"></span><br><span class="line">$myDog-&gt;run(); <span class="comment">// very fast.</span></span><br><span class="line">$myCat-&gt;run(); <span class="comment">// very slow.</span></span><br></pre></td></tr></table></figure>
+<ul>
+<li>interface(介面): 定義必須被實作的方法。上面我們宣告了Action介面，並定義實現Action的所有類別都必須實作run()跟fast()兩個方法。</li>
+<li><p>abstract class(抽象類別): 定義一個不可被實體化的類別，表示一種型態、一個上層的分類概念。這裡我們宣告了一個Animal抽象類別，並且用implements關鍵字表示要依照Action介面來實現。</p>
+<p>這邊問題來了，但在Animal中我們並沒有依照Action實作fast()方法，而為什麼不會報錯呢?</p>
+<p>是因為我們宣告成abstract，所以在這裡Animal並不會被實作，也不能被實作，自然也不用去實現，它就是個抽象虛擬的定義…(覺得很難表達…)</p>
+<p>當然也可以由每種動物各自去實現Action，但是這樣就沒有層級的概念了，而且在這邊每種動物的run()方法是一樣的。</p>
+</li>
+<li><p>extends(繼承): 這裡我們宣告Dog和Cat類別，都繼承Animal抽象類別，包含實現Action的方法和run()方法都繼承下來了，而因為這邊是實際的類別，所以必須依照interface Action的定義去實作出還沒被實作的fast()方法。</p>
+</li>
+</ul>
+<p>最後我們實體化出$myDog和$myCat物件，並且呼叫其中的run()方法。</p>
+<p>output: <code>very fast.very slow.</code></p>
+<h2 id="trait"><a href="#trait" class="headerlink" title="trait"></a>trait</h2><p>(特徵)</p>
+<p>PHP不能多重繼承，但是PHP5.4後加入了<code>trait</code>可以用來達成類似多重繼承的效果。</p>
+<p>trait使用方式跟class很像。</p>
+<p>延續上面那個程式，</p>
+<p>這邊我們宣告一個trait Play，裡面有個run()方法。</p>
+<figure class="highlight php"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">trait</span> Play</span><br><span class="line">&#123;</span><br><span class="line">    <span class="keyword">public</span> <span class="function"><span class="keyword">function</span> <span class="title">run</span><span class="params">()</span></span></span><br><span class="line"><span class="function">    </span>&#123;</span><br><span class="line">        <span class="keyword">echo</span> <span class="string">'run and play with people'</span>;</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<p>然後我們在class Cat中使用它<code>use Play;</code>，這時Cat類別已經同時繼承了Animal又擁有了Play的內容，</p>
+<p>屬性覆蓋的順序為: <code>類別 -&gt; trait -&gt; 父類別</code></p>
+<p>這時<code>$myCat-&gt;run();</code>的結果會變成<code>run and play with people</code>，因為在Cat類別中我們沒有實作run()方法，所以這時候呼叫會先採用Play中的run()。</p>
+<p>也許trait的方法在每個類別中又需要不一樣，那也可以宣告成abstract抽象方法，讓每個類別去實作不同的方法。</p>
+<p>參考: <a href="http://ithelp.ithome.com.tw/articles/10133226" target="_blank" rel="noopener">逐步提昇PHP技術能力 - PHP的語言特性: Traits</a></p>
+<h2 id="namespace-use-as-用法"><a href="#namespace-use-as-用法" class="headerlink" title="namespace , use , as 用法"></a>namespace , use , as 用法</h2><ul>
+<li>namespace 主要可以用於解決class, interface, function, constant在不同套件重複名稱的問題，將其階層式的管理起來。</li>
+<li>use關鍵字可用來使用需要的namespace</li>
+<li>as關鍵字可用來為namespace指定別名</li>
+</ul>
+<figure class="highlight php"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">namespace</span> <span class="title">Namespace1</span>;</span><br><span class="line"></span><br><span class="line"><span class="class"><span class="keyword">class</span> <span class="title">Boy</span></span></span><br><span class="line"><span class="class"></span>&#123;</span><br><span class="line">    <span class="keyword">public</span> <span class="function"><span class="keyword">function</span> <span class="title">__construct</span><span class="params">($name)</span></span></span><br><span class="line"><span class="function">    </span>&#123;</span><br><span class="line">        <span class="keyword">$this</span>-&gt;name = $name;</span><br><span class="line">    &#125;</span><br><span class="line">    <span class="keyword">public</span> <span class="function"><span class="keyword">function</span> <span class="title">go</span><span class="params">()</span></span></span><br><span class="line"><span class="function">    </span>&#123;</span><br><span class="line">        <span class="keyword">echo</span> <span class="string">'Go NS1! '</span> . <span class="keyword">$this</span>-&gt;name . <span class="string">"!!\n"</span>;</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<figure class="highlight php"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">namespace</span> <span class="title">Namespace2</span>;</span><br><span class="line"></span><br><span class="line"><span class="class"><span class="keyword">class</span> <span class="title">Boy</span></span></span><br><span class="line"><span class="class"></span>&#123;</span><br><span class="line">    <span class="keyword">public</span> <span class="function"><span class="keyword">function</span> <span class="title">__construct</span><span class="params">($name)</span></span></span><br><span class="line"><span class="function">    </span>&#123;</span><br><span class="line">        <span class="keyword">$this</span>-&gt;name = $name;</span><br><span class="line">    &#125;</span><br><span class="line">    <span class="keyword">public</span> <span class="function"><span class="keyword">function</span> <span class="title">go</span><span class="params">()</span></span></span><br><span class="line"><span class="function">    </span>&#123;</span><br><span class="line">        <span class="keyword">echo</span> <span class="string">'Go NS2! '</span> . <span class="keyword">$this</span>-&gt;name . <span class="string">"!!\n"</span>;</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<p>然後我們把資料夾檔案整理成這樣<br><img src="/2017/09/22/PHP-OOP簡記/namespace_level.PNG" title="namespace_level"></p>
+<h2 id="spl-autoload-register"><a href="#spl-autoload-register" class="headerlink" title="spl_autoload_register()"></a>spl_autoload_register()</h2><p>在use_namespace.php中使用<code>spl_autoload_register()</code>自動去載入需要的class，</p>
+<p>PHP事實上會將類別名稱套用上完整的命名空間，</p>
+<p>所以我們在<code>apl_auto_register()</code>中的<code>$class</code>實際上會拿到<code>Namespace1\Boy</code>和<code>Namespace2\Boy</code></p>
+<figure class="highlight php"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br></pre></td><td class="code"><pre><span class="line">spl_autoload_register(</span><br><span class="line">    <span class="function"><span class="keyword">function</span> <span class="params">($class)</span> </span>&#123;</span><br><span class="line">        <span class="keyword">include_once</span> <span class="string">'vendors\\'</span> . $class . <span class="string">'.php'</span>;</span><br><span class="line">    &#125;</span><br><span class="line">);</span><br><span class="line"></span><br><span class="line"><span class="keyword">use</span> <span class="title">Namespace1</span> <span class="title">as</span> <span class="title">NS1</span>;</span><br><span class="line"><span class="keyword">use</span> <span class="title">Namespace2</span> <span class="title">as</span> <span class="title">NS2</span>;</span><br><span class="line"></span><br><span class="line">$boy1 = <span class="keyword">new</span> NS1\Boy(<span class="string">'Comi'</span>);</span><br><span class="line">$boy2 = <span class="keyword">new</span> NS2\Boy(<span class="string">'Comi'</span>);</span><br><span class="line"></span><br><span class="line">$boy1-&gt;go(); <span class="comment">// Go NS1! Comi!!</span></span><br><span class="line">$boy2-&gt;go(); <span class="comment">// Go NS2! Comi!!</span></span><br></pre></td></tr></table></figure>
+<h2 id="範例程式碼參考"><a href="#範例程式碼參考" class="headerlink" title="範例程式碼參考"></a>範例程式碼參考</h2><p><a href="https://github.com/comicat-hu/php-oop-test" target="_blank" rel="noopener">https://github.com/comicat-hu/php-oop-test</a></p>
+
+      
+    </div>
+    <footer class="article-footer">
+      <a data-url="https://blog.comicat.me/2017/09/22/PHP-OOP%E7%B0%A1%E8%A8%98/" data-id="ck9s52xh3000dtngf41uqt0zg" class="article-share-link">分享</a>
+      
+      
+        <a href="https://blog.comicat.me/2017/09/22/PHP-OOP%E7%B0%A1%E8%A8%98/#disqus_thread" class="article-comment-link">留言</a>
+      
+      
+  <ul class="article-tag-list" itemprop="keywords"><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/OOP/" rel="tag">OOP</a></li><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/PHP/" rel="tag">PHP</a></li></ul>
+
+    </footer>
+  </div>
+  
+    
+ 
+<script src="/jquery/jquery.min.js"></script>
+
+  <div id="random_posts">
+    <h2>推薦文章</h2>
+    <div class="random_posts_ul">
+      <script>
+          var random_count =3
+          var site = {BASE_URI:'/'};
+          function load_random_posts(obj) {
+              var arr=site.posts;
+              if (!obj) return;
+              // var count = $(obj).attr('data-count') || 6;
+              for (var i, tmp, n = arr.length; n; i = Math.floor(Math.random() * n), tmp = arr[--n], arr[n] = arr[i], arr[i] = tmp);
+              arr = arr.slice(0, random_count);
+              var html = '<ul>';
+            
+              for(var j=0;j<arr.length;j++){
+                var item=arr[j];
+                html += '<li><strong>' + 
+                item.date + ':&nbsp;&nbsp;<a href="' + (site.BASE_URI+item.uri) + '">' + 
+                (item.title || item.uri) + '</a></strong>';
+                if(item.excerpt){
+                  html +='<div class="post-excerpt">'+item.excerpt+'</div>';
+                }
+                html +='</li>';
+                
+              }
+              $(obj).html(html + '</ul>');
+          }
+          $('.random_posts_ul').each(function () {
+              var c = this;
+              if (!site.posts || !site.posts.length){
+                  $.getJSON(site.BASE_URI + 'js/posts.js',function(json){site.posts = json;load_random_posts(c)});
+              } 
+               else{
+                load_random_posts(c);
+              }
+          });
+      </script>
+    </div>
+  </div>
+
+    
+<nav id="article-nav">
+  
+    <a href="/2017/09/25/XAMPP-MySQL%E5%85%A5%E9%96%80%E4%BD%BF%E7%94%A8/" id="article-nav-newer" class="article-nav-link-wrap">
+      <strong class="article-nav-caption">Newer</strong>
+      <div class="article-nav-title">
+        
+          XAMPP-MySQL入門使用
+        
+      </div>
+    </a>
+  
+  
+    <a href="/2017/09/21/w3school-PHP%E7%B7%B4%E7%BF%92%E7%AD%86%E8%A8%98-MySQL/" id="article-nav-older" class="article-nav-link-wrap">
+      <strong class="article-nav-caption">Older</strong>
+      <div class="article-nav-title">w3school-PHP練習筆記-MySQL</div>
+    </a>
+  
+</nav>
+
+  
+</article>
+ 
+     
+  <div class="comments" id="comments">
+    
+     
+    <section id="comments">
+      <div id="disqus_thread">
+        <noscript>
+          Please enable JavaScript to view the
+          <a href="//disqus.com/?ref_noscript" target="_blank" rel="noopener">comments powered by Disqus.</a>
+        </noscript>
+      </div>
+      </section>
+      
+       
+       
+      
+      
+  </div>
+ 
+  
+
+</section>
+           
+    <aside id="sidebar">
+  
+    
+    
+    
+    <div class="widget-wrap">
+    
+      <div class="widget" id="toc-widget-fixed">
+      
+        <strong class="toc-title">文章目錄</strong>
+        <div class="toc-widget-list">
+              <ol class="toc"><li class="toc-item toc-level-2"><a class="toc-link" href="#OOP-三大用法簡介"><span class="toc-number">1.</span> <span class="toc-text">OOP 三大用法簡介</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#this-self-parent"><span class="toc-number">2.</span> <span class="toc-text">$this , self, parent</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#construct-和-destruct"><span class="toc-number">3.</span> <span class="toc-text">__construct() 和 __destruct()</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#物件複製"><span class="toc-number">4.</span> <span class="toc-text">物件複製</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#解決辦法"><span class="toc-number">4.1.</span> <span class="toc-text">解決辦法</span></a></li></ol></li><li class="toc-item toc-level-2"><a class="toc-link" href="#abstract-和-interface"><span class="toc-number">5.</span> <span class="toc-text">abstract 和 interface</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#trait"><span class="toc-number">6.</span> <span class="toc-text">trait</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#namespace-use-as-用法"><span class="toc-number">7.</span> <span class="toc-text">namespace , use , as 用法</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#spl-autoload-register"><span class="toc-number">8.</span> <span class="toc-text">spl_autoload_register()</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#範例程式碼參考"><span class="toc-number">9.</span> <span class="toc-text">範例程式碼參考</span></a></li></ol>
+          </div>
+      </div>
+    </div>
+
+  
+    
+    
+    
+
+  
+    
+    
+    
+  
+    
+    
+    
+
+  
+    
+    
+    
+  
+    
+    
+    
+
+  
+    
+    
+    
+
+  
+</aside>
+
+      </div>
+      <footer id="footer">
+  
+  <div class="outer">
+    <div id="footer-left">
+      &copy; 2017 - 2020 comicat&nbsp;|&nbsp;
+      Theme by <a href="https://github.com/comicat-hu/hexo-theme-cafe" target="_blank">Cafe</a>
+    </div>
+     <div id="footer-right">
+      Contact&nbsp;|&nbsp;comicat.hu@gmail.com
+    </div>
+  </div>
+</footer>
+ 
+<script src="/jquery/jquery.min.js"></script>
+
+    </div>
+    <nav id="mobile-nav">
+  
+    <a href="/" class="mobile-nav-link">Home</a>
+  
+    <a href="/archives" class="mobile-nav-link">Archives</a>
+  
+    <a href="/tags" class="mobile-nav-link">Tags</a>
+  
+    <a href="/categories" class="mobile-nav-link">Categories</a>
+  
+</nav>
+    <img class="back-to-top-btn" src="/images/fly-to-top.png"/>
+<script>
+// Elevator script included on the page, already.
+window.onload = function() {
+  var elevator = new Elevator({
+    selector:'.back-to-top-btn',
+    element: document.querySelector('.back-to-top-btn'),
+    duration: 1000 // milliseconds
+  });
+}
+</script>
+      
+
+<script>
+  var disqus_shortname = 'blog-comicat';
+  
+  var disqus_url = 'https://blog.comicat.me/2017/09/22/PHP-OOP%E7%B0%A1%E8%A8%98/';
+  
+  (function(){
+    var dsq = document.createElement('script');
+    dsq.type = 'text/javascript';
+    dsq.async = true;
+    dsq.src = '//' + disqus_shortname + '.disqus.com/embed.js';
+    (document.getElementsByTagName('head')[0] || document.getElementsByTagName('body')[0]).appendChild(dsq);
+  })();
+</script>
+
+
+
+
+
+
+
+<!-- author:forvoid begin -->
+<!-- author:forvoid begin -->
+
+<!-- author:forvoid end -->
+
+<!-- author:forvoid end -->
+
+
+
+ 
+<script src="/js/is.js"></script>
+
+
+
+  
+<link rel="stylesheet" href="/fancybox/jquery.fancybox.css">
+
+  
+<script src="/fancybox/jquery.fancybox.pack.js"></script>
+
+
+
+
+<script src="/js/script.js"></script>
+
+
+<script src="/js/elevator.js"></script>
+
+  </div>
+</body>
+</html>

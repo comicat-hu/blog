@@ -1,0 +1,464 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <meta charset="utf-8">
+  
+  <title>Yii framework - Entry Script &amp; Basic Application | Comicat&#39;s Blog</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
+  <meta name="description" content="在Yii建出專案資料夾的最上層有個index.php當作應用程式的進入點。 index.php這裡面大概做了幾件事:  定義一些常數(設定值) define vs const require\framework\yii.php Yii::createWebApplication($config)-&gt;run();，傳入設定檔並建立一個WebApplication，然後啟動">
+<meta property="og:type" content="article">
+<meta property="og:title" content="Yii framework - Entry Script &amp; Basic Application">
+<meta property="og:url" content="https://blog.comicat.me/2017/10/03/Yii-framework-Entry-Script-Basic-Application/index.html">
+<meta property="og:site_name" content="Comicat&#39;s Blog">
+<meta property="og:description" content="在Yii建出專案資料夾的最上層有個index.php當作應用程式的進入點。 index.php這裡面大概做了幾件事:  定義一些常數(設定值) define vs const require\framework\yii.php Yii::createWebApplication($config)-&gt;run();，傳入設定檔並建立一個WebApplication，然後啟動">
+<meta property="og:locale" content="zh_TW">
+<meta property="og:image" content="https://blog.comicat.me/2017/10/03/Yii-framework-Entry-Script-Basic-Application/yii_CApplication_construct.PNG">
+<meta property="article:published_time" content="2017-10-03T03:41:19.000Z">
+<meta property="article:modified_time" content="2020-05-04T05:26:23.340Z">
+<meta property="article:author" content="comicat">
+<meta property="article:tag" content="PHP">
+<meta property="article:tag" content="Yii1.x">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:image" content="https://blog.comicat.me/2017/10/03/Yii-framework-Entry-Script-Basic-Application/yii_CApplication_construct.PNG">
+  
+    <link rel="alternate" href="/atom.xml" title="Comicat&#39;s Blog" type="application/atom+xml">
+  
+  
+    <link rel="icon" href="/images/favicon.ico">
+  
+  
+    
+  
+  
+<link rel="stylesheet" href="/css/style.css">
+
+  
+<!-- Google Analytics -->
+<!--
+<script type="text/javascript">
+(function(i,s,o,g,r,a,m){i['GoogleAnalyticsObject']=r;i[r]=i[r]||function(){
+(i[r].q=i[r].q||[]).push(arguments)},i[r].l=1*new Date();a=s.createElement(o),
+m=s.getElementsByTagName(o)[0];a.async=1;a.src=g;m.parentNode.insertBefore(a,m)
+})(window,document,'script','//www.google-analytics.com/analytics.js','ga');
+
+ga('create', 'UA-126897949-1', 'auto');
+ga('send', 'pageview');
+
+</script>
+-->
+<!-- End Google Analytics -->
+
+<!-- Global Site Tag (gtag.js) - Google Analytics -->
+<script async src="https://www.googletagmanager.com/gtag/js?id=UA-126897949-1"></script>
+<script>
+  window.dataLayer = window.dataLayer || [];
+  function gtag(){dataLayer.push(arguments);}
+  gtag('js', new Date());
+
+  gtag('config', 'UA-126897949-1');
+  gtag('event', 'page_view', { 'send_to': 'UA-126897949-1' });
+</script>
+
+
+<meta name="generator" content="Hexo 4.2.0"></head>
+
+<body>
+  <div id="container">
+    <div id="wrap">
+      <header id="header">
+  <div id="banner"></div>
+  <div id="header-outer" class="outer">
+    
+    <div id="header-inner" class="inner">
+      <nav id="sub-nav">
+        
+          <a id="nav-rss-link" class="nav-icon" href="/atom.xml" title="RSS Feed"></a>
+        
+        <a id="nav-search-btn" class="nav-icon" title="搜尋"></a>
+      </nav>
+      <div id="search-form-wrap">
+        <form action="//google.com/search" method="get" accept-charset="UTF-8" class="search-form"><input type="search" name="q" class="search-form-input" placeholder="Search"><button type="submit" class="search-form-submit">&#xF002;</button><input type="hidden" name="sitesearch" value="https://blog.comicat.me"></form>
+      </div>
+      <nav id="main-nav">
+        <a id="main-nav-toggle" class="nav-icon"></a>
+        
+          <a class="main-nav-link" href="/">Home</a>
+        
+          <a class="main-nav-link" href="/archives">Archives</a>
+        
+          <a class="main-nav-link" href="/tags">Tags</a>
+        
+          <a class="main-nav-link" href="/categories">Categories</a>
+        
+      </nav>
+      
+    </div>
+    <div id="header-title" class="inner">
+      <h1 id="logo-wrap">
+        <a href="/" id="logo">Comicat&#39;s Blog</a>
+      </h1>
+      
+        <h2 id="subtitle-wrap">
+          <a href="/" id="subtitle">Find Something Funny</a>
+        </h2>
+      
+    </div>
+  </div>
+</header>
+      <div class="outer">
+        <section id="main"><article id="post-Yii-framework-Entry-Script-Basic-Application" class="article article-type-post" itemscope itemprop="blogPost">
+  <div class="article-meta">
+    <a href="/2017/10/03/Yii-framework-Entry-Script-Basic-Application/" class="article-date">
+  <time datetime="2017-10-03T03:41:19.000Z" itemprop="datePublished">2017-10-03</time>
+</a>
+    
+  <div class="article-category">
+    <a class="article-category-link" href="/categories/%E8%B3%87%E8%A8%8A%E6%8A%80%E8%A1%93/">資訊技術</a>►<a class="article-category-link" href="/categories/%E8%B3%87%E8%A8%8A%E6%8A%80%E8%A1%93/PHP/">PHP</a>
+  </div>
+
+  </div>
+  <div class="article-inner">
+    
+    
+      <header class="article-header">
+        
+  
+    <h1 class="article-title" itemprop="name">
+      Yii framework - Entry Script &amp; Basic Application
+    </h1>
+  
+
+      </header>
+    
+    <div class="article-entry" itemprop="articleBody">
+      
+        <!-- Table of Contents -->
+        
+        <p>在Yii建出專案資料夾的最上層有個index.php當作應用程式的進入點。</p>
+<h2 id="index-php"><a href="#index-php" class="headerlink" title="index.php"></a>index.php</h2><p>這裡面大概做了幾件事:</p>
+<ul>
+<li>定義一些常數(設定值) <a href="https://stackoverflow.com/questions/2447791/define-vs-const" target="_blank" rel="noopener">define vs const</a></li>
+<li>require<code>\framework\yii.php</code></li>
+<li><code>Yii::createWebApplication($config)-&gt;run();</code>，傳入設定檔並建立一個WebApplication，然後啟動</li>
+</ul>
+<a id="more"></a>
+<h2 id="framework-yii-php"><a href="#framework-yii-php" class="headerlink" title="framework\yii.php"></a>framework\yii.php</h2><p>這個檔案只做兩件事，</p>
+<ul>
+<li>判斷<code>Class YiiBase</code> 是否存在，不存在就載入<code>YiiBase.php</code></li>
+</ul>
+<figure class="highlight php"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">if</span>(!class_exists(<span class="string">'YiiBase'</span>, <span class="keyword">false</span>))</span><br><span class="line">    <span class="keyword">require</span>(dirname(<span class="keyword">__FILE__</span>).<span class="string">'/YiiBase.php'</span>);</span><br></pre></td></tr></table></figure>
+<ul>
+<li>定義<code>Class Yii extends YiiBase</code></li>
+</ul>
+<h2 id="framework-YiiBase-php"><a href="#framework-YiiBase-php" class="headerlink" title="framework\YiiBase.php"></a>framework\YiiBase.php</h2><ul>
+<li>定義了Yii的一些常數預設值</li>
+<li>定義<code>Class YiiBase</code></li>
+<li>auto load Yii core classes</li>
+<li>require <code>base\interfaces.php</code></li>
+</ul>
+<p>不建議更動及呼叫這個核心檔的東西，使用寫在yii.php的<code>Class Yii</code>比較好。</p>
+<p>createWebApplication()就是在這時候被載入的。</p>
+<ul>
+<li><p>Yii::createWebApplication()</p>
+<p>接收設定檔，並回傳呼叫<code>createApplication(&#39;CWebApplication&#39;, $config)</code>的結果</p>
+</li>
+<li><p>Yii::createApplication()</p>
+<p>接收要啟用的應用及設定檔，並且回傳依據名稱建立出來對應的應用物件，這裡會建立出一個CWebApplication物件。</p>
+</li>
+</ul>
+<p>–</p>
+<h2 id="framework-web-CWebApplication-php"><a href="#framework-web-CWebApplication-php" class="headerlink" title="framework\web\CWebApplication.php"></a>framework\web\CWebApplication.php</h2><ul>
+<li>定義<code>Class CWebApplication extends CApplication</code></li>
+</ul>
+<h2 id="framework-base-CApplication-php"><a href="#framework-base-CApplication-php" class="headerlink" title="framework\base\CApplication.php"></a>framework\base\CApplication.php</h2><ul>
+<li>定義<code>Class CApplication extends CModule</code></li>
+</ul>
+<p>CWebApplication物件使用了這裡的__construct()建立，並且從這裡繼承了run()方法。</p>
+<h2 id="Application-life-cycle"><a href="#Application-life-cycle" class="headerlink" title="Application life cycle"></a>Application life cycle</h2><p>CWebApplication建立(construct)時大概會發生一些事</p>
+<ul>
+<li>呼叫<code>preinit()</code>(從CModule繼承而來)，預先初始化一些模組</li>
+<li>呼叫<code>initSystemHandlers()</code>，初始化啟用yii的例外錯誤處理</li>
+<li>呼叫<code>registerCoreComponents()</code>，註冊核心組件<ul>
+<li><code>coreMessages =&gt; CPhpMessageSource</code> : 提供Yii的核心訊息翻譯，預設是<code>en_us</code></li>
+<li><code>db =&gt; CDbConnection</code> : 提供Database連線，使用時需要設定DSN(Data Source Name)</li>
+<li><code>messages =&gt; CPhpMessageSource</code> : 提供Yii的應用程式訊息翻譯</li>
+<li><code>errorHandler =&gt; CErrorHandler</code> : 處理程式中未處理的PHP例外錯誤處理，依據錯誤類型調用適當的view顯示</li>
+<li><code>securityManager =&gt; CSecurityManager</code> : 提供資安相關功能，ex. hash, crypto…等</li>
+<li><code>CStatePersister =&gt; statePersister</code> : 提供全域的狀態維持功能</li>
+<li><code>urlManager =&gt; CUrlManager</code> : 提供URL相關功能</li>
+<li><code>request =&gt; CHttpRequest</code> : 提供http request相關功能</li>
+<li><code>format =&gt; CFormatter</code> : 提供數據顯示格式化功能</li>
+</ul>
+</li>
+<li>呼叫<code>configure($config)</code>(從CModule繼承而來)，載入剛剛傳進來的config</li>
+<li>呼叫<code>attachBehaviors($this-&gt;behaviors)</code>(從CComponent繼承而來)</li>
+<li>呼叫<code>preloadComponents</code>(從CModule繼承而來)</li>
+<li>呼叫<code>init()</code>(從CModule繼承而來並在CWebApplication中有被覆寫)</li>
+</ul>
+<p>建立後立即呼叫run()</p>
+<ul>
+<li>等待觸發<code>onBeginRequest</code>事件</li>
+<li>呼叫<code>processRequest()</code>，處理request、create controller、run controller</li>
+<li>等待處發<code>onEndRequest</code>事件</li>
+</ul>
+<p>CApplication中定義了<code>abstract public function processRequest();</code>，內容由各子類別自己去實作。</p>
+<p>另外參考:<br><a href="http://www.cnblogs.com/JosephLiu/archive/2011/12/19/2292852.html" target="_blank" rel="noopener">http://www.cnblogs.com/JosephLiu/archive/2011/12/19/2292852.html</a></p>
+<h2 id="CApplication-construct"><a href="#CApplication-construct" class="headerlink" title="CApplication::__construct()"></a>CApplication::__construct()</h2><img src="/2017/10/03/Yii-framework-Entry-Script-Basic-Application/yii_CApplication_construct.PNG" title="yii_CApplication_construct">
+<p>這裡的$this是指CWebApplication物件</p>
+<ul>
+<li>134行: 設定應用程式物件，這樣在應用環境中使用<code>Yii::app()</code>就可以取得該CWebApplication實例</li>
+<li>137行: require config</li>
+<li>139~145行: 設定basePath</li>
+<li>146~159行: 設定了路徑的別名以利使用</li>
+<li>161行: yii預留的方法，預設是沒有內容的，需要的話可以自行覆寫</li>
+<li>163行: 初始化yii的Exception handler，預設應該是啟用的</li>
+<li>164行: 註冊必須的核心模組，registerCoreComponents()最後其實呼叫到了繼承自CModule的setComponent()，將component的實體存入_components中 (???not sure)</li>
+<li>166行: 將設定值轉成應用程式實體的屬性，configure()方法繼承自CModule，可以看到他其實是這樣設的<code>$this-&gt;$key=$value;</code>，在存取設定不存在的屬性時，會分別用到CModule中的__get()及CComponent中的__set()</li>
+<li>167行: attach application behaviors，大概是個註冊事件集合的概念</li>
+<li>168行: 將configure中從main.php中載入的preload component，存入_components中，完成初始化</li>
+<li>170行: 呼叫init()，這個方法在CWebApplication中有被覆寫。先跑父層的init()，並且呼叫getRequest(‘request’)。getRequest()使用到CModule中的getComponent()，取得對應的request component實體並回傳。</li>
+</ul>
+
+      
+    </div>
+    <footer class="article-footer">
+      <a data-url="https://blog.comicat.me/2017/10/03/Yii-framework-Entry-Script-Basic-Application/" data-id="ck9s52xhg0013tngfva7ek6a8" class="article-share-link">分享</a>
+      
+      
+        <a href="https://blog.comicat.me/2017/10/03/Yii-framework-Entry-Script-Basic-Application/#disqus_thread" class="article-comment-link">留言</a>
+      
+      
+  <ul class="article-tag-list" itemprop="keywords"><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/PHP/" rel="tag">PHP</a></li><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/Yii1-x/" rel="tag">Yii1.x</a></li></ul>
+
+    </footer>
+  </div>
+  
+    
+ 
+<script src="/jquery/jquery.min.js"></script>
+
+  <div id="random_posts">
+    <h2>推薦文章</h2>
+    <div class="random_posts_ul">
+      <script>
+          var random_count =3
+          var site = {BASE_URI:'/'};
+          function load_random_posts(obj) {
+              var arr=site.posts;
+              if (!obj) return;
+              // var count = $(obj).attr('data-count') || 6;
+              for (var i, tmp, n = arr.length; n; i = Math.floor(Math.random() * n), tmp = arr[--n], arr[n] = arr[i], arr[i] = tmp);
+              arr = arr.slice(0, random_count);
+              var html = '<ul>';
+            
+              for(var j=0;j<arr.length;j++){
+                var item=arr[j];
+                html += '<li><strong>' + 
+                item.date + ':&nbsp;&nbsp;<a href="' + (site.BASE_URI+item.uri) + '">' + 
+                (item.title || item.uri) + '</a></strong>';
+                if(item.excerpt){
+                  html +='<div class="post-excerpt">'+item.excerpt+'</div>';
+                }
+                html +='</li>';
+                
+              }
+              $(obj).html(html + '</ul>');
+          }
+          $('.random_posts_ul').each(function () {
+              var c = this;
+              if (!site.posts || !site.posts.length){
+                  $.getJSON(site.BASE_URI + 'js/posts.js',function(json){site.posts = json;load_random_posts(c)});
+              } 
+               else{
+                load_random_posts(c);
+              }
+          });
+      </script>
+    </div>
+  </div>
+
+    
+<nav id="article-nav">
+  
+    <a href="/2017/10/06/Yii-framework-Controller/" id="article-nav-newer" class="article-nav-link-wrap">
+      <strong class="article-nav-caption">Newer</strong>
+      <div class="article-nav-title">
+        
+          Yii framework - Controller
+        
+      </div>
+    </a>
+  
+  
+    <a href="/2017/10/02/Yii-framework-Gii-CRUD/" id="article-nav-older" class="article-nav-link-wrap">
+      <strong class="article-nav-caption">Older</strong>
+      <div class="article-nav-title">Yii framework - Gii CRUD</div>
+    </a>
+  
+</nav>
+
+  
+</article>
+ 
+     
+  <div class="comments" id="comments">
+    
+     
+    <section id="comments">
+      <div id="disqus_thread">
+        <noscript>
+          Please enable JavaScript to view the
+          <a href="//disqus.com/?ref_noscript" target="_blank" rel="noopener">comments powered by Disqus.</a>
+        </noscript>
+      </div>
+      </section>
+      
+       
+       
+      
+      
+  </div>
+ 
+  
+
+</section>
+           
+    <aside id="sidebar">
+  
+    
+    
+    
+    <div class="widget-wrap">
+    
+      <div class="widget" id="toc-widget-fixed">
+      
+        <strong class="toc-title">文章目錄</strong>
+        <div class="toc-widget-list">
+              <ol class="toc"><li class="toc-item toc-level-2"><a class="toc-link" href="#index-php"><span class="toc-number">1.</span> <span class="toc-text">index.php</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#framework-yii-php"><span class="toc-number">2.</span> <span class="toc-text">framework\yii.php</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#framework-YiiBase-php"><span class="toc-number">3.</span> <span class="toc-text">framework\YiiBase.php</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#framework-web-CWebApplication-php"><span class="toc-number">4.</span> <span class="toc-text">framework\web\CWebApplication.php</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#framework-base-CApplication-php"><span class="toc-number">5.</span> <span class="toc-text">framework\base\CApplication.php</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#Application-life-cycle"><span class="toc-number">6.</span> <span class="toc-text">Application life cycle</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#CApplication-construct"><span class="toc-number">7.</span> <span class="toc-text">CApplication::__construct()</span></a></li></ol>
+          </div>
+      </div>
+    </div>
+
+  
+    
+    
+    
+
+  
+    
+    
+    
+  
+    
+    
+    
+
+  
+    
+    
+    
+  
+    
+    
+    
+
+  
+    
+    
+    
+
+  
+</aside>
+
+      </div>
+      <footer id="footer">
+  
+  <div class="outer">
+    <div id="footer-left">
+      &copy; 2017 - 2020 comicat&nbsp;|&nbsp;
+      Theme by <a href="https://github.com/comicat-hu/hexo-theme-cafe" target="_blank">Cafe</a>
+    </div>
+     <div id="footer-right">
+      Contact&nbsp;|&nbsp;comicat.hu@gmail.com
+    </div>
+  </div>
+</footer>
+ 
+<script src="/jquery/jquery.min.js"></script>
+
+    </div>
+    <nav id="mobile-nav">
+  
+    <a href="/" class="mobile-nav-link">Home</a>
+  
+    <a href="/archives" class="mobile-nav-link">Archives</a>
+  
+    <a href="/tags" class="mobile-nav-link">Tags</a>
+  
+    <a href="/categories" class="mobile-nav-link">Categories</a>
+  
+</nav>
+    <img class="back-to-top-btn" src="/images/fly-to-top.png"/>
+<script>
+// Elevator script included on the page, already.
+window.onload = function() {
+  var elevator = new Elevator({
+    selector:'.back-to-top-btn',
+    element: document.querySelector('.back-to-top-btn'),
+    duration: 1000 // milliseconds
+  });
+}
+</script>
+      
+
+<script>
+  var disqus_shortname = 'blog-comicat';
+  
+  var disqus_url = 'https://blog.comicat.me/2017/10/03/Yii-framework-Entry-Script-Basic-Application/';
+  
+  (function(){
+    var dsq = document.createElement('script');
+    dsq.type = 'text/javascript';
+    dsq.async = true;
+    dsq.src = '//' + disqus_shortname + '.disqus.com/embed.js';
+    (document.getElementsByTagName('head')[0] || document.getElementsByTagName('body')[0]).appendChild(dsq);
+  })();
+</script>
+
+
+
+
+
+
+
+<!-- author:forvoid begin -->
+<!-- author:forvoid begin -->
+
+<!-- author:forvoid end -->
+
+<!-- author:forvoid end -->
+
+
+
+ 
+<script src="/js/is.js"></script>
+
+
+
+  
+<link rel="stylesheet" href="/fancybox/jquery.fancybox.css">
+
+  
+<script src="/fancybox/jquery.fancybox.pack.js"></script>
+
+
+
+
+<script src="/js/script.js"></script>
+
+
+<script src="/js/elevator.js"></script>
+
+  </div>
+</body>
+</html>

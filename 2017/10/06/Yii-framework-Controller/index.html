@@ -1,0 +1,444 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <meta charset="utf-8">
+  
+  <title>Yii framework - Controller | Comicat&#39;s Blog</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
+  <meta name="description" content="Controller處理使用者發出並經過經過應用呼叫的request ControllerController繼承自CController，但由於可能會有很多Controller，為了提高共用性，可在protected\components中定義了class Controller extends CController，再由各種情境自行去定義class xxxController extends">
+<meta property="og:type" content="article">
+<meta property="og:title" content="Yii framework - Controller">
+<meta property="og:url" content="https://blog.comicat.me/2017/10/06/Yii-framework-Controller/index.html">
+<meta property="og:site_name" content="Comicat&#39;s Blog">
+<meta property="og:description" content="Controller處理使用者發出並經過經過應用呼叫的request ControllerController繼承自CController，但由於可能會有很多Controller，為了提高共用性，可在protected\components中定義了class Controller extends CController，再由各種情境自行去定義class xxxController extends">
+<meta property="og:locale" content="zh_TW">
+<meta property="og:image" content="https://blog.comicat.me/2017/10/06/Yii-framework-Controller/yii_accessRules.PNG">
+<meta property="article:published_time" content="2017-10-06T03:59:32.000Z">
+<meta property="article:modified_time" content="2020-05-04T05:26:23.340Z">
+<meta property="article:author" content="comicat">
+<meta property="article:tag" content="PHP">
+<meta property="article:tag" content="Yii1.x">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:image" content="https://blog.comicat.me/2017/10/06/Yii-framework-Controller/yii_accessRules.PNG">
+  
+    <link rel="alternate" href="/atom.xml" title="Comicat&#39;s Blog" type="application/atom+xml">
+  
+  
+    <link rel="icon" href="/images/favicon.ico">
+  
+  
+    
+  
+  
+<link rel="stylesheet" href="/css/style.css">
+
+  
+<!-- Google Analytics -->
+<!--
+<script type="text/javascript">
+(function(i,s,o,g,r,a,m){i['GoogleAnalyticsObject']=r;i[r]=i[r]||function(){
+(i[r].q=i[r].q||[]).push(arguments)},i[r].l=1*new Date();a=s.createElement(o),
+m=s.getElementsByTagName(o)[0];a.async=1;a.src=g;m.parentNode.insertBefore(a,m)
+})(window,document,'script','//www.google-analytics.com/analytics.js','ga');
+
+ga('create', 'UA-126897949-1', 'auto');
+ga('send', 'pageview');
+
+</script>
+-->
+<!-- End Google Analytics -->
+
+<!-- Global Site Tag (gtag.js) - Google Analytics -->
+<script async src="https://www.googletagmanager.com/gtag/js?id=UA-126897949-1"></script>
+<script>
+  window.dataLayer = window.dataLayer || [];
+  function gtag(){dataLayer.push(arguments);}
+  gtag('js', new Date());
+
+  gtag('config', 'UA-126897949-1');
+  gtag('event', 'page_view', { 'send_to': 'UA-126897949-1' });
+</script>
+
+
+<meta name="generator" content="Hexo 4.2.0"></head>
+
+<body>
+  <div id="container">
+    <div id="wrap">
+      <header id="header">
+  <div id="banner"></div>
+  <div id="header-outer" class="outer">
+    
+    <div id="header-inner" class="inner">
+      <nav id="sub-nav">
+        
+          <a id="nav-rss-link" class="nav-icon" href="/atom.xml" title="RSS Feed"></a>
+        
+        <a id="nav-search-btn" class="nav-icon" title="搜尋"></a>
+      </nav>
+      <div id="search-form-wrap">
+        <form action="//google.com/search" method="get" accept-charset="UTF-8" class="search-form"><input type="search" name="q" class="search-form-input" placeholder="Search"><button type="submit" class="search-form-submit">&#xF002;</button><input type="hidden" name="sitesearch" value="https://blog.comicat.me"></form>
+      </div>
+      <nav id="main-nav">
+        <a id="main-nav-toggle" class="nav-icon"></a>
+        
+          <a class="main-nav-link" href="/">Home</a>
+        
+          <a class="main-nav-link" href="/archives">Archives</a>
+        
+          <a class="main-nav-link" href="/tags">Tags</a>
+        
+          <a class="main-nav-link" href="/categories">Categories</a>
+        
+      </nav>
+      
+    </div>
+    <div id="header-title" class="inner">
+      <h1 id="logo-wrap">
+        <a href="/" id="logo">Comicat&#39;s Blog</a>
+      </h1>
+      
+        <h2 id="subtitle-wrap">
+          <a href="/" id="subtitle">Find Something Funny</a>
+        </h2>
+      
+    </div>
+  </div>
+</header>
+      <div class="outer">
+        <section id="main"><article id="post-Yii-framework-Controller" class="article article-type-post" itemscope itemprop="blogPost">
+  <div class="article-meta">
+    <a href="/2017/10/06/Yii-framework-Controller/" class="article-date">
+  <time datetime="2017-10-06T03:59:32.000Z" itemprop="datePublished">2017-10-06</time>
+</a>
+    
+  <div class="article-category">
+    <a class="article-category-link" href="/categories/%E8%B3%87%E8%A8%8A%E6%8A%80%E8%A1%93/">資訊技術</a>►<a class="article-category-link" href="/categories/%E8%B3%87%E8%A8%8A%E6%8A%80%E8%A1%93/PHP/">PHP</a>
+  </div>
+
+  </div>
+  <div class="article-inner">
+    
+    
+      <header class="article-header">
+        
+  
+    <h1 class="article-title" itemprop="name">
+      Yii framework - Controller
+    </h1>
+  
+
+      </header>
+    
+    <div class="article-entry" itemprop="articleBody">
+      
+        <!-- Table of Contents -->
+        
+        <p>Controller處理使用者發出並經過經過應用呼叫的request</p>
+<h2 id="Controller"><a href="#Controller" class="headerlink" title="Controller"></a>Controller</h2><p>Controller繼承自CController，但由於可能會有很多Controller，為了提高共用性，可在<code>protected\components</code>中定義了<code>class Controller extends CController</code>，再由各種情境自行去定義<code>class xxxController extends Controller</code>並存放在<code>protected\controllers</code>下。</p>
+<p>controller執行時會呼叫相對應的action，action會與model溝通並將結果呈現在view上。</p>
+<a id="more"></a>
+<p>預設(沒有指定route)的action是index(actionIndex)， <code>CController::defaultAction = &#39;xxx&#39;</code>可以設定預設action</p>
+<p>名稱中的<code>Controller</code>後綴和<code>action</code>前綴都是必須的寫法規則!</p>
+<figure class="highlight php"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br></pre></td><td class="code"><pre><span class="line"><span class="class"><span class="keyword">class</span> <span class="title">SiteController</span> <span class="keyword">extends</span> <span class="title">Controller</span></span></span><br><span class="line"><span class="class"></span>&#123;</span><br><span class="line">    <span class="keyword">public</span> <span class="function"><span class="keyword">function</span> <span class="title">actionIndex</span><span class="params">()</span></span></span><br><span class="line"><span class="function">    </span>&#123;</span><br><span class="line">        <span class="keyword">echo</span> <span class="string">'Action Index!'</span>;</span><br><span class="line">    &#125;</span><br><span class="line">    </span><br><span class="line">    <span class="keyword">public</span> <span class="function"><span class="keyword">function</span> <span class="title">actionHello</span><span class="params">()</span></span></span><br><span class="line"><span class="function">    </span>&#123;</span><br><span class="line">        <span class="keyword">echo</span> <span class="string">'Action Hello!!'</span>;</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<h2 id="Route"><a href="#Route" class="headerlink" title="Route"></a>Route</h2><p>使用者可以透過設定不同的route參數來存取特定的controller和action，參數名稱預設是使用<code>r</code>(CUrlManager::routeVar設定)，參數值由controller前綴詞和action的後綴詞加上<code>/</code>所組成，所以我們要存取上方範例程式中的兩個action，預設狀況的URL大概會長的像這樣<br>site對應到SiteController</p>
+<p><code>index.php?r=site/index</code>, <code>index.php?r=site/hello</code></p>
+<p>如果路由長這樣<code>r=a/b/hello</code>，則會自動對應路徑<code>controllers/a</code>下的BController，並呼叫其中的actionHello()</p>
+<p>預設大小寫視為不同，但是可以設定<code>CUrlManager::caseSensitive = false;</code>讓大小寫視為相同。</p>
+<p>另外參考:<br><a href="http://www.cnblogs.com/JosephLiu/archive/2011/12/26/2301771.html" target="_blank" rel="noopener">http://www.cnblogs.com/JosephLiu/archive/2011/12/26/2301771.html</a></p>
+<h2 id="processRequest"><a href="#processRequest" class="headerlink" title="processRequest()"></a>processRequest()</h2><p>前篇有提到，在CWebApplication啟動了應用後呼叫run()，其中包含執行了processRequest()，這時就是在將接到的request依照r參數的不同去建立出不同的controller。</p>
+<p>在這裡會先判斷<code>CWebApplication::catchAllRequest</code>是否有被設定，這個通常是用來導向某固定頁面時使用(像是頁面維護中之類的)，正常狀態會建立CUrlManager、ChttpRequset物件，並且透過CUrlManager中的parseUrl方法，處理httpRequest，拿到需要的參數(r)</p>
+<p>呼叫createController()傳入r參數，開始解析(用\切)，將正確的controller id及action id區分開來，建立對應的controller</p>
+<p>確認建立完成後，runController()，並且執行對應的action</p>
+<h2 id="action參數"><a href="#action參數" class="headerlink" title="action參數"></a>action參數</h2><p>action函數可以直接指定傳入參數，並且會自動從<code>$_GET</code>中綁入(命名需相同)，</p>
+<p>函數中的參數如果沒有給預設值，然後又在request找不到對應的參數時，會出現例外錯誤。</p>
+<p>傳入參數特別宣告為array的話，會自動將傳入的值轉成陣列形式(放在index 0)</p>
+<h2 id="actions"><a href="#actions" class="headerlink" title="actions()"></a>actions()</h2><p>actions()可以用來動態指定要執行的動作，也可以讓宣告的動作被重複利用，</p>
+<ul>
+<li>將需要複用的動作獨立出來成class，繼承<code>CAction</code>，定義其中的run()方法(action要執行的內容)</li>
+<li>在需要的controller中覆寫actions()，並且回傳action name與class action路徑的array-hash表<br>(actions()是預定義在CController中的方法，預設回傳空陣列)</li>
+</ul>
+<p>以實作一個簡易計算功能為例，像是我在<code>controllers\math</code>下定義了兩隻不同的action，一隻做加法一隻做減法</p>
+<figure class="highlight php"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br></pre></td><td class="code"><pre><span class="line"><span class="class"><span class="keyword">class</span> <span class="title">addAction</span> <span class="keyword">extends</span> <span class="title">CAction</span></span></span><br><span class="line"><span class="class"></span>&#123;</span><br><span class="line">    <span class="keyword">public</span> <span class="function"><span class="keyword">function</span> <span class="title">run</span><span class="params">($a, $b)</span></span></span><br><span class="line"><span class="function">    </span>&#123;</span><br><span class="line">        $sum = $a + $b;</span><br><span class="line">        <span class="keyword">echo</span> $sum;</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<figure class="highlight php"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br></pre></td><td class="code"><pre><span class="line"><span class="class"><span class="keyword">class</span> <span class="title">subAction</span> <span class="keyword">extends</span> <span class="title">CAction</span></span></span><br><span class="line"><span class="class"></span>&#123;</span><br><span class="line">    <span class="keyword">public</span> <span class="function"><span class="keyword">function</span> <span class="title">run</span><span class="params">($a, $b)</span></span></span><br><span class="line"><span class="function">    </span>&#123;</span><br><span class="line">        $diff = $a - $b;</span><br><span class="line">        <span class="keyword">echo</span> $diff;</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<p>這時我在不同的controller中只要這樣寫，就可以用<code>控制器名稱/add&amp;a=10&amp;b=5</code>和<code>控制器名稱/sub&amp;a=10&amp;b=5</code>來計算10+5和10-5了</p>
+<figure class="highlight php"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">public</span> <span class="function"><span class="keyword">function</span> <span class="title">actions</span><span class="params">()</span></span></span><br><span class="line"><span class="function"></span>&#123;</span><br><span class="line">    <span class="keyword">return</span> [</span><br><span class="line">        <span class="string">'add'</span> =&gt; <span class="string">'application.controllers.math.addAction'</span>,</span><br><span class="line">        <span class="string">'sub'</span> =&gt; <span class="string">'application.controllers.math.subAction'</span>,</span><br><span class="line">    ];</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<p>–</p>
+<h2 id="Filter"><a href="#Filter" class="headerlink" title="Filter"></a>Filter</h2><p>filter可以用來設定動作執行的過濾條件，可以直接在controller中定義一個名稱為filter前綴的方法，也可以另外自己定義一個filter物件(extends CFilter)，</p>
+<p><code>$filterChain</code>是一個<code>CFilterChain</code>物件實體，包含了與該動作相關的filter list</p>
+<ul>
+<li>controller中的filter</li>
+</ul>
+<figure class="highlight php"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">public</span> <span class="function"><span class="keyword">function</span> <span class="title">filterTest</span><span class="params">($filterChain)</span></span></span><br><span class="line"><span class="function"></span>&#123;</span><br><span class="line">    <span class="comment">// Do something filter</span></span><br><span class="line">    $filterChain-&gt;run(); <span class="comment">// 呼叫下一個filter執行</span></span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<ul>
+<li>自定義filter class (驗證URL qurey中的參數a, b都是數字)</li>
+</ul>
+<figure class="highlight php"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br></pre></td><td class="code"><pre><span class="line"><span class="class"><span class="keyword">class</span> <span class="title">MathFilter</span> <span class="keyword">extends</span> <span class="title">CFilter</span></span></span><br><span class="line"><span class="class"></span>&#123;</span><br><span class="line">    <span class="comment">// preFilter()會在action執行前被呼叫</span></span><br><span class="line">    <span class="keyword">protected</span> <span class="function"><span class="keyword">function</span> <span class="title">preFilter</span><span class="params">($filterChain)</span></span></span><br><span class="line"><span class="function">    </span>&#123;</span><br><span class="line">        $request = Yii::app()-&gt;request; <span class="comment">// 取得request物件</span></span><br><span class="line">        $a = $request-&gt;getQuery(<span class="string">'a'</span>); <span class="comment">// 取出qurey參數值</span></span><br><span class="line">        $b = $request-&gt;getQuery(<span class="string">'b'</span>);</span><br><span class="line"></span><br><span class="line">        <span class="comment">// 回傳true表示繼續執行下個filter</span></span><br><span class="line">        <span class="keyword">if</span> (is_numeric($a) &amp;&amp; is_numeric($b)) &#123;</span><br><span class="line">            <span class="keyword">return</span> <span class="keyword">true</span>;</span><br><span class="line">        &#125;</span><br><span class="line"></span><br><span class="line">        <span class="comment">// 回傳false表示停止執行下個filter</span></span><br><span class="line">        <span class="keyword">echo</span> <span class="string">'Invalid query params.'</span>;</span><br><span class="line">        <span class="keyword">return</span> <span class="keyword">false</span>;</span><br><span class="line">    &#125;</span><br><span class="line">    <span class="comment">// postFilter()會在action執行後被呼叫</span></span><br><span class="line">    <span class="keyword">protected</span> <span class="function"><span class="keyword">function</span> <span class="title">postFilter</span><span class="params">()</span></span></span><br><span class="line"><span class="function">    </span>&#123;</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<ul>
+<li><p>在controller中使用filter，覆寫從CController繼承來的filters()方法，回傳一個陣列，包含filter name或路徑(array)，會依照回傳的陣列index的順序呼叫執行</p>
+</li>
+<li><p>filter可以使用<code>+</code>(只有), <code>-</code>(除外)來表示執行為特定的action過濾，不寫預設為全部的action都會呼叫過濾</p>
+</li>
+</ul>
+<figure class="highlight php"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">// 對add, sub, mul, div四個action預執行controllers\filters下的MathFilter</span></span><br><span class="line"><span class="comment">// 再對全部的action預執行filterTest</span></span><br><span class="line"><span class="keyword">public</span> <span class="function"><span class="keyword">function</span> <span class="title">filters</span><span class="params">()</span></span></span><br><span class="line"><span class="function"></span>&#123;</span><br><span class="line">    <span class="keyword">return</span> [</span><br><span class="line">        [</span><br><span class="line">            <span class="string">'application.controllers.filters.MathFilter + add, sub, mul, div'</span>,</span><br><span class="line">        ],</span><br><span class="line">        <span class="string">'test'</span>,</span><br><span class="line">    ];</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<h2 id="accessControl"><a href="#accessControl" class="headerlink" title="accessControl"></a>accessControl</h2><p>在之前文章中我們使用Gii生成的table CRUD controller中，有一個<code>accessRules()</code>，這是給<code>filterAccessControl()</code>(從CController繼承)所使用的，因此我們可以覆寫<code>accessRules()</code>來定義自己的權限控制(預設是空陣列)</p>
+<figure class="highlight php"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">public</span> <span class="function"><span class="keyword">function</span> <span class="title">filterAccessControl</span><span class="params">($filterChain)</span></span></span><br><span class="line"><span class="function"></span>&#123;</span><br><span class="line">    $filter = <span class="keyword">new</span> CAccessControlFilter;</span><br><span class="line">    $filter-&gt;setRule(<span class="keyword">$this</span>-&gt;accessRules());</span><br><span class="line">    $filter-&gt;filter($filterChain);</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<p>這段是table controller中的accessRules()<br><img src="/2017/10/06/Yii-framework-Controller/yii_accessRules.PNG" title="yii_accessRules"></p>
+<p>權限是由上而下逐條檢查的，有符合就不會繼續套用下去<br><code>*</code> : 表示所有使用者<br><code>@</code> : 表示以驗證的使用者<br><code>?</code> : 表示匿名使用者</p>
+<p>所以我們</p>
+<ul>
+<li>允許所有使用者都可以執行action index和view</li>
+<li>允許以驗證後的使用者才可以執行action create和update</li>
+<li>只有admin可以執行action admin和delete</li>
+<li>沒有套用到任何權限的使用者不允許任何操作(通常設定這個預防萬一)</li>
+</ul>
+<p>當然不只可以設定actions和users參數，可以參考底下網址。</p>
+<p>另外參考資料:</p>
+<ul>
+<li><a href="http://blog.gxxsite.com/yii-quan-xian-guan-li-accessrulesde-yong-fa/" target="_blank" rel="noopener">accessRules()</a></li>
+<li><a href="http://fanli7.net/a/bianchengyuyan/PHP/20130418/341941.html" target="_blank" rel="noopener">filters</a></li>
+</ul>
+
+      
+    </div>
+    <footer class="article-footer">
+      <a data-url="https://blog.comicat.me/2017/10/06/Yii-framework-Controller/" data-id="ck9s52xhf0010tngf4am2jmoe" class="article-share-link">分享</a>
+      
+      
+        <a href="https://blog.comicat.me/2017/10/06/Yii-framework-Controller/#disqus_thread" class="article-comment-link">留言</a>
+      
+      
+  <ul class="article-tag-list" itemprop="keywords"><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/PHP/" rel="tag">PHP</a></li><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/Yii1-x/" rel="tag">Yii1.x</a></li></ul>
+
+    </footer>
+  </div>
+  
+    
+ 
+<script src="/jquery/jquery.min.js"></script>
+
+  <div id="random_posts">
+    <h2>推薦文章</h2>
+    <div class="random_posts_ul">
+      <script>
+          var random_count =3
+          var site = {BASE_URI:'/'};
+          function load_random_posts(obj) {
+              var arr=site.posts;
+              if (!obj) return;
+              // var count = $(obj).attr('data-count') || 6;
+              for (var i, tmp, n = arr.length; n; i = Math.floor(Math.random() * n), tmp = arr[--n], arr[n] = arr[i], arr[i] = tmp);
+              arr = arr.slice(0, random_count);
+              var html = '<ul>';
+            
+              for(var j=0;j<arr.length;j++){
+                var item=arr[j];
+                html += '<li><strong>' + 
+                item.date + ':&nbsp;&nbsp;<a href="' + (site.BASE_URI+item.uri) + '">' + 
+                (item.title || item.uri) + '</a></strong>';
+                if(item.excerpt){
+                  html +='<div class="post-excerpt">'+item.excerpt+'</div>';
+                }
+                html +='</li>';
+                
+              }
+              $(obj).html(html + '</ul>');
+          }
+          $('.random_posts_ul').each(function () {
+              var c = this;
+              if (!site.posts || !site.posts.length){
+                  $.getJSON(site.BASE_URI + 'js/posts.js',function(json){site.posts = json;load_random_posts(c)});
+              } 
+               else{
+                load_random_posts(c);
+              }
+          });
+      </script>
+    </div>
+  </div>
+
+    
+<nav id="article-nav">
+  
+    <a href="/2017/10/13/Yii-framework-View/" id="article-nav-newer" class="article-nav-link-wrap">
+      <strong class="article-nav-caption">Newer</strong>
+      <div class="article-nav-title">
+        
+          Yii framework - View
+        
+      </div>
+    </a>
+  
+  
+    <a href="/2017/10/03/Yii-framework-Entry-Script-Basic-Application/" id="article-nav-older" class="article-nav-link-wrap">
+      <strong class="article-nav-caption">Older</strong>
+      <div class="article-nav-title">Yii framework - Entry Script &amp; Basic Application</div>
+    </a>
+  
+</nav>
+
+  
+</article>
+ 
+     
+  <div class="comments" id="comments">
+    
+     
+    <section id="comments">
+      <div id="disqus_thread">
+        <noscript>
+          Please enable JavaScript to view the
+          <a href="//disqus.com/?ref_noscript" target="_blank" rel="noopener">comments powered by Disqus.</a>
+        </noscript>
+      </div>
+      </section>
+      
+       
+       
+      
+      
+  </div>
+ 
+  
+
+</section>
+           
+    <aside id="sidebar">
+  
+    
+    
+    
+    <div class="widget-wrap">
+    
+      <div class="widget" id="toc-widget-fixed">
+      
+        <strong class="toc-title">文章目錄</strong>
+        <div class="toc-widget-list">
+              <ol class="toc"><li class="toc-item toc-level-2"><a class="toc-link" href="#Controller"><span class="toc-number">1.</span> <span class="toc-text">Controller</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#Route"><span class="toc-number">2.</span> <span class="toc-text">Route</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#processRequest"><span class="toc-number">3.</span> <span class="toc-text">processRequest()</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#action參數"><span class="toc-number">4.</span> <span class="toc-text">action參數</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#actions"><span class="toc-number">5.</span> <span class="toc-text">actions()</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#Filter"><span class="toc-number">6.</span> <span class="toc-text">Filter</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#accessControl"><span class="toc-number">7.</span> <span class="toc-text">accessControl</span></a></li></ol>
+          </div>
+      </div>
+    </div>
+
+  
+    
+    
+    
+
+  
+    
+    
+    
+  
+    
+    
+    
+
+  
+    
+    
+    
+  
+    
+    
+    
+
+  
+    
+    
+    
+
+  
+</aside>
+
+      </div>
+      <footer id="footer">
+  
+  <div class="outer">
+    <div id="footer-left">
+      &copy; 2017 - 2020 comicat&nbsp;|&nbsp;
+      Theme by <a href="https://github.com/comicat-hu/hexo-theme-cafe" target="_blank">Cafe</a>
+    </div>
+     <div id="footer-right">
+      Contact&nbsp;|&nbsp;comicat.hu@gmail.com
+    </div>
+  </div>
+</footer>
+ 
+<script src="/jquery/jquery.min.js"></script>
+
+    </div>
+    <nav id="mobile-nav">
+  
+    <a href="/" class="mobile-nav-link">Home</a>
+  
+    <a href="/archives" class="mobile-nav-link">Archives</a>
+  
+    <a href="/tags" class="mobile-nav-link">Tags</a>
+  
+    <a href="/categories" class="mobile-nav-link">Categories</a>
+  
+</nav>
+    <img class="back-to-top-btn" src="/images/fly-to-top.png"/>
+<script>
+// Elevator script included on the page, already.
+window.onload = function() {
+  var elevator = new Elevator({
+    selector:'.back-to-top-btn',
+    element: document.querySelector('.back-to-top-btn'),
+    duration: 1000 // milliseconds
+  });
+}
+</script>
+      
+
+<script>
+  var disqus_shortname = 'blog-comicat';
+  
+  var disqus_url = 'https://blog.comicat.me/2017/10/06/Yii-framework-Controller/';
+  
+  (function(){
+    var dsq = document.createElement('script');
+    dsq.type = 'text/javascript';
+    dsq.async = true;
+    dsq.src = '//' + disqus_shortname + '.disqus.com/embed.js';
+    (document.getElementsByTagName('head')[0] || document.getElementsByTagName('body')[0]).appendChild(dsq);
+  })();
+</script>
+
+
+
+
+
+
+
+<!-- author:forvoid begin -->
+<!-- author:forvoid begin -->
+
+<!-- author:forvoid end -->
+
+<!-- author:forvoid end -->
+
+
+
+ 
+<script src="/js/is.js"></script>
+
+
+
+  
+<link rel="stylesheet" href="/fancybox/jquery.fancybox.css">
+
+  
+<script src="/fancybox/jquery.fancybox.pack.js"></script>
+
+
+
+
+<script src="/js/script.js"></script>
+
+
+<script src="/js/elevator.js"></script>
+
+  </div>
+</body>
+</html>

@@ -1,0 +1,445 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <meta charset="utf-8">
+  
+  <title>w3school-PHP練習筆記-2 | Comicat&#39;s Blog</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
+  <meta name="description" content="PHP Cookies PHP Sessions PHP Filters PHP Filters Advanced PHP Error Handling PHP Exception">
+<meta property="og:type" content="article">
+<meta property="og:title" content="w3school-PHP練習筆記-2">
+<meta property="og:url" content="https://blog.comicat.me/2017/09/18/w3school-PHP%E7%B7%B4%E7%BF%92%E7%AD%86%E8%A8%98-2/index.html">
+<meta property="og:site_name" content="Comicat&#39;s Blog">
+<meta property="og:description" content="PHP Cookies PHP Sessions PHP Filters PHP Filters Advanced PHP Error Handling PHP Exception">
+<meta property="og:locale" content="zh_TW">
+<meta property="og:image" content="https://blog.comicat.me/2017/09/18/w3school-PHP%E7%B7%B4%E7%BF%92%E7%AD%86%E8%A8%98-2/PHPSESSID.PNG">
+<meta property="og:image" content="https://blog.comicat.me/2017/09/18/w3school-PHP%E7%B7%B4%E7%BF%92%E7%AD%86%E8%A8%98-2/exception_example.PNG">
+<meta property="article:published_time" content="2017-09-18T02:08:04.000Z">
+<meta property="article:modified_time" content="2020-05-04T05:26:23.340Z">
+<meta property="article:author" content="comicat">
+<meta property="article:tag" content="PHP">
+<meta property="article:tag" content="w3schools">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:image" content="https://blog.comicat.me/2017/09/18/w3school-PHP%E7%B7%B4%E7%BF%92%E7%AD%86%E8%A8%98-2/PHPSESSID.PNG">
+  
+    <link rel="alternate" href="/atom.xml" title="Comicat&#39;s Blog" type="application/atom+xml">
+  
+  
+    <link rel="icon" href="/images/favicon.ico">
+  
+  
+    
+  
+  
+<link rel="stylesheet" href="/css/style.css">
+
+  
+<!-- Google Analytics -->
+<!--
+<script type="text/javascript">
+(function(i,s,o,g,r,a,m){i['GoogleAnalyticsObject']=r;i[r]=i[r]||function(){
+(i[r].q=i[r].q||[]).push(arguments)},i[r].l=1*new Date();a=s.createElement(o),
+m=s.getElementsByTagName(o)[0];a.async=1;a.src=g;m.parentNode.insertBefore(a,m)
+})(window,document,'script','//www.google-analytics.com/analytics.js','ga');
+
+ga('create', 'UA-126897949-1', 'auto');
+ga('send', 'pageview');
+
+</script>
+-->
+<!-- End Google Analytics -->
+
+<!-- Global Site Tag (gtag.js) - Google Analytics -->
+<script async src="https://www.googletagmanager.com/gtag/js?id=UA-126897949-1"></script>
+<script>
+  window.dataLayer = window.dataLayer || [];
+  function gtag(){dataLayer.push(arguments);}
+  gtag('js', new Date());
+
+  gtag('config', 'UA-126897949-1');
+  gtag('event', 'page_view', { 'send_to': 'UA-126897949-1' });
+</script>
+
+
+<meta name="generator" content="Hexo 4.2.0"></head>
+
+<body>
+  <div id="container">
+    <div id="wrap">
+      <header id="header">
+  <div id="banner"></div>
+  <div id="header-outer" class="outer">
+    
+    <div id="header-inner" class="inner">
+      <nav id="sub-nav">
+        
+          <a id="nav-rss-link" class="nav-icon" href="/atom.xml" title="RSS Feed"></a>
+        
+        <a id="nav-search-btn" class="nav-icon" title="搜尋"></a>
+      </nav>
+      <div id="search-form-wrap">
+        <form action="//google.com/search" method="get" accept-charset="UTF-8" class="search-form"><input type="search" name="q" class="search-form-input" placeholder="Search"><button type="submit" class="search-form-submit">&#xF002;</button><input type="hidden" name="sitesearch" value="https://blog.comicat.me"></form>
+      </div>
+      <nav id="main-nav">
+        <a id="main-nav-toggle" class="nav-icon"></a>
+        
+          <a class="main-nav-link" href="/">Home</a>
+        
+          <a class="main-nav-link" href="/archives">Archives</a>
+        
+          <a class="main-nav-link" href="/tags">Tags</a>
+        
+          <a class="main-nav-link" href="/categories">Categories</a>
+        
+      </nav>
+      
+    </div>
+    <div id="header-title" class="inner">
+      <h1 id="logo-wrap">
+        <a href="/" id="logo">Comicat&#39;s Blog</a>
+      </h1>
+      
+        <h2 id="subtitle-wrap">
+          <a href="/" id="subtitle">Find Something Funny</a>
+        </h2>
+      
+    </div>
+  </div>
+</header>
+      <div class="outer">
+        <section id="main"><article id="post-w3school-PHP練習筆記-2" class="article article-type-post" itemscope itemprop="blogPost">
+  <div class="article-meta">
+    <a href="/2017/09/18/w3school-PHP%E7%B7%B4%E7%BF%92%E7%AD%86%E8%A8%98-2/" class="article-date">
+  <time datetime="2017-09-18T02:08:04.000Z" itemprop="datePublished">2017-09-18</time>
+</a>
+    
+  <div class="article-category">
+    <a class="article-category-link" href="/categories/%E8%B3%87%E8%A8%8A%E6%8A%80%E8%A1%93/">資訊技術</a>►<a class="article-category-link" href="/categories/%E8%B3%87%E8%A8%8A%E6%8A%80%E8%A1%93/PHP/">PHP</a>
+  </div>
+
+  </div>
+  <div class="article-inner">
+    
+    
+      <header class="article-header">
+        
+  
+    <h1 class="article-title" itemprop="name">
+      w3school-PHP練習筆記-2
+    </h1>
+  
+
+      </header>
+    
+    <div class="article-entry" itemprop="articleBody">
+      
+        <!-- Table of Contents -->
+        
+        <ul>
+<li>PHP Cookies</li>
+<li>PHP Sessions</li>
+<li>PHP Filters</li>
+<li>PHP Filters Advanced</li>
+<li>PHP Error Handling</li>
+<li>PHP Exception</li>
+</ul>
+<a id="more"></a>
+<h2 id="PHP-Cookies"><a href="#PHP-Cookies" class="headerlink" title="PHP Cookies"></a>PHP Cookies</h2><p><a href="http://php.net/manual/zh/function.setcookie.php" target="_blank" rel="noopener">php setcookie</a></p>
+<ul>
+<li>setcookie(name, value, expire, path, domain, secure, httponly);<ul>
+<li>name: cookie名稱，必填</li>
+<li>value: cookie值，可以透過<code>$_COOKIE[&#39;name&#39;]</code>取得</li>
+<li>expire: 該筆cookie消失時間(timestamp)，設0的話瀏覽器關閉才消失</li>
+<li>path: 該筆cookie的有效路徑</li>
+<li>domain: 該筆cookie的有效網域</li>
+<li>secure: 只能在https使用(true/false)</li>
+<li>httponly: 只能透過http訪問(true/false)</li>
+</ul>
+</li>
+<li>必須在產生輸出前設定(包含html標記前)，如果在此之前就產生輸出，setcookie()就會失敗，return bool(false)</li>
+</ul>
+<h2 id="PHP-Session"><a href="#PHP-Session" class="headerlink" title="PHP Session"></a>PHP Session</h2><ul>
+<li>使用前必須執呼叫<code>session_start();</code>，PHP會自動在cookie中建立一串PHPSESSID的字串<img src="/2017/09/18/w3school-PHP練習筆記-2/PHPSESSID.PNG" title="PHPSESSID"></li>
+<li>使用<code>$_SESSION</code>來直接存取session</li>
+<li><code>session_start()</code>裡面可以帶入陣列參數:<ul>
+<li><code>&#39;cookie_lifetime&#39; =&gt; 86400</code> 覆蓋cookie的消失時間設定</li>
+<li><code>&#39;read_and_close&#39;  =&gt; true</code> 讀取後立即關閉session</li>
+</ul>
+</li>
+</ul>
+<h2 id="PHP-Filters"><a href="#PHP-Filters" class="headerlink" title="PHP Filters"></a>PHP Filters</h2><ul>
+<li>用來驗證資料(Validate)或清除資料中不合法的數據(Sanitize)</li>
+<li>輸出<code>filter_list()</code> 可以列出所有PHP支援的filters</li>
+<li><code>filter_var($str, filter)</code></li>
+<li><a href="http://php.net/manual/en/filter.filters.sanitize.php" target="_blank" rel="noopener">PHP Sanitize filters</a></li>
+</ul>
+<h2 id="PHP-Filter-Advanced"><a href="#PHP-Filter-Advanced" class="headerlink" title="PHP Filter Advanced"></a>PHP Filter Advanced</h2><ul>
+<li><code>filter_var()</code>的第三個參數可以填入一些設定參數</li>
+</ul>
+<p><strong>當然，不要太相信filter的結果，<a href="http://php.net/manual/en/function.filter-var.php" target="_blank" rel="noopener">PHP filter_var</a>底下也已經有很多人提供奇怪的測資，而被驗證合法的。</strong></p>
+<h2 id="PHP-Error-Handling"><a href="#PHP-Error-Handling" class="headerlink" title="PHP Error Handling"></a>PHP Error Handling</h2><ul>
+<li>用<code>die()</code>函數，輸出錯誤訊息並且停止腳本</li>
+<li>自訂錯誤訊息</li>
+</ul>
+<figure class="highlight php"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line"><span class="function"><span class="keyword">function</span> <span class="title">myError</span><span class="params">($errno, $errstr)</span></span></span><br><span class="line"><span class="function"></span>&#123;</span><br><span class="line">    <span class="keyword">echo</span> <span class="string">"&lt;b&gt;Error: &lt;/b&gt; [$errno] $errstr"</span>;</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line">set_error_handler(<span class="string">'myError'</span>); <span class="comment">// 設定錯誤訊息函式</span></span><br></pre></td></tr></table></figure>
+<ul>
+<li><p><code>trigger_error($errMsg);</code> 直接觸發錯誤訊息</p>
+</li>
+<li><p>mail log 嘗試去php.ini和sendmail.ini設定了smtp=ssl://smtp.gmail.com, smtp_port, openssl等設定，執行完畢沒有錯誤訊息, 但沒收到信, 有空再研究。<a href="https://stackoverflow.com/questions/21836282/php-function-mail-isnt-working" target="_blank" rel="noopener">參考</a></p>
+</li>
+</ul>
+<h2 id="PHP-Exception"><a href="#PHP-Exception" class="headerlink" title="PHP Exception"></a>PHP Exception</h2><ul>
+<li><code>throw new Exception()</code> 拋出新的例外狀況</li>
+<li>自訂一個例外狀況: 從Exception繼承class下來改寫</li>
+</ul>
+<figure class="highlight php"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">/**</span></span><br><span class="line"><span class="comment"> * Self exception class</span></span><br><span class="line"><span class="comment"> */</span></span><br><span class="line"><span class="class"><span class="keyword">class</span> <span class="title">MyException</span> <span class="keyword">extends</span> <span class="title">Exception</span></span></span><br><span class="line"><span class="class"></span>&#123;</span><br><span class="line">    <span class="comment">/**</span></span><br><span class="line"><span class="comment">      * Process error message</span></span><br><span class="line"><span class="comment">      *</span></span><br><span class="line"><span class="comment">      * <span class="doctag">@return</span> string $errorMsg Error message</span></span><br><span class="line"><span class="comment">     **/</span></span><br><span class="line">    <span class="keyword">public</span> <span class="function"><span class="keyword">function</span> <span class="title">errorMessage</span><span class="params">()</span></span></span><br><span class="line"><span class="function">    </span>&#123;</span><br><span class="line">        $errorMsg = <span class="string">'Error on line'</span> . <span class="keyword">$this</span>-&gt;getline() . <span class="string">' in '</span> .</span><br><span class="line">                    <span class="keyword">$this</span>-&gt;getFile() . <span class="string">':&lt;b&gt;'</span> . <span class="keyword">$this</span>-&gt;getMessage() . <span class="string">'&lt;/b&gt;'</span>;</span><br><span class="line">        <span class="keyword">return</span> $errorMsg;</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<ul>
+<li>調用自訂的例外狀況，並傳入錯誤訊息</li>
+</ul>
+<figure class="highlight php"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">try</span> &#123;</span><br><span class="line">    <span class="keyword">throw</span> <span class="keyword">new</span> MyException(<span class="string">'OOOOOOOOOOOOOOPS!'</span>);</span><br><span class="line">&#125; <span class="keyword">catch</span> (MyException $e) &#123;</span><br><span class="line">    <span class="keyword">echo</span> $e-&gt;errorMessage();</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<img src="/2017/09/18/w3school-PHP練習筆記-2/exception_example.PNG" title="exception_example">
+<p>(上面是原生的，下面是使用myException的輸出結果)</p>
+
+      
+    </div>
+    <footer class="article-footer">
+      <a data-url="https://blog.comicat.me/2017/09/18/w3school-PHP%E7%B7%B4%E7%BF%92%E7%AD%86%E8%A8%98-2/" data-id="ck9s52xhx0026tngfdbkare6k" class="article-share-link">分享</a>
+      
+      
+        <a href="https://blog.comicat.me/2017/09/18/w3school-PHP%E7%B7%B4%E7%BF%92%E7%AD%86%E8%A8%98-2/#disqus_thread" class="article-comment-link">留言</a>
+      
+      
+  <ul class="article-tag-list" itemprop="keywords"><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/PHP/" rel="tag">PHP</a></li><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/w3schools/" rel="tag">w3schools</a></li></ul>
+
+    </footer>
+  </div>
+  
+    
+ 
+<script src="/jquery/jquery.min.js"></script>
+
+  <div id="random_posts">
+    <h2>推薦文章</h2>
+    <div class="random_posts_ul">
+      <script>
+          var random_count =3
+          var site = {BASE_URI:'/'};
+          function load_random_posts(obj) {
+              var arr=site.posts;
+              if (!obj) return;
+              // var count = $(obj).attr('data-count') || 6;
+              for (var i, tmp, n = arr.length; n; i = Math.floor(Math.random() * n), tmp = arr[--n], arr[n] = arr[i], arr[i] = tmp);
+              arr = arr.slice(0, random_count);
+              var html = '<ul>';
+            
+              for(var j=0;j<arr.length;j++){
+                var item=arr[j];
+                html += '<li><strong>' + 
+                item.date + ':&nbsp;&nbsp;<a href="' + (site.BASE_URI+item.uri) + '">' + 
+                (item.title || item.uri) + '</a></strong>';
+                if(item.excerpt){
+                  html +='<div class="post-excerpt">'+item.excerpt+'</div>';
+                }
+                html +='</li>';
+                
+              }
+              $(obj).html(html + '</ul>');
+          }
+          $('.random_posts_ul').each(function () {
+              var c = this;
+              if (!site.posts || !site.posts.length){
+                  $.getJSON(site.BASE_URI + 'js/posts.js',function(json){site.posts = json;load_random_posts(c)});
+              } 
+               else{
+                load_random_posts(c);
+              }
+          });
+      </script>
+    </div>
+  </div>
+
+    
+<nav id="article-nav">
+  
+    <a href="/2017/09/19/Try-PHPUnit/" id="article-nav-newer" class="article-nav-link-wrap">
+      <strong class="article-nav-caption">Newer</strong>
+      <div class="article-nav-title">
+        
+          Try PHPUnit
+        
+      </div>
+    </a>
+  
+  
+    <a href="/2017/09/02/w3school-PHP%E7%B7%B4%E7%BF%92%E7%AD%86%E8%A8%98-1/" id="article-nav-older" class="article-nav-link-wrap">
+      <strong class="article-nav-caption">Older</strong>
+      <div class="article-nav-title">w3school PHP練習筆記-1</div>
+    </a>
+  
+</nav>
+
+  
+</article>
+ 
+     
+  <div class="comments" id="comments">
+    
+     
+    <section id="comments">
+      <div id="disqus_thread">
+        <noscript>
+          Please enable JavaScript to view the
+          <a href="//disqus.com/?ref_noscript" target="_blank" rel="noopener">comments powered by Disqus.</a>
+        </noscript>
+      </div>
+      </section>
+      
+       
+       
+      
+      
+  </div>
+ 
+  
+
+</section>
+           
+    <aside id="sidebar">
+  
+    
+    
+    
+    <div class="widget-wrap">
+    
+      <div class="widget" id="toc-widget-fixed">
+      
+        <strong class="toc-title">文章目錄</strong>
+        <div class="toc-widget-list">
+              <ol class="toc"><li class="toc-item toc-level-2"><a class="toc-link" href="#PHP-Cookies"><span class="toc-number">1.</span> <span class="toc-text">PHP Cookies</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#PHP-Session"><span class="toc-number">2.</span> <span class="toc-text">PHP Session</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#PHP-Filters"><span class="toc-number">3.</span> <span class="toc-text">PHP Filters</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#PHP-Filter-Advanced"><span class="toc-number">4.</span> <span class="toc-text">PHP Filter Advanced</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#PHP-Error-Handling"><span class="toc-number">5.</span> <span class="toc-text">PHP Error Handling</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#PHP-Exception"><span class="toc-number">6.</span> <span class="toc-text">PHP Exception</span></a></li></ol>
+          </div>
+      </div>
+    </div>
+
+  
+    
+    
+    
+
+  
+    
+    
+    
+  
+    
+    
+    
+
+  
+    
+    
+    
+  
+    
+    
+    
+
+  
+    
+    
+    
+
+  
+</aside>
+
+      </div>
+      <footer id="footer">
+  
+  <div class="outer">
+    <div id="footer-left">
+      &copy; 2017 - 2020 comicat&nbsp;|&nbsp;
+      Theme by <a href="https://github.com/comicat-hu/hexo-theme-cafe" target="_blank">Cafe</a>
+    </div>
+     <div id="footer-right">
+      Contact&nbsp;|&nbsp;comicat.hu@gmail.com
+    </div>
+  </div>
+</footer>
+ 
+<script src="/jquery/jquery.min.js"></script>
+
+    </div>
+    <nav id="mobile-nav">
+  
+    <a href="/" class="mobile-nav-link">Home</a>
+  
+    <a href="/archives" class="mobile-nav-link">Archives</a>
+  
+    <a href="/tags" class="mobile-nav-link">Tags</a>
+  
+    <a href="/categories" class="mobile-nav-link">Categories</a>
+  
+</nav>
+    <img class="back-to-top-btn" src="/images/fly-to-top.png"/>
+<script>
+// Elevator script included on the page, already.
+window.onload = function() {
+  var elevator = new Elevator({
+    selector:'.back-to-top-btn',
+    element: document.querySelector('.back-to-top-btn'),
+    duration: 1000 // milliseconds
+  });
+}
+</script>
+      
+
+<script>
+  var disqus_shortname = 'blog-comicat';
+  
+  var disqus_url = 'https://blog.comicat.me/2017/09/18/w3school-PHP%E7%B7%B4%E7%BF%92%E7%AD%86%E8%A8%98-2/';
+  
+  (function(){
+    var dsq = document.createElement('script');
+    dsq.type = 'text/javascript';
+    dsq.async = true;
+    dsq.src = '//' + disqus_shortname + '.disqus.com/embed.js';
+    (document.getElementsByTagName('head')[0] || document.getElementsByTagName('body')[0]).appendChild(dsq);
+  })();
+</script>
+
+
+
+
+
+
+
+<!-- author:forvoid begin -->
+<!-- author:forvoid begin -->
+
+<!-- author:forvoid end -->
+
+<!-- author:forvoid end -->
+
+
+
+ 
+<script src="/js/is.js"></script>
+
+
+
+  
+<link rel="stylesheet" href="/fancybox/jquery.fancybox.css">
+
+  
+<script src="/fancybox/jquery.fancybox.pack.js"></script>
+
+
+
+
+<script src="/js/script.js"></script>
+
+
+<script src="/js/elevator.js"></script>
+
+  </div>
+</body>
+</html>

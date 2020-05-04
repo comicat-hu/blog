@@ -1,0 +1,424 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <meta charset="utf-8">
+  
+  <title>Yii framework - Form | Comicat&#39;s Blog</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
+  <meta name="description" content="使用Yii來建立一個登入表單 model建立在protected\models下，config需要設定import 動作流程大概是這樣:">
+<meta property="og:type" content="article">
+<meta property="og:title" content="Yii framework - Form">
+<meta property="og:url" content="https://blog.comicat.me/2017/10/17/Yii-framework-Form/index.html">
+<meta property="og:site_name" content="Comicat&#39;s Blog">
+<meta property="og:description" content="使用Yii來建立一個登入表單 model建立在protected\models下，config需要設定import 動作流程大概是這樣:">
+<meta property="og:locale" content="zh_TW">
+<meta property="article:published_time" content="2017-10-17T03:45:24.000Z">
+<meta property="article:modified_time" content="2020-05-04T05:26:23.340Z">
+<meta property="article:author" content="comicat">
+<meta property="article:tag" content="PHP">
+<meta property="article:tag" content="Yii1.x">
+<meta name="twitter:card" content="summary">
+  
+    <link rel="alternate" href="/atom.xml" title="Comicat&#39;s Blog" type="application/atom+xml">
+  
+  
+    <link rel="icon" href="/images/favicon.ico">
+  
+  
+    
+  
+  
+<link rel="stylesheet" href="/css/style.css">
+
+  
+<!-- Google Analytics -->
+<!--
+<script type="text/javascript">
+(function(i,s,o,g,r,a,m){i['GoogleAnalyticsObject']=r;i[r]=i[r]||function(){
+(i[r].q=i[r].q||[]).push(arguments)},i[r].l=1*new Date();a=s.createElement(o),
+m=s.getElementsByTagName(o)[0];a.async=1;a.src=g;m.parentNode.insertBefore(a,m)
+})(window,document,'script','//www.google-analytics.com/analytics.js','ga');
+
+ga('create', 'UA-126897949-1', 'auto');
+ga('send', 'pageview');
+
+</script>
+-->
+<!-- End Google Analytics -->
+
+<!-- Global Site Tag (gtag.js) - Google Analytics -->
+<script async src="https://www.googletagmanager.com/gtag/js?id=UA-126897949-1"></script>
+<script>
+  window.dataLayer = window.dataLayer || [];
+  function gtag(){dataLayer.push(arguments);}
+  gtag('js', new Date());
+
+  gtag('config', 'UA-126897949-1');
+  gtag('event', 'page_view', { 'send_to': 'UA-126897949-1' });
+</script>
+
+
+<meta name="generator" content="Hexo 4.2.0"></head>
+
+<body>
+  <div id="container">
+    <div id="wrap">
+      <header id="header">
+  <div id="banner"></div>
+  <div id="header-outer" class="outer">
+    
+    <div id="header-inner" class="inner">
+      <nav id="sub-nav">
+        
+          <a id="nav-rss-link" class="nav-icon" href="/atom.xml" title="RSS Feed"></a>
+        
+        <a id="nav-search-btn" class="nav-icon" title="搜尋"></a>
+      </nav>
+      <div id="search-form-wrap">
+        <form action="//google.com/search" method="get" accept-charset="UTF-8" class="search-form"><input type="search" name="q" class="search-form-input" placeholder="Search"><button type="submit" class="search-form-submit">&#xF002;</button><input type="hidden" name="sitesearch" value="https://blog.comicat.me"></form>
+      </div>
+      <nav id="main-nav">
+        <a id="main-nav-toggle" class="nav-icon"></a>
+        
+          <a class="main-nav-link" href="/">Home</a>
+        
+          <a class="main-nav-link" href="/archives">Archives</a>
+        
+          <a class="main-nav-link" href="/tags">Tags</a>
+        
+          <a class="main-nav-link" href="/categories">Categories</a>
+        
+      </nav>
+      
+    </div>
+    <div id="header-title" class="inner">
+      <h1 id="logo-wrap">
+        <a href="/" id="logo">Comicat&#39;s Blog</a>
+      </h1>
+      
+        <h2 id="subtitle-wrap">
+          <a href="/" id="subtitle">Find Something Funny</a>
+        </h2>
+      
+    </div>
+  </div>
+</header>
+      <div class="outer">
+        <section id="main"><article id="post-Yii-framework-Form" class="article article-type-post" itemscope itemprop="blogPost">
+  <div class="article-meta">
+    <a href="/2017/10/17/Yii-framework-Form/" class="article-date">
+  <time datetime="2017-10-17T03:45:24.000Z" itemprop="datePublished">2017-10-17</time>
+</a>
+    
+  <div class="article-category">
+    <a class="article-category-link" href="/categories/%E8%B3%87%E8%A8%8A%E6%8A%80%E8%A1%93/">資訊技術</a>►<a class="article-category-link" href="/categories/%E8%B3%87%E8%A8%8A%E6%8A%80%E8%A1%93/PHP/">PHP</a>
+  </div>
+
+  </div>
+  <div class="article-inner">
+    
+    
+      <header class="article-header">
+        
+  
+    <h1 class="article-title" itemprop="name">
+      Yii framework - Form
+    </h1>
+  
+
+      </header>
+    
+    <div class="article-entry" itemprop="articleBody">
+      
+        <!-- Table of Contents -->
+        
+        <p>使用Yii來建立一個登入表單</p>
+<p>model建立在<code>protected\models</code>下，config需要設定import</p>
+<p>動作流程大概是這樣:</p>
+<a id="more"></a>
+<ul>
+<li>進入<code>site/login</code></li>
+<li>在actionLogin中create form data model，catch POST，render login page</li>
+</ul>
+<figure class="highlight php"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br></pre></td><td class="code"><pre><span class="line">$model = <span class="keyword">new</span> LoginForm;</span><br><span class="line"></span><br><span class="line"><span class="keyword">if</span> (<span class="keyword">isset</span>($_POST[<span class="string">'LoginForm'</span>])) &#123;</span><br><span class="line"></span><br><span class="line">    <span class="comment">// collection users data, use CModel setAttributes()</span></span><br><span class="line">    $model-&gt;attributes = $_POST[<span class="string">'LoginForm'</span>];</span><br><span class="line"></span><br><span class="line">    <span class="keyword">if</span> ($model-&gt;validate()) &#123;</span><br><span class="line">        <span class="comment">// default to '/'</span></span><br><span class="line">        <span class="keyword">$this</span>-&gt;redirect(Yii::app()-&gt;user-&gt;returnUrl);</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="keyword">$this</span>-&gt;render(<span class="string">'login'</span>, [<span class="string">'model'</span> =&gt; $model]);</span><br></pre></td></tr></table></figure>
+<ul>
+<li>在LoginForm model中處理資料驗證，覆寫rules()</li>
+</ul>
+<figure class="highlight php"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">public</span> <span class="function"><span class="keyword">function</span> <span class="title">rules</span><span class="params">()</span></span></span><br><span class="line"><span class="function"></span>&#123;</span><br><span class="line">    <span class="keyword">return</span> [</span><br><span class="line">        <span class="comment">// username and password are required</span></span><br><span class="line">        <span class="comment">// use CRequiredValidator</span></span><br><span class="line">        [<span class="string">'username, password'</span>, <span class="string">'required'</span>],</span><br><span class="line">        <span class="comment">// rememberMe needs to be a boolean</span></span><br><span class="line">        <span class="comment">// use CBooleanValidator</span></span><br><span class="line">        [<span class="string">'rememberMe'</span>, <span class="string">'boolean'</span>],</span><br><span class="line">        <span class="comment">// password needs to be authenticated</span></span><br><span class="line">        <span class="comment">// use method authenticate()</span></span><br><span class="line">        [<span class="string">'password'</span>, <span class="string">'authenticate'</span>],</span><br><span class="line">    ];</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<ul>
+<li>如果驗證都無誤，redirect到user-&gt;returnUrl，預設是’\’，可以setReturnUrl()修改</li>
+</ul>
+<p>LoginForm model中有用到authenticate()，這個方法是要自己寫的，</p>
+<p>用來驗證password的Validator</p>
+<figure class="highlight php"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">public</span> <span class="function"><span class="keyword">function</span> <span class="title">authenticate</span><span class="params">($attribute, $params)</span></span></span><br><span class="line"><span class="function"></span>&#123;</span><br><span class="line">    <span class="keyword">$this</span>-&gt;_identity = <span class="keyword">new</span> UserIdentity(<span class="keyword">$this</span>-&gt;username, <span class="keyword">$this</span>-&gt;password);</span><br><span class="line"></span><br><span class="line">    <span class="keyword">if</span> (!<span class="keyword">$this</span>-&gt;_identity-&gt;authenticate()) &#123;</span><br><span class="line">      <span class="keyword">$this</span>-&gt;addError(<span class="string">'password'</span>, <span class="string">'Invalid Username or Password!'</span>);</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<p>這邊用一個自訂的class UserIdentity extends CUserIdentity，</p>
+<p>繼承自CUserIdentity的authenticate()是需要自行覆寫的，不然預設就是丟一個例外</p>
+<p>CUserIdentity中也有預定義一些errorCode的常數可以用</p>
+<figure class="highlight php"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br></pre></td><td class="code"><pre><span class="line"><span class="class"><span class="keyword">class</span> <span class="title">UserIdentity</span> <span class="keyword">extends</span> <span class="title">CUserIdentity</span></span></span><br><span class="line"><span class="class"></span>&#123;</span><br><span class="line">    <span class="keyword">public</span> <span class="function"><span class="keyword">function</span> <span class="title">authenticate</span><span class="params">()</span></span></span><br><span class="line"><span class="function">    </span>&#123;</span><br><span class="line"></span><br><span class="line">        <span class="keyword">if</span> (strlen(<span class="keyword">$this</span>-&gt;password) &lt; <span class="number">5</span>) &#123;</span><br><span class="line">            <span class="keyword">$this</span>-&gt;errorCode = <span class="keyword">self</span>::ERROR_PASSWORD_INVALID;</span><br><span class="line">        &#125; <span class="keyword">else</span> &#123;</span><br><span class="line">            <span class="keyword">$this</span>-&gt;errorCode = <span class="keyword">self</span>::ERROR_NONE;</span><br><span class="line">        &#125;</span><br><span class="line"></span><br><span class="line">        <span class="keyword">return</span> !<span class="keyword">$this</span>-&gt;errorCode;</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<p>在view中可以使用yii helper<code>CHtml::beginForm()</code>或是widget<code>beginWidget(&#39;CActiveForm&#39;)</code>來建立表單，兩種略有不同</p>
+<p>程式就直接參考<a href="http://www.yiichina.com/doc/guide/1.1/form.view" target="_blank" rel="noopener">form.view</a></p>
+<p>可以看到建出來的input html是用陣列的形式填充輸入資料</p>
+<figure class="highlight html"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line"><span class="tag">&lt;<span class="name">input</span> <span class="attr">name</span>=<span class="string">"LoginForm[username]"</span> <span class="attr">id</span>=<span class="string">"LoginForm_username"</span> <span class="attr">type</span>=<span class="string">"text"</span> /&gt;</span></span><br></pre></td></tr></table></figure>
+<p>所以在上面action中我們才能直接使用<code>$_POST[&#39;LoginForm&#39;]</code>取得整個form data並且填進data model中。</p>
+
+      
+    </div>
+    <footer class="article-footer">
+      <a data-url="https://blog.comicat.me/2017/10/17/Yii-framework-Form/" data-id="ck9s52xhm001htngfq99yvbtt" class="article-share-link">分享</a>
+      
+      
+        <a href="https://blog.comicat.me/2017/10/17/Yii-framework-Form/#disqus_thread" class="article-comment-link">留言</a>
+      
+      
+  <ul class="article-tag-list" itemprop="keywords"><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/PHP/" rel="tag">PHP</a></li><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/Yii1-x/" rel="tag">Yii1.x</a></li></ul>
+
+    </footer>
+  </div>
+  
+    
+ 
+<script src="/jquery/jquery.min.js"></script>
+
+  <div id="random_posts">
+    <h2>推薦文章</h2>
+    <div class="random_posts_ul">
+      <script>
+          var random_count =3
+          var site = {BASE_URI:'/'};
+          function load_random_posts(obj) {
+              var arr=site.posts;
+              if (!obj) return;
+              // var count = $(obj).attr('data-count') || 6;
+              for (var i, tmp, n = arr.length; n; i = Math.floor(Math.random() * n), tmp = arr[--n], arr[n] = arr[i], arr[i] = tmp);
+              arr = arr.slice(0, random_count);
+              var html = '<ul>';
+            
+              for(var j=0;j<arr.length;j++){
+                var item=arr[j];
+                html += '<li><strong>' + 
+                item.date + ':&nbsp;&nbsp;<a href="' + (site.BASE_URI+item.uri) + '">' + 
+                (item.title || item.uri) + '</a></strong>';
+                if(item.excerpt){
+                  html +='<div class="post-excerpt">'+item.excerpt+'</div>';
+                }
+                html +='</li>';
+                
+              }
+              $(obj).html(html + '</ul>');
+          }
+          $('.random_posts_ul').each(function () {
+              var c = this;
+              if (!site.posts || !site.posts.length){
+                  $.getJSON(site.BASE_URI + 'js/posts.js',function(json){site.posts = json;load_random_posts(c)});
+              } 
+               else{
+                load_random_posts(c);
+              }
+          });
+      </script>
+    </div>
+  </div>
+
+    
+<nav id="article-nav">
+  
+    <a href="/2017/10/19/Yii-framework-CActiveForm-Widget-%E5%AF%A6%E4%BD%9C%E7%AF%87/" id="article-nav-newer" class="article-nav-link-wrap">
+      <strong class="article-nav-caption">Newer</strong>
+      <div class="article-nav-title">
+        
+          Yii framework - CActiveForm Widget(實作篇)
+        
+      </div>
+    </a>
+  
+  
+    <a href="/2017/10/16/Yii-framework-Simple-Workflow/" id="article-nav-older" class="article-nav-link-wrap">
+      <strong class="article-nav-caption">Older</strong>
+      <div class="article-nav-title">Yii framework - Simple Workflow</div>
+    </a>
+  
+</nav>
+
+  
+</article>
+ 
+     
+  <div class="comments" id="comments">
+    
+     
+    <section id="comments">
+      <div id="disqus_thread">
+        <noscript>
+          Please enable JavaScript to view the
+          <a href="//disqus.com/?ref_noscript" target="_blank" rel="noopener">comments powered by Disqus.</a>
+        </noscript>
+      </div>
+      </section>
+      
+       
+       
+      
+      
+  </div>
+ 
+  
+
+</section>
+           
+    <aside id="sidebar">
+  
+    
+    
+    
+  
+    
+    
+    
+
+  
+    
+    
+    
+  <div class="widget-wrap">
+    <h3 class="widget-title recent-posts">最新文章</h3>
+    <div class="widget">
+      <ul>
+        
+          <li>
+            <a href="/2019/10/20/PHP%E7%A8%8B%E5%BC%8F%E6%95%88%E8%83%BD%E5%88%86%E6%9E%90%E5%B0%8F%E5%B7%A5%E5%85%B7Cachegrind/">PHP程式效能分析小工具Cachegrind</a>
+          </li>
+        
+          <li>
+            <a href="/2019/09/08/Apache-run-multiple-php-version-by-port-based-vHosts/">Apache run multiple php version by port-based vHosts</a>
+          </li>
+        
+          <li>
+            <a href="/2019/05/25/PHP-select-mysql-bit-column-return-not-correct-value/">PHP select mysql bit column return not correct value</a>
+          </li>
+        
+          <li>
+            <a href="/2019/01/30/Javascript-async-loop/">Javascript async loop</a>
+          </li>
+        
+          <li>
+            <a href="/2018/09/28/Cloudflare-GitHub-Pages%E8%87%AA%E8%A8%82%E7%B6%B2%E5%9F%9F%E9%80%A3%E7%B7%9A%E8%A8%AD%E5%AE%9A/">Cloudflare+GitHub-Pages自訂網域連線設定</a>
+          </li>
+        
+      </ul>
+    </div>
+  </div>
+
+  
+    
+    
+    
+
+  
+    
+    
+    
+  
+    
+    
+    
+
+  
+    
+    
+    
+
+  
+</aside>
+
+      </div>
+      <footer id="footer">
+  
+  <div class="outer">
+    <div id="footer-left">
+      &copy; 2017 - 2020 comicat&nbsp;|&nbsp;
+      Theme by <a href="https://github.com/comicat-hu/hexo-theme-cafe" target="_blank">Cafe</a>
+    </div>
+     <div id="footer-right">
+      Contact&nbsp;|&nbsp;comicat.hu@gmail.com
+    </div>
+  </div>
+</footer>
+ 
+<script src="/jquery/jquery.min.js"></script>
+
+    </div>
+    <nav id="mobile-nav">
+  
+    <a href="/" class="mobile-nav-link">Home</a>
+  
+    <a href="/archives" class="mobile-nav-link">Archives</a>
+  
+    <a href="/tags" class="mobile-nav-link">Tags</a>
+  
+    <a href="/categories" class="mobile-nav-link">Categories</a>
+  
+</nav>
+    <img class="back-to-top-btn" src="/images/fly-to-top.png"/>
+<script>
+// Elevator script included on the page, already.
+window.onload = function() {
+  var elevator = new Elevator({
+    selector:'.back-to-top-btn',
+    element: document.querySelector('.back-to-top-btn'),
+    duration: 1000 // milliseconds
+  });
+}
+</script>
+      
+
+<script>
+  var disqus_shortname = 'blog-comicat';
+  
+  var disqus_url = 'https://blog.comicat.me/2017/10/17/Yii-framework-Form/';
+  
+  (function(){
+    var dsq = document.createElement('script');
+    dsq.type = 'text/javascript';
+    dsq.async = true;
+    dsq.src = '//' + disqus_shortname + '.disqus.com/embed.js';
+    (document.getElementsByTagName('head')[0] || document.getElementsByTagName('body')[0]).appendChild(dsq);
+  })();
+</script>
+
+
+
+
+
+
+
+<!-- author:forvoid begin -->
+<!-- author:forvoid begin -->
+
+<!-- author:forvoid end -->
+
+<!-- author:forvoid end -->
+
+
+
+ 
+<script src="/js/is.js"></script>
+
+
+
+  
+<link rel="stylesheet" href="/fancybox/jquery.fancybox.css">
+
+  
+<script src="/fancybox/jquery.fancybox.pack.js"></script>
+
+
+
+
+<script src="/js/script.js"></script>
+
+
+<script src="/js/elevator.js"></script>
+
+  </div>
+</body>
+</html>

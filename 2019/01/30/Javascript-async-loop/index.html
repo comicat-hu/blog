@@ -1,0 +1,398 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <meta charset="utf-8">
+  
+  <title>Javascript async loop | Comicat&#39;s Blog</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
+  <meta name="description" content="Javascript 自ES7後支援潮潮的async-await語法，解決的許多不順眼的promise同步語法， 但是Array.prototype.forEach是沒有支援到async function的用法哦~ (天真的踩雷 底下給了一些程式片段範例:">
+<meta property="og:type" content="article">
+<meta property="og:title" content="Javascript async loop">
+<meta property="og:url" content="https://blog.comicat.me/2019/01/30/Javascript-async-loop/index.html">
+<meta property="og:site_name" content="Comicat&#39;s Blog">
+<meta property="og:description" content="Javascript 自ES7後支援潮潮的async-await語法，解決的許多不順眼的promise同步語法， 但是Array.prototype.forEach是沒有支援到async function的用法哦~ (天真的踩雷 底下給了一些程式片段範例:">
+<meta property="og:locale" content="zh_TW">
+<meta property="article:published_time" content="2019-01-30T08:27:21.000Z">
+<meta property="article:modified_time" content="2020-05-04T05:26:23.340Z">
+<meta property="article:author" content="comicat">
+<meta property="article:tag" content="Javascript">
+<meta name="twitter:card" content="summary">
+  
+    <link rel="alternate" href="/atom.xml" title="Comicat&#39;s Blog" type="application/atom+xml">
+  
+  
+    <link rel="icon" href="/images/favicon.ico">
+  
+  
+    
+  
+  
+<link rel="stylesheet" href="/css/style.css">
+
+  
+<!-- Google Analytics -->
+<!--
+<script type="text/javascript">
+(function(i,s,o,g,r,a,m){i['GoogleAnalyticsObject']=r;i[r]=i[r]||function(){
+(i[r].q=i[r].q||[]).push(arguments)},i[r].l=1*new Date();a=s.createElement(o),
+m=s.getElementsByTagName(o)[0];a.async=1;a.src=g;m.parentNode.insertBefore(a,m)
+})(window,document,'script','//www.google-analytics.com/analytics.js','ga');
+
+ga('create', 'UA-126897949-1', 'auto');
+ga('send', 'pageview');
+
+</script>
+-->
+<!-- End Google Analytics -->
+
+<!-- Global Site Tag (gtag.js) - Google Analytics -->
+<script async src="https://www.googletagmanager.com/gtag/js?id=UA-126897949-1"></script>
+<script>
+  window.dataLayer = window.dataLayer || [];
+  function gtag(){dataLayer.push(arguments);}
+  gtag('js', new Date());
+
+  gtag('config', 'UA-126897949-1');
+  gtag('event', 'page_view', { 'send_to': 'UA-126897949-1' });
+</script>
+
+
+<meta name="generator" content="Hexo 4.2.0"></head>
+
+<body>
+  <div id="container">
+    <div id="wrap">
+      <header id="header">
+  <div id="banner"></div>
+  <div id="header-outer" class="outer">
+    
+    <div id="header-inner" class="inner">
+      <nav id="sub-nav">
+        
+          <a id="nav-rss-link" class="nav-icon" href="/atom.xml" title="RSS Feed"></a>
+        
+        <a id="nav-search-btn" class="nav-icon" title="搜尋"></a>
+      </nav>
+      <div id="search-form-wrap">
+        <form action="//google.com/search" method="get" accept-charset="UTF-8" class="search-form"><input type="search" name="q" class="search-form-input" placeholder="Search"><button type="submit" class="search-form-submit">&#xF002;</button><input type="hidden" name="sitesearch" value="https://blog.comicat.me"></form>
+      </div>
+      <nav id="main-nav">
+        <a id="main-nav-toggle" class="nav-icon"></a>
+        
+          <a class="main-nav-link" href="/">Home</a>
+        
+          <a class="main-nav-link" href="/archives">Archives</a>
+        
+          <a class="main-nav-link" href="/tags">Tags</a>
+        
+          <a class="main-nav-link" href="/categories">Categories</a>
+        
+      </nav>
+      
+    </div>
+    <div id="header-title" class="inner">
+      <h1 id="logo-wrap">
+        <a href="/" id="logo">Comicat&#39;s Blog</a>
+      </h1>
+      
+        <h2 id="subtitle-wrap">
+          <a href="/" id="subtitle">Find Something Funny</a>
+        </h2>
+      
+    </div>
+  </div>
+</header>
+      <div class="outer">
+        <section id="main"><article id="post-Javascript-async-loop" class="article article-type-post" itemscope itemprop="blogPost">
+  <div class="article-meta">
+    <a href="/2019/01/30/Javascript-async-loop/" class="article-date">
+  <time datetime="2019-01-30T08:27:21.000Z" itemprop="datePublished">2019-01-30</time>
+</a>
+    
+  <div class="article-category">
+    <a class="article-category-link" href="/categories/%E8%B3%87%E8%A8%8A%E6%8A%80%E8%A1%93/">資訊技術</a>►<a class="article-category-link" href="/categories/%E8%B3%87%E8%A8%8A%E6%8A%80%E8%A1%93/Javascript/">Javascript</a>
+  </div>
+
+  </div>
+  <div class="article-inner">
+    
+    
+      <header class="article-header">
+        
+  
+    <h1 class="article-title" itemprop="name">
+      Javascript async loop
+    </h1>
+  
+
+      </header>
+    
+    <div class="article-entry" itemprop="articleBody">
+      
+        <!-- Table of Contents -->
+        
+        <p>Javascript 自ES7後支援潮潮的async-await語法，解決的許多不順眼的promise同步語法，</p>
+<p>但是<code>Array.prototype.forEach</code>是沒有支援到async function的用法哦~ (天真的踩雷</p>
+<p>底下給了一些程式片段範例:</p>
+<a id="more"></a>
+<p>首先為了例子方便，我封裝了一個setTimeout，這個wait(ms)傳進要等待的時間，並且執行完後回傳一個promise，等等我們會用async-await來處理它。</p>
+<figure class="highlight js"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line"><span class="function"><span class="keyword">function</span> <span class="title">wait</span> (<span class="params">ms</span>) </span>&#123;</span><br><span class="line">    <span class="keyword">return</span> <span class="keyword">new</span> <span class="built_in">Promise</span>(<span class="function"><span class="keyword">function</span> (<span class="params">resolve, reject</span>) </span>&#123;</span><br><span class="line">        setTimeout(resolve, ms);</span><br><span class="line">    &#125;);</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<h2 id="forEach"><a href="#forEach" class="headerlink" title="forEach"></a>forEach</h2><p>我們期望程式開始後每隔1000ms log出一個陣列值。</p>
+<figure class="highlight js"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">async</span> <span class="function"><span class="keyword">function</span> <span class="title">run</span> (<span class="params"></span>) </span>&#123;</span><br><span class="line">    <span class="built_in">console</span>.log(<span class="string">'Start'</span>);</span><br><span class="line">    <span class="built_in">console</span>.time(<span class="string">'ExecuteTime'</span>);</span><br><span class="line"></span><br><span class="line">    <span class="keyword">var</span> arr = [<span class="string">'apple'</span>, <span class="string">'ball'</span>, <span class="string">'cat'</span>, <span class="string">'dog'</span>, <span class="string">'egg'</span>];</span><br><span class="line"></span><br><span class="line">    arr.forEach(<span class="keyword">async</span> <span class="function"><span class="keyword">function</span> (<span class="params">item</span>) </span>&#123;</span><br><span class="line">        <span class="built_in">console</span>.log(item);</span><br><span class="line">        <span class="keyword">await</span> wait(<span class="number">1000</span>);</span><br><span class="line">    &#125;);</span><br><span class="line"></span><br><span class="line">    <span class="built_in">console</span>.log(<span class="string">'End'</span>);</span><br><span class="line">    <span class="built_in">console</span>.timeEnd(<span class="string">'ExecuteTime'</span>); <span class="comment">// ExecuteTime: &lt; 5ms</span></span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line">run();</span><br></pre></td></tr></table></figure>
+<p>執行上面程式可以發現我們的wait完全沒等到，程式就結束了，總執行時間很短。</p>
+<h2 id="for-of"><a href="#for-of" class="headerlink" title="for-of"></a>for-of</h2><p>於是我們將程式修改成下面這種寫法。</p>
+<figure class="highlight js"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">async</span> <span class="function"><span class="keyword">function</span> <span class="title">run</span> (<span class="params"></span>) </span>&#123;</span><br><span class="line">    <span class="built_in">console</span>.log(<span class="string">'Start'</span>);</span><br><span class="line">    <span class="built_in">console</span>.time(<span class="string">'ExecuteTime'</span>);</span><br><span class="line"></span><br><span class="line">    <span class="keyword">var</span> arr = [<span class="string">'apple'</span>, <span class="string">'ball'</span>, <span class="string">'cat'</span>, <span class="string">'dog'</span>, <span class="string">'egg'</span>];</span><br><span class="line"></span><br><span class="line">    <span class="keyword">for</span> (<span class="keyword">var</span> item <span class="keyword">of</span> arr) &#123;</span><br><span class="line">        <span class="built_in">console</span>.log(item);</span><br><span class="line">        <span class="keyword">await</span> wait(<span class="number">1000</span>);</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    <span class="built_in">console</span>.log(<span class="string">'End'</span>);</span><br><span class="line">    <span class="built_in">console</span>.timeEnd(<span class="string">'ExecuteTime'</span>); <span class="comment">// ExecuteTime: 5xxx ms</span></span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line">run();</span><br></pre></td></tr></table></figure>
+<p>執行上面程式後，符合我們的期望每隔1秒輸出一個陣列值。</p>
+<h2 id="How-to-break-in-forEach"><a href="#How-to-break-in-forEach" class="headerlink" title="How to break in forEach"></a>How to break in forEach</h2><p>NO.</p>
+<p>在forEach裡沒辦法使用<code>break</code>，只能<code>return;</code>來跳過本次循環，有這種需求只能乖乖用for loop了。</p>
+<p>或是參考底下連結提供的一些神奇解法。</p>
+<h2 id="Reference-link"><a href="#Reference-link" class="headerlink" title="Reference link"></a>Reference link</h2><ul>
+<li><a href="https://blog.fundebug.com/2018/02/05/map_vs_foreach" target="_blank" rel="noopener">https://blog.fundebug.com/2018/02/05/map_vs_foreach</a></li>
+<li><a href="https://github.com/babel/babel/issues/909" target="_blank" rel="noopener">https://github.com/babel/babel/issues/909</a></li>
+<li><a href="http://jser.me/2014/04/02/%E5%A6%82%E4%BD%95%E5%9C%A8Array.forEach%E7%9A%84%E5%BE%AA%E7%8E%AF%E9%87%8Cbreak.html" target="_blank" rel="noopener">http://jser.me/2014/04/02/%E5%A6%82%E4%BD%95%E5%9C%A8Array.forEach%E7%9A%84%E5%BE%AA%E7%8E%AF%E9%87%8Cbreak.html</a></li>
+<li><a href="https://stackoverflow.com/questions/2641347/short-circuit-array-foreach-like-calling-break" target="_blank" rel="noopener">https://stackoverflow.com/questions/2641347/short-circuit-array-foreach-like-calling-break</a></li>
+</ul>
+
+      
+    </div>
+    <footer class="article-footer">
+      <a data-url="https://blog.comicat.me/2019/01/30/Javascript-async-loop/" data-id="ck9s52xh1000ctngflgl9jav8" class="article-share-link">分享</a>
+      
+      
+        <a href="https://blog.comicat.me/2019/01/30/Javascript-async-loop/#disqus_thread" class="article-comment-link">留言</a>
+      
+      
+  <ul class="article-tag-list" itemprop="keywords"><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/Javascript/" rel="tag">Javascript</a></li></ul>
+
+    </footer>
+  </div>
+  
+    
+ 
+<script src="/jquery/jquery.min.js"></script>
+
+  <div id="random_posts">
+    <h2>推薦文章</h2>
+    <div class="random_posts_ul">
+      <script>
+          var random_count =3
+          var site = {BASE_URI:'/'};
+          function load_random_posts(obj) {
+              var arr=site.posts;
+              if (!obj) return;
+              // var count = $(obj).attr('data-count') || 6;
+              for (var i, tmp, n = arr.length; n; i = Math.floor(Math.random() * n), tmp = arr[--n], arr[n] = arr[i], arr[i] = tmp);
+              arr = arr.slice(0, random_count);
+              var html = '<ul>';
+            
+              for(var j=0;j<arr.length;j++){
+                var item=arr[j];
+                html += '<li><strong>' + 
+                item.date + ':&nbsp;&nbsp;<a href="' + (site.BASE_URI+item.uri) + '">' + 
+                (item.title || item.uri) + '</a></strong>';
+                if(item.excerpt){
+                  html +='<div class="post-excerpt">'+item.excerpt+'</div>';
+                }
+                html +='</li>';
+                
+              }
+              $(obj).html(html + '</ul>');
+          }
+          $('.random_posts_ul').each(function () {
+              var c = this;
+              if (!site.posts || !site.posts.length){
+                  $.getJSON(site.BASE_URI + 'js/posts.js',function(json){site.posts = json;load_random_posts(c)});
+              } 
+               else{
+                load_random_posts(c);
+              }
+          });
+      </script>
+    </div>
+  </div>
+
+    
+<nav id="article-nav">
+  
+    <a href="/2019/05/25/PHP-select-mysql-bit-column-return-not-correct-value/" id="article-nav-newer" class="article-nav-link-wrap">
+      <strong class="article-nav-caption">Newer</strong>
+      <div class="article-nav-title">
+        
+          PHP select mysql bit column return not correct value
+        
+      </div>
+    </a>
+  
+  
+    <a href="/2018/09/28/Cloudflare-GitHub-Pages%E8%87%AA%E8%A8%82%E7%B6%B2%E5%9F%9F%E9%80%A3%E7%B7%9A%E8%A8%AD%E5%AE%9A/" id="article-nav-older" class="article-nav-link-wrap">
+      <strong class="article-nav-caption">Older</strong>
+      <div class="article-nav-title">Cloudflare+GitHub-Pages自訂網域連線設定</div>
+    </a>
+  
+</nav>
+
+  
+</article>
+ 
+     
+  <div class="comments" id="comments">
+    
+     
+    <section id="comments">
+      <div id="disqus_thread">
+        <noscript>
+          Please enable JavaScript to view the
+          <a href="//disqus.com/?ref_noscript" target="_blank" rel="noopener">comments powered by Disqus.</a>
+        </noscript>
+      </div>
+      </section>
+      
+       
+       
+      
+      
+  </div>
+ 
+  
+
+</section>
+           
+    <aside id="sidebar">
+  
+    
+    
+    
+    <div class="widget-wrap">
+    
+      <div class="widget" id="toc-widget-fixed">
+      
+        <strong class="toc-title">文章目錄</strong>
+        <div class="toc-widget-list">
+              <ol class="toc"><li class="toc-item toc-level-2"><a class="toc-link" href="#forEach"><span class="toc-number">1.</span> <span class="toc-text">forEach</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#for-of"><span class="toc-number">2.</span> <span class="toc-text">for-of</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#How-to-break-in-forEach"><span class="toc-number">3.</span> <span class="toc-text">How to break in forEach</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#Reference-link"><span class="toc-number">4.</span> <span class="toc-text">Reference link</span></a></li></ol>
+          </div>
+      </div>
+    </div>
+
+  
+    
+    
+    
+
+  
+    
+    
+    
+  
+    
+    
+    
+
+  
+    
+    
+    
+  
+    
+    
+    
+
+  
+    
+    
+    
+
+  
+</aside>
+
+      </div>
+      <footer id="footer">
+  
+  <div class="outer">
+    <div id="footer-left">
+      &copy; 2017 - 2020 comicat&nbsp;|&nbsp;
+      Theme by <a href="https://github.com/comicat-hu/hexo-theme-cafe" target="_blank">Cafe</a>
+    </div>
+     <div id="footer-right">
+      Contact&nbsp;|&nbsp;comicat.hu@gmail.com
+    </div>
+  </div>
+</footer>
+ 
+<script src="/jquery/jquery.min.js"></script>
+
+    </div>
+    <nav id="mobile-nav">
+  
+    <a href="/" class="mobile-nav-link">Home</a>
+  
+    <a href="/archives" class="mobile-nav-link">Archives</a>
+  
+    <a href="/tags" class="mobile-nav-link">Tags</a>
+  
+    <a href="/categories" class="mobile-nav-link">Categories</a>
+  
+</nav>
+    <img class="back-to-top-btn" src="/images/fly-to-top.png"/>
+<script>
+// Elevator script included on the page, already.
+window.onload = function() {
+  var elevator = new Elevator({
+    selector:'.back-to-top-btn',
+    element: document.querySelector('.back-to-top-btn'),
+    duration: 1000 // milliseconds
+  });
+}
+</script>
+      
+
+<script>
+  var disqus_shortname = 'blog-comicat';
+  
+  var disqus_url = 'https://blog.comicat.me/2019/01/30/Javascript-async-loop/';
+  
+  (function(){
+    var dsq = document.createElement('script');
+    dsq.type = 'text/javascript';
+    dsq.async = true;
+    dsq.src = '//' + disqus_shortname + '.disqus.com/embed.js';
+    (document.getElementsByTagName('head')[0] || document.getElementsByTagName('body')[0]).appendChild(dsq);
+  })();
+</script>
+
+
+
+
+
+
+
+<!-- author:forvoid begin -->
+<!-- author:forvoid begin -->
+
+<!-- author:forvoid end -->
+
+<!-- author:forvoid end -->
+
+
+
+ 
+<script src="/js/is.js"></script>
+
+
+
+  
+<link rel="stylesheet" href="/fancybox/jquery.fancybox.css">
+
+  
+<script src="/fancybox/jquery.fancybox.pack.js"></script>
+
+
+
+
+<script src="/js/script.js"></script>
+
+
+<script src="/js/elevator.js"></script>
+
+  </div>
+</body>
+</html>

@@ -1,0 +1,431 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <meta charset="utf-8">
+  
+  <title>Yii framework - CActiveForm Widget(實作篇) | Comicat&#39;s Blog</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
+  <meta name="description" content="這邊不會詳述關於CActiveForm(extends CWidget)的背後實作，不過可以大致說它是一個集成了各種表單常用的功能，並且封裝成一個物件的小工具，內部同樣包含了許多CHTML類別的調用 參考資料: http:&#x2F;&#x2F;www.yiichina.com&#x2F;doc&#x2F;api&#x2F;1.1&#x2F;CActiveForm 這邊我想直接使用CActiveForm造一個簡單的二元數字加減乘除(但要不同頁面)，">
+<meta property="og:type" content="article">
+<meta property="og:title" content="Yii framework - CActiveForm Widget(實作篇)">
+<meta property="og:url" content="https://blog.comicat.me/2017/10/19/Yii-framework-CActiveForm-Widget-%E5%AF%A6%E4%BD%9C%E7%AF%87/index.html">
+<meta property="og:site_name" content="Comicat&#39;s Blog">
+<meta property="og:description" content="這邊不會詳述關於CActiveForm(extends CWidget)的背後實作，不過可以大致說它是一個集成了各種表單常用的功能，並且封裝成一個物件的小工具，內部同樣包含了許多CHTML類別的調用 參考資料: http:&#x2F;&#x2F;www.yiichina.com&#x2F;doc&#x2F;api&#x2F;1.1&#x2F;CActiveForm 這邊我想直接使用CActiveForm造一個簡單的二元數字加減乘除(但要不同頁面)，">
+<meta property="og:locale" content="zh_TW">
+<meta property="og:image" content="https://blog.comicat.me/2017/10/19/Yii-framework-CActiveForm-Widget-%E5%AF%A6%E4%BD%9C%E7%AF%87/math_flow.PNG">
+<meta property="og:image" content="https://blog.comicat.me/2017/10/19/Yii-framework-CActiveForm-Widget-%E5%AF%A6%E4%BD%9C%E7%AF%87/math_merge.PNG">
+<meta property="article:published_time" content="2017-10-19T09:50:18.000Z">
+<meta property="article:modified_time" content="2020-05-04T05:26:23.340Z">
+<meta property="article:author" content="comicat">
+<meta property="article:tag" content="PHP">
+<meta property="article:tag" content="Yii1.x">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:image" content="https://blog.comicat.me/2017/10/19/Yii-framework-CActiveForm-Widget-%E5%AF%A6%E4%BD%9C%E7%AF%87/math_flow.PNG">
+  
+    <link rel="alternate" href="/atom.xml" title="Comicat&#39;s Blog" type="application/atom+xml">
+  
+  
+    <link rel="icon" href="/images/favicon.ico">
+  
+  
+    
+  
+  
+<link rel="stylesheet" href="/css/style.css">
+
+  
+<!-- Google Analytics -->
+<!--
+<script type="text/javascript">
+(function(i,s,o,g,r,a,m){i['GoogleAnalyticsObject']=r;i[r]=i[r]||function(){
+(i[r].q=i[r].q||[]).push(arguments)},i[r].l=1*new Date();a=s.createElement(o),
+m=s.getElementsByTagName(o)[0];a.async=1;a.src=g;m.parentNode.insertBefore(a,m)
+})(window,document,'script','//www.google-analytics.com/analytics.js','ga');
+
+ga('create', 'UA-126897949-1', 'auto');
+ga('send', 'pageview');
+
+</script>
+-->
+<!-- End Google Analytics -->
+
+<!-- Global Site Tag (gtag.js) - Google Analytics -->
+<script async src="https://www.googletagmanager.com/gtag/js?id=UA-126897949-1"></script>
+<script>
+  window.dataLayer = window.dataLayer || [];
+  function gtag(){dataLayer.push(arguments);}
+  gtag('js', new Date());
+
+  gtag('config', 'UA-126897949-1');
+  gtag('event', 'page_view', { 'send_to': 'UA-126897949-1' });
+</script>
+
+
+<meta name="generator" content="Hexo 4.2.0"></head>
+
+<body>
+  <div id="container">
+    <div id="wrap">
+      <header id="header">
+  <div id="banner"></div>
+  <div id="header-outer" class="outer">
+    
+    <div id="header-inner" class="inner">
+      <nav id="sub-nav">
+        
+          <a id="nav-rss-link" class="nav-icon" href="/atom.xml" title="RSS Feed"></a>
+        
+        <a id="nav-search-btn" class="nav-icon" title="搜尋"></a>
+      </nav>
+      <div id="search-form-wrap">
+        <form action="//google.com/search" method="get" accept-charset="UTF-8" class="search-form"><input type="search" name="q" class="search-form-input" placeholder="Search"><button type="submit" class="search-form-submit">&#xF002;</button><input type="hidden" name="sitesearch" value="https://blog.comicat.me"></form>
+      </div>
+      <nav id="main-nav">
+        <a id="main-nav-toggle" class="nav-icon"></a>
+        
+          <a class="main-nav-link" href="/">Home</a>
+        
+          <a class="main-nav-link" href="/archives">Archives</a>
+        
+          <a class="main-nav-link" href="/tags">Tags</a>
+        
+          <a class="main-nav-link" href="/categories">Categories</a>
+        
+      </nav>
+      
+    </div>
+    <div id="header-title" class="inner">
+      <h1 id="logo-wrap">
+        <a href="/" id="logo">Comicat&#39;s Blog</a>
+      </h1>
+      
+        <h2 id="subtitle-wrap">
+          <a href="/" id="subtitle">Find Something Funny</a>
+        </h2>
+      
+    </div>
+  </div>
+</header>
+      <div class="outer">
+        <section id="main"><article id="post-Yii-framework-CActiveForm-Widget-實作篇" class="article article-type-post" itemscope itemprop="blogPost">
+  <div class="article-meta">
+    <a href="/2017/10/19/Yii-framework-CActiveForm-Widget-%E5%AF%A6%E4%BD%9C%E7%AF%87/" class="article-date">
+  <time datetime="2017-10-19T09:50:18.000Z" itemprop="datePublished">2017-10-19</time>
+</a>
+    
+  <div class="article-category">
+    <a class="article-category-link" href="/categories/%E8%B3%87%E8%A8%8A%E6%8A%80%E8%A1%93/">資訊技術</a>►<a class="article-category-link" href="/categories/%E8%B3%87%E8%A8%8A%E6%8A%80%E8%A1%93/PHP/">PHP</a>
+  </div>
+
+  </div>
+  <div class="article-inner">
+    
+    
+      <header class="article-header">
+        
+  
+    <h1 class="article-title" itemprop="name">
+      Yii framework - CActiveForm Widget(實作篇)
+    </h1>
+  
+
+      </header>
+    
+    <div class="article-entry" itemprop="articleBody">
+      
+        <!-- Table of Contents -->
+        
+        <p>這邊不會詳述關於CActiveForm(extends CWidget)的背後實作，不過可以大致說它是一個集成了各種表單常用的功能，並且封裝成一個物件的小工具，內部同樣包含了許多CHTML類別的調用</p>
+<p>參考資料: <a href="http://www.yiichina.com/doc/api/1.1/CActiveForm" target="_blank" rel="noopener">http://www.yiichina.com/doc/api/1.1/CActiveForm</a></p>
+<p>這邊我想直接使用CActiveForm造一個簡單的二元數字加減乘除(但要不同頁面)，</p>
+<a id="more"></a>
+<p>先簡述一下mvc架構</p>
+<ul>
+<li><code>MathController extends CController</code>: 這邊要負責導去不同的action，沒給action預設依然會進index</li>
+<li><code>MathForm extends CFormModel</code>: 這邊建立關於傳入參數的資料模型，寫rules()驗證合法的數字格式</li>
+<li>views<ul>
+<li>一個math layout用於整體html架構</li>
+<li>一個index view首頁內容，可以連結到各個action頁面</li>
+<li>一個math view建立CActiveForm Widget，並且可以呈現主要的輸出入結果和錯誤提示</li>
+</ul>
+</li>
+<li><code>MathAction extends CAction</code>(component): 因為每個加減乘除action的run()都一樣，所以就開了一個component來放共同方法</li>
+<li>action另外寫成class並extends MathAction，由MathController actions()統一處理</li>
+</ul>
+<p>controllerID: math</p>
+<p>actionID: add, sub, mul, div</p>
+<h2 id="MathController-extends-CController"><a href="#MathController-extends-CController" class="headerlink" title="MathController extends CController"></a>MathController extends CController</h2><p>指定layouts\math_layout.php為layout輸出檔，然後將加減乘除的各個action導去不同的路徑，</p>
+<p>這裡的application是根據我們的config設定而來的別名，指的是protected資料夾</p>
+<figure class="highlight php"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br></pre></td><td class="code"><pre><span class="line"><span class="class"><span class="keyword">class</span> <span class="title">MathController</span> <span class="keyword">extends</span> <span class="title">Controller</span></span></span><br><span class="line"><span class="class"></span>&#123;</span><br><span class="line">    <span class="keyword">public</span> <span class="function"><span class="keyword">function</span> <span class="title">actions</span><span class="params">()</span></span></span><br><span class="line"><span class="function">    </span>&#123;</span><br><span class="line">        <span class="keyword">$this</span>-&gt;layout = <span class="string">'math_layout'</span>;</span><br><span class="line">        <span class="keyword">return</span> [</span><br><span class="line">            <span class="string">'add'</span> =&gt; <span class="string">'application.controllers.math.addAction'</span>,</span><br><span class="line">            <span class="string">'sub'</span> =&gt; <span class="string">'application.controllers.math.subAction'</span>,</span><br><span class="line">            <span class="string">'mul'</span> =&gt; <span class="string">'application.controllers.math.mulAction'</span>,</span><br><span class="line">            <span class="string">'div'</span> =&gt; <span class="string">'application.controllers.math.divAction'</span>,</span><br><span class="line">        ];</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    <span class="keyword">public</span> <span class="function"><span class="keyword">function</span> <span class="title">actionIndex</span><span class="params">()</span></span></span><br><span class="line"><span class="function">    </span>&#123;</span><br><span class="line">        <span class="keyword">$this</span>-&gt;layout = <span class="string">'math_layout'</span>;</span><br><span class="line">        <span class="keyword">$this</span>-&gt;render(<span class="string">'index'</span>);</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<h2 id="MathForm-extends-CFormModel"><a href="#MathForm-extends-CFormModel" class="headerlink" title="MathForm extends CFormModel"></a>MathForm extends CFormModel</h2><p>這裡定義a, b來存放輸入的兩個參數，並定義了驗證規則，</p>
+<p>這個驗證規則會統一用在前端跟後端的驗證上(後面會提到)</p>
+<figure class="highlight php"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br></pre></td><td class="code"><pre><span class="line"><span class="class"><span class="keyword">class</span> <span class="title">MathForm</span> <span class="keyword">extends</span> <span class="title">CFormModel</span></span></span><br><span class="line"><span class="class"></span>&#123;</span><br><span class="line">    <span class="keyword">public</span> $a;</span><br><span class="line">    <span class="keyword">public</span> $b;</span><br><span class="line"></span><br><span class="line">    <span class="keyword">public</span> <span class="function"><span class="keyword">function</span> <span class="title">rules</span><span class="params">()</span></span></span><br><span class="line"><span class="function">    </span>&#123;</span><br><span class="line">        <span class="keyword">return</span> [</span><br><span class="line">            [<span class="string">'a, b'</span>, <span class="string">'numerical'</span>],</span><br><span class="line">        ];</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<h2 id="math-view"><a href="#math-view" class="headerlink" title="math view"></a>math view</h2><p>在這裡的<code>$this</code>指的是MathController實體，或用<code>Yii::app()</code>也可以拿到</p>
+<ul>
+<li><code>$this-&gt;action-&gt;id;</code>可以取得目前的actionID，實際上是<code>$this-&gt;getAction()-&gt;getId();</code></li>
+<li><code>$this-&gt;id;</code>可以取得目前的controllerID，實際上是<code>$this-&gt;getId();</code></li>
+</ul>
+<p>建立一個widget使用CActiveForm，啟用client驗證，設定要focus的欄位</p>
+<p>建立兩個textField輸入框和一個submit button</p>
+<figure class="highlight php"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br></pre></td><td class="code"><pre><span class="line"><span class="meta">&lt;?php</span></span><br><span class="line">$form = <span class="keyword">$this</span>-&gt;beginWidget(<span class="string">'CActiveForm'</span>, <span class="keyword">array</span>(</span><br><span class="line">    <span class="string">'id'</span> =&gt; <span class="string">'math-form'</span>,</span><br><span class="line">    <span class="string">'enableClientValidation'</span> =&gt; <span class="keyword">true</span>,</span><br><span class="line">    <span class="string">'focus'</span> =&gt; <span class="keyword">array</span>($model, <span class="string">'a'</span>),</span><br><span class="line">));</span><br><span class="line"></span><br><span class="line">&lt;div class="row submit"&gt;</span><br><span class="line">    <span class="meta">&lt;?php</span> <span class="keyword">echo</span> $form-&gt;textField($model, <span class="string">'a'</span>); <span class="meta">?&gt;</span></span><br><span class="line">    <span class="meta">&lt;?php</span> <span class="keyword">echo</span> $sign;<span class="meta">?&gt;</span></span><br><span class="line">    <span class="meta">&lt;?php</span> <span class="keyword">echo</span> $form-&gt;textField($model, <span class="string">'b'</span>); <span class="meta">?&gt;</span></span><br><span class="line">    <span class="meta">&lt;?php</span> <span class="keyword">echo</span> CHtml::submitButton(<span class="string">'Submit'</span>); <span class="meta">?&gt;</span></span><br><span class="line">&lt;/div&gt;</span><br><span class="line"></span><br><span class="line"><span class="meta">&lt;?php</span> <span class="keyword">echo</span> $form-&gt;error($model,<span class="string">'a'</span>); <span class="meta">?&gt;</span></span><br><span class="line"><span class="meta">&lt;?php</span> <span class="keyword">echo</span> $form-&gt;error($model,<span class="string">'b'</span>); <span class="meta">?&gt;</span></span><br><span class="line"></span><br><span class="line"><span class="meta">&lt;?php</span> <span class="keyword">$this</span>-&gt;endWidget(); <span class="meta">?&gt;</span></span><br></pre></td></tr></table></figure>
+<p>而網頁中的一些動態功能則是會由CActiveForm去自動使用jQuery語法和yii自行定義的jQuery工具(jquery.yiiactiveform)來達成</p>
+<p>呼叫error()讓它可以在前端驗證錯誤時丟出錯誤訊息，從網頁原始碼中可以看到它帶入了我們之前定義的要驗證numerical，一樣是透過CNumberValidator來生成驗證語法</p>
+<figure class="highlight php"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">// because validator's allowEmpty = true</span></span><br><span class="line"><span class="keyword">if</span>(jQuery.trim(value)!=<span class="string">''</span>) &#123;</span><br><span class="line"></span><br><span class="line">    <span class="keyword">if</span>(!value.match(/^\s*[-+]?[<span class="number">0</span><span class="number">-9</span>]*\.?[<span class="number">0</span><span class="number">-9</span>]+([eE][-+]?[<span class="number">0</span><span class="number">-9</span>]+)?\s*$/)) &#123;</span><br><span class="line">        messages.push(<span class="string">"A must be a number."</span>);</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<h2 id="MathAction-extends-CAction"><a href="#MathAction-extends-CAction" class="headerlink" title="MathAction extends CAction"></a>MathAction extends CAction</h2><p>這裡要寫加減乘除共同的run()方法，負責</p>
+<ul>
+<li>new MathForm model</li>
+<li>setAttributes()，把<code>$_POST[&#39;MathForm&#39;]</code>資料塞進model</li>
+<li>validate()後端驗證輸入資料</li>
+<li>透過controller render塞資料給view然後呈現頁面</li>
+<li>這裡的<code>$this</code>是各action實體</li>
+<li>這render的內容會在math layout的<code>$content</code>塞入</li>
+</ul>
+<figure class="highlight php"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br><span class="line">44</span><br><span class="line">45</span><br><span class="line">46</span><br><span class="line">47</span><br><span class="line">48</span><br><span class="line">49</span><br></pre></td><td class="code"><pre><span class="line"><span class="class"><span class="keyword">class</span> <span class="title">MathAction</span> <span class="keyword">extends</span> <span class="title">CAction</span></span></span><br><span class="line"><span class="class"></span>&#123;</span><br><span class="line">    <span class="keyword">public</span> <span class="function"><span class="keyword">function</span> <span class="title">run</span><span class="params">($a = <span class="number">0</span>, $b = <span class="number">0</span>)</span></span></span><br><span class="line"><span class="function">    </span>&#123;</span><br><span class="line">        $show = <span class="string">''</span>;</span><br><span class="line">        $result = <span class="keyword">$this</span>-&gt;calc($a, $b);</span><br><span class="line">        $model = <span class="keyword">new</span> MathForm;</span><br><span class="line"></span><br><span class="line">        <span class="keyword">if</span> (<span class="keyword">isset</span>($_POST[<span class="string">'MathForm'</span>])) &#123;</span><br><span class="line"></span><br><span class="line">            $model-&gt;setAttributes($_POST[<span class="string">'MathForm'</span>]);</span><br><span class="line"></span><br><span class="line">            <span class="keyword">if</span> ($model-&gt;validate()) &#123;</span><br><span class="line"></span><br><span class="line">                $a = $model-&gt;a;</span><br><span class="line">                $b = $model-&gt;b;</span><br><span class="line"></span><br><span class="line">                <span class="keyword">if</span> (<span class="keyword">empty</span>($model-&gt;a)) &#123;</span><br><span class="line">                    $a = <span class="number">0</span>;</span><br><span class="line">                &#125;</span><br><span class="line">                <span class="keyword">if</span> (<span class="keyword">empty</span>($model-&gt;b)) &#123;</span><br><span class="line">                    $b = <span class="number">0</span>;</span><br><span class="line">                &#125;</span><br><span class="line">    </span><br><span class="line">                $result = <span class="keyword">$this</span>-&gt;calc($a, $b);</span><br><span class="line">            &#125;</span><br><span class="line">        &#125;</span><br><span class="line">        $sign = <span class="keyword">$this</span>-&gt;getSign();</span><br><span class="line">        $show = <span class="string">"$a $sign $b = $result &lt;br&gt;"</span>;</span><br><span class="line">        <span class="keyword">return</span> <span class="keyword">$this</span>-&gt;getController()-&gt;render(<span class="string">'math'</span>, [<span class="string">'model'</span> =&gt; $model, <span class="string">'show'</span> =&gt; $show, <span class="string">'sign'</span> =&gt; $sign]);</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    <span class="keyword">public</span> <span class="function"><span class="keyword">function</span> <span class="title">getSign</span><span class="params">()</span></span></span><br><span class="line"><span class="function">    </span>&#123;</span><br><span class="line">        $signs = [</span><br><span class="line">            <span class="string">'add'</span> =&gt; <span class="string">'+'</span>,</span><br><span class="line">            <span class="string">'div'</span> =&gt; <span class="string">'/'</span>,</span><br><span class="line">            <span class="string">'mul'</span> =&gt; <span class="string">'*'</span>,</span><br><span class="line">            <span class="string">'sub'</span> =&gt; <span class="string">'-'</span>,</span><br><span class="line">        ];</span><br><span class="line">        $actionID = <span class="keyword">$this</span>-&gt;controller-&gt;action-&gt;id;</span><br><span class="line">        <span class="keyword">return</span> $signs[$actionID];</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    <span class="keyword">public</span> <span class="function"><span class="keyword">function</span> <span class="title">calc</span><span class="params">($a, $b)</span></span></span><br><span class="line"><span class="function">    </span>&#123;</span><br><span class="line">        <span class="keyword">return</span> <span class="number">0</span>;</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<h2 id="加減乘除action-extends-MathAction"><a href="#加減乘除action-extends-MathAction" class="headerlink" title="加減乘除action extends MathAction"></a>加減乘除action extends MathAction</h2><p>這裡沒幹麻，主要就是各種計算不同所以要覆寫calc()方法，回傳結果</p>
+<figure class="highlight php"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br></pre></td><td class="code"><pre><span class="line"><span class="class"><span class="keyword">class</span> <span class="title">addAction</span> <span class="keyword">extends</span> <span class="title">MathAction</span></span></span><br><span class="line"><span class="class"></span>&#123;</span><br><span class="line">    <span class="keyword">public</span> <span class="function"><span class="keyword">function</span> <span class="title">calc</span><span class="params">($a, $b)</span></span></span><br><span class="line"><span class="function">    </span>&#123;</span><br><span class="line">        $result = $a + $b;</span><br><span class="line">        <span class="keyword">return</span> $result;</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<img src="/2017/10/19/Yii-framework-CActiveForm-Widget-實作篇/math_flow.PNG" title="math_flow">
+<img src="/2017/10/19/Yii-framework-CActiveForm-Widget-實作篇/math_merge.PNG" title="math_merge">
+
+      
+    </div>
+    <footer class="article-footer">
+      <a data-url="https://blog.comicat.me/2017/10/19/Yii-framework-CActiveForm-Widget-%E5%AF%A6%E4%BD%9C%E7%AF%87/" data-id="ck9s52xhd000xtngfustbdyj0" class="article-share-link">分享</a>
+      
+      
+        <a href="https://blog.comicat.me/2017/10/19/Yii-framework-CActiveForm-Widget-%E5%AF%A6%E4%BD%9C%E7%AF%87/#disqus_thread" class="article-comment-link">留言</a>
+      
+      
+  <ul class="article-tag-list" itemprop="keywords"><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/PHP/" rel="tag">PHP</a></li><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/Yii1-x/" rel="tag">Yii1.x</a></li></ul>
+
+    </footer>
+  </div>
+  
+    
+ 
+<script src="/jquery/jquery.min.js"></script>
+
+  <div id="random_posts">
+    <h2>推薦文章</h2>
+    <div class="random_posts_ul">
+      <script>
+          var random_count =3
+          var site = {BASE_URI:'/'};
+          function load_random_posts(obj) {
+              var arr=site.posts;
+              if (!obj) return;
+              // var count = $(obj).attr('data-count') || 6;
+              for (var i, tmp, n = arr.length; n; i = Math.floor(Math.random() * n), tmp = arr[--n], arr[n] = arr[i], arr[i] = tmp);
+              arr = arr.slice(0, random_count);
+              var html = '<ul>';
+            
+              for(var j=0;j<arr.length;j++){
+                var item=arr[j];
+                html += '<li><strong>' + 
+                item.date + ':&nbsp;&nbsp;<a href="' + (site.BASE_URI+item.uri) + '">' + 
+                (item.title || item.uri) + '</a></strong>';
+                if(item.excerpt){
+                  html +='<div class="post-excerpt">'+item.excerpt+'</div>';
+                }
+                html +='</li>';
+                
+              }
+              $(obj).html(html + '</ul>');
+          }
+          $('.random_posts_ul').each(function () {
+              var c = this;
+              if (!site.posts || !site.posts.length){
+                  $.getJSON(site.BASE_URI + 'js/posts.js',function(json){site.posts = json;load_random_posts(c)});
+              } 
+               else{
+                load_random_posts(c);
+              }
+          });
+      </script>
+    </div>
+  </div>
+
+    
+<nav id="article-nav">
+  
+    <a href="/2017/10/20/Yii-framework-UrlManager/" id="article-nav-newer" class="article-nav-link-wrap">
+      <strong class="article-nav-caption">Newer</strong>
+      <div class="article-nav-title">
+        
+          Yii framework - UrlManager
+        
+      </div>
+    </a>
+  
+  
+    <a href="/2017/10/17/Yii-framework-Form/" id="article-nav-older" class="article-nav-link-wrap">
+      <strong class="article-nav-caption">Older</strong>
+      <div class="article-nav-title">Yii framework - Form</div>
+    </a>
+  
+</nav>
+
+  
+</article>
+ 
+     
+  <div class="comments" id="comments">
+    
+     
+    <section id="comments">
+      <div id="disqus_thread">
+        <noscript>
+          Please enable JavaScript to view the
+          <a href="//disqus.com/?ref_noscript" target="_blank" rel="noopener">comments powered by Disqus.</a>
+        </noscript>
+      </div>
+      </section>
+      
+       
+       
+      
+      
+  </div>
+ 
+  
+
+</section>
+           
+    <aside id="sidebar">
+  
+    
+    
+    
+    <div class="widget-wrap">
+    
+      <div class="widget" id="toc-widget-fixed">
+      
+        <strong class="toc-title">文章目錄</strong>
+        <div class="toc-widget-list">
+              <ol class="toc"><li class="toc-item toc-level-2"><a class="toc-link" href="#MathController-extends-CController"><span class="toc-number">1.</span> <span class="toc-text">MathController extends CController</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#MathForm-extends-CFormModel"><span class="toc-number">2.</span> <span class="toc-text">MathForm extends CFormModel</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#math-view"><span class="toc-number">3.</span> <span class="toc-text">math view</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#MathAction-extends-CAction"><span class="toc-number">4.</span> <span class="toc-text">MathAction extends CAction</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#加減乘除action-extends-MathAction"><span class="toc-number">5.</span> <span class="toc-text">加減乘除action extends MathAction</span></a></li></ol>
+          </div>
+      </div>
+    </div>
+
+  
+    
+    
+    
+
+  
+    
+    
+    
+  
+    
+    
+    
+
+  
+    
+    
+    
+  
+    
+    
+    
+
+  
+    
+    
+    
+
+  
+</aside>
+
+      </div>
+      <footer id="footer">
+  
+  <div class="outer">
+    <div id="footer-left">
+      &copy; 2017 - 2020 comicat&nbsp;|&nbsp;
+      Theme by <a href="https://github.com/comicat-hu/hexo-theme-cafe" target="_blank">Cafe</a>
+    </div>
+     <div id="footer-right">
+      Contact&nbsp;|&nbsp;comicat.hu@gmail.com
+    </div>
+  </div>
+</footer>
+ 
+<script src="/jquery/jquery.min.js"></script>
+
+    </div>
+    <nav id="mobile-nav">
+  
+    <a href="/" class="mobile-nav-link">Home</a>
+  
+    <a href="/archives" class="mobile-nav-link">Archives</a>
+  
+    <a href="/tags" class="mobile-nav-link">Tags</a>
+  
+    <a href="/categories" class="mobile-nav-link">Categories</a>
+  
+</nav>
+    <img class="back-to-top-btn" src="/images/fly-to-top.png"/>
+<script>
+// Elevator script included on the page, already.
+window.onload = function() {
+  var elevator = new Elevator({
+    selector:'.back-to-top-btn',
+    element: document.querySelector('.back-to-top-btn'),
+    duration: 1000 // milliseconds
+  });
+}
+</script>
+      
+
+<script>
+  var disqus_shortname = 'blog-comicat';
+  
+  var disqus_url = 'https://blog.comicat.me/2017/10/19/Yii-framework-CActiveForm-Widget-%E5%AF%A6%E4%BD%9C%E7%AF%87/';
+  
+  (function(){
+    var dsq = document.createElement('script');
+    dsq.type = 'text/javascript';
+    dsq.async = true;
+    dsq.src = '//' + disqus_shortname + '.disqus.com/embed.js';
+    (document.getElementsByTagName('head')[0] || document.getElementsByTagName('body')[0]).appendChild(dsq);
+  })();
+</script>
+
+
+
+
+
+
+
+<!-- author:forvoid begin -->
+<!-- author:forvoid begin -->
+
+<!-- author:forvoid end -->
+
+<!-- author:forvoid end -->
+
+
+
+ 
+<script src="/js/is.js"></script>
+
+
+
+  
+<link rel="stylesheet" href="/fancybox/jquery.fancybox.css">
+
+  
+<script src="/fancybox/jquery.fancybox.pack.js"></script>
+
+
+
+
+<script src="/js/script.js"></script>
+
+
+<script src="/js/elevator.js"></script>
+
+  </div>
+</body>
+</html>

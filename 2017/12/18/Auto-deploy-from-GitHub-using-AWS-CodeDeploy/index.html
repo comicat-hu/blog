@@ -1,0 +1,463 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <meta charset="utf-8">
+  
+  <title>Auto deploy from GitHub using AWS CodeDeploy | Comicat&#39;s Blog</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
+  <meta name="description" content="以下步驟會透過aws web console操作。 本篇使用個人的專案為實驗，僅供參考。 流程摘要 建立IAM user, role, policy 建立EC2, 安裝codedeploy-agent 建立專案部署設定檔appspec.yml 建立code deploy application 手動透過code deploy部署一個GitHub專案 建立自動從GitHub通知部署的服務">
+<meta property="og:type" content="article">
+<meta property="og:title" content="Auto deploy from GitHub using AWS CodeDeploy">
+<meta property="og:url" content="https://blog.comicat.me/2017/12/18/Auto-deploy-from-GitHub-using-AWS-CodeDeploy/index.html">
+<meta property="og:site_name" content="Comicat&#39;s Blog">
+<meta property="og:description" content="以下步驟會透過aws web console操作。 本篇使用個人的專案為實驗，僅供參考。 流程摘要 建立IAM user, role, policy 建立EC2, 安裝codedeploy-agent 建立專案部署設定檔appspec.yml 建立code deploy application 手動透過code deploy部署一個GitHub專案 建立自動從GitHub通知部署的服務">
+<meta property="og:locale" content="zh_TW">
+<meta property="og:image" content="https://blog.comicat.me/2017/12/18/Auto-deploy-from-GitHub-using-AWS-CodeDeploy/create-role.PNG">
+<meta property="og:image" content="https://blog.comicat.me/2017/12/18/Auto-deploy-from-GitHub-using-AWS-CodeDeploy/create_application.png">
+<meta property="og:image" content="https://blog.comicat.me/2017/12/18/Auto-deploy-from-GitHub-using-AWS-CodeDeploy/service.PNG">
+<meta property="og:image" content="https://blog.comicat.me/2017/12/18/Auto-deploy-from-GitHub-using-AWS-CodeDeploy/view_event.PNG">
+<meta property="article:published_time" content="2017-12-18T03:15:09.000Z">
+<meta property="article:modified_time" content="2020-05-04T05:26:23.330Z">
+<meta property="article:author" content="comicat">
+<meta property="article:tag" content="Deploy">
+<meta property="article:tag" content="AWS">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:image" content="https://blog.comicat.me/2017/12/18/Auto-deploy-from-GitHub-using-AWS-CodeDeploy/create-role.PNG">
+  
+    <link rel="alternate" href="/atom.xml" title="Comicat&#39;s Blog" type="application/atom+xml">
+  
+  
+    <link rel="icon" href="/images/favicon.ico">
+  
+  
+    
+  
+  
+<link rel="stylesheet" href="/css/style.css">
+
+  
+<!-- Google Analytics -->
+<!--
+<script type="text/javascript">
+(function(i,s,o,g,r,a,m){i['GoogleAnalyticsObject']=r;i[r]=i[r]||function(){
+(i[r].q=i[r].q||[]).push(arguments)},i[r].l=1*new Date();a=s.createElement(o),
+m=s.getElementsByTagName(o)[0];a.async=1;a.src=g;m.parentNode.insertBefore(a,m)
+})(window,document,'script','//www.google-analytics.com/analytics.js','ga');
+
+ga('create', 'UA-126897949-1', 'auto');
+ga('send', 'pageview');
+
+</script>
+-->
+<!-- End Google Analytics -->
+
+<!-- Global Site Tag (gtag.js) - Google Analytics -->
+<script async src="https://www.googletagmanager.com/gtag/js?id=UA-126897949-1"></script>
+<script>
+  window.dataLayer = window.dataLayer || [];
+  function gtag(){dataLayer.push(arguments);}
+  gtag('js', new Date());
+
+  gtag('config', 'UA-126897949-1');
+  gtag('event', 'page_view', { 'send_to': 'UA-126897949-1' });
+</script>
+
+
+<meta name="generator" content="Hexo 4.2.0"></head>
+
+<body>
+  <div id="container">
+    <div id="wrap">
+      <header id="header">
+  <div id="banner"></div>
+  <div id="header-outer" class="outer">
+    
+    <div id="header-inner" class="inner">
+      <nav id="sub-nav">
+        
+          <a id="nav-rss-link" class="nav-icon" href="/atom.xml" title="RSS Feed"></a>
+        
+        <a id="nav-search-btn" class="nav-icon" title="搜尋"></a>
+      </nav>
+      <div id="search-form-wrap">
+        <form action="//google.com/search" method="get" accept-charset="UTF-8" class="search-form"><input type="search" name="q" class="search-form-input" placeholder="Search"><button type="submit" class="search-form-submit">&#xF002;</button><input type="hidden" name="sitesearch" value="https://blog.comicat.me"></form>
+      </div>
+      <nav id="main-nav">
+        <a id="main-nav-toggle" class="nav-icon"></a>
+        
+          <a class="main-nav-link" href="/">Home</a>
+        
+          <a class="main-nav-link" href="/archives">Archives</a>
+        
+          <a class="main-nav-link" href="/tags">Tags</a>
+        
+          <a class="main-nav-link" href="/categories">Categories</a>
+        
+      </nav>
+      
+    </div>
+    <div id="header-title" class="inner">
+      <h1 id="logo-wrap">
+        <a href="/" id="logo">Comicat&#39;s Blog</a>
+      </h1>
+      
+        <h2 id="subtitle-wrap">
+          <a href="/" id="subtitle">Find Something Funny</a>
+        </h2>
+      
+    </div>
+  </div>
+</header>
+      <div class="outer">
+        <section id="main"><article id="post-Auto-deploy-from-GitHub-using-AWS-CodeDeploy" class="article article-type-post" itemscope itemprop="blogPost">
+  <div class="article-meta">
+    <a href="/2017/12/18/Auto-deploy-from-GitHub-using-AWS-CodeDeploy/" class="article-date">
+  <time datetime="2017-12-18T03:15:09.000Z" itemprop="datePublished">2017-12-18</time>
+</a>
+    
+  <div class="article-category">
+    <a class="article-category-link" href="/categories/%E8%B3%87%E8%A8%8A%E6%8A%80%E8%A1%93/">資訊技術</a>►<a class="article-category-link" href="/categories/%E8%B3%87%E8%A8%8A%E6%8A%80%E8%A1%93/AWS/">AWS</a>
+  </div>
+
+  </div>
+  <div class="article-inner">
+    
+    
+      <header class="article-header">
+        
+  
+    <h1 class="article-title" itemprop="name">
+      Auto deploy from GitHub using AWS CodeDeploy
+    </h1>
+  
+
+      </header>
+    
+    <div class="article-entry" itemprop="articleBody">
+      
+        <!-- Table of Contents -->
+        
+        <p>以下步驟會透過aws web console操作。</p>
+<p>本篇使用個人的專案為實驗，僅供參考。</p>
+<h2 id="流程摘要"><a href="#流程摘要" class="headerlink" title="流程摘要"></a>流程摘要</h2><ul>
+<li>建立IAM user, role, policy</li>
+<li>建立EC2, 安裝codedeploy-agent</li>
+<li>建立專案部署設定檔<code>appspec.yml</code></li>
+<li>建立code deploy application</li>
+<li>手動透過code deploy部署一個GitHub專案</li>
+<li>建立自動從GitHub通知部署的服務</li>
+</ul>
+<a id="more"></a>
+<h2 id="建立IAM-user-role-policy"><a href="#建立IAM-user-role-policy" class="headerlink" title="建立IAM user, role, policy"></a>建立IAM user, role, policy</h2><ul>
+<li>參考 <a href="http://docs.aws.amazon.com/codedeploy/latest/userguide/getting-started-create-service-role.html" target="_blank" rel="noopener">http://docs.aws.amazon.com/codedeploy/latest/userguide/getting-started-create-service-role.html</a></li>
+<li>如果要規範特定region存取，可以edit Trust Relationship中的service設定</li>
+</ul>
+<img src="/2017/12/18/Auto-deploy-from-GitHub-using-AWS-CodeDeploy/create-role.PNG" title="create-role">
+<h2 id="建立EC2-安裝codedeploy-agent"><a href="#建立EC2-安裝codedeploy-agent" class="headerlink" title="建立EC2, 安裝codedeploy-agent"></a>建立EC2, 安裝codedeploy-agent</h2><ul>
+<li>起一台amazon linux ami t2 micro，記得加個tag Name</li>
+<li>參考 <a href="http://docs.aws.amazon.com/zh_cn/codedeploy/latest/userguide/codedeploy-agent-operations-install-linux.html" target="_blank" rel="noopener">http://docs.aws.amazon.com/zh_cn/codedeploy/latest/userguide/codedeploy-agent-operations-install-linux.html</a></li>
+<li>順便環境建置及設定</li>
+<li>之後codedeploy會用root執行，所以環境設定時注意一下</li>
+</ul>
+<h2 id="建立專案部署設定檔appspec-yml"><a href="#建立專案部署設定檔appspec-yml" class="headerlink" title="建立專案部署設定檔appspec.yml"></a>建立專案部署設定檔appspec.yml</h2><ul>
+<li>參考 <a href="http://docs.aws.amazon.com/codedeploy/latest/userguide/reference-appspec-file.html" target="_blank" rel="noopener">http://docs.aws.amazon.com/codedeploy/latest/userguide/reference-appspec-file.html</a>，將檔案放在專案根目錄</li>
+<li>YAML格式非常嚴謹，必須確保縮排及空格都要符合規範，不需要用的區塊要整個註解掉或移除</li>
+<li>CodeDeploy會先將專案放置在某個暫存資料夾(source)再移到你所設定的目的地(destination)</li>
+<li>CodeDeploy會有幾個重要的階段 <code>ApplicationStop -&gt; BeforeInstall -&gt; AfterInstall -&gt;  ApplicationStart</code>，可以在這些階段中設定要執行的script，install指的是複製專案到目的地的動作。<ul>
+<li><code>ApplicationStop</code> : 在下載新的commit前會先跑stop，所以這時執行的是當前(舊版)的stop script，第一次部屬因為沒有舊版stop script所以沒有執行任何東西。</li>
+<li><code>BeforeInstall</code> : 在安裝前時期</li>
+<li><code>AfterInstall</code> : 在安裝後的時期</li>
+<li><code>ApplicationStart</code> : 啟動程序時期</li>
+</ul>
+</li>
+</ul>
+<h2 id="建立code-deploy-application"><a href="#建立code-deploy-application" class="headerlink" title="建立code deploy application"></a>建立code deploy application</h2><ul>
+<li>到CodeDeploy點選，create application</li>
+<li>參考 <a href="http://docs.aws.amazon.com/zh_cn/codedeploy/latest/userguide/applications-create.html" target="_blank" rel="noopener">http://docs.aws.amazon.com/zh_cn/codedeploy/latest/userguide/applications-create.html</a></li>
+<li>使用Tag Name選擇前面起的EC2</li>
+<li>選擇前面設定的CodeDeployRole</li>
+<li>Advanced中可以設定部署失敗是否要rollback</li>
+</ul>
+<img src="/2017/12/18/Auto-deploy-from-GitHub-using-AWS-CodeDeploy/create_application.png" title="create_application">
+<h2 id="手動透過code-deploy部署一個GitHub專案"><a href="#手動透過code-deploy部署一個GitHub專案" class="headerlink" title="手動透過code deploy部署一個GitHub專案"></a>手動透過code deploy部署一個GitHub專案</h2><ul>
+<li>Create deployment</li>
+<li>Repository type選擇from !GitHub，輸入GitHub的代稱，如果登入的GitHub沒有連結aws過，會要求一個認證，點選即可。</li>
+<li>輸入完整的Repository名稱(帳戶名稱/專案名稱)，這裡似乎只能用master branch</li>
+<li>完整的commit ID</li>
+</ul>
+<p>確認上面的流程都可以順利運作之後，再來加入自動通知部屬的服務，務必連續部署幾次查看，有時候在applicationStop時期會有exit 0的錯誤，目前尚不知道原因為何，但通常是跑script或初次部屬就失敗，這時候再推新版也無法成功，只能重建一個新的deploy application。(通常也會是因為applicationStop時其會執行舊版appspec和script有關，所以永遠離不開錯誤的script，進機器修改舊版暫存檔也許可以改善，但沒試過)</p>
+<h2 id="建立自動從GitHub通知部署的服務"><a href="#建立自動從GitHub通知部署的服務" class="headerlink" title="建立自動從GitHub通知部署的服務"></a>建立自動從GitHub通知部署的服務</h2><ul>
+<li>auto deploy 可以直接參考這篇後半，<a href="https://crypt.codemancers.com/posts/2016-12-26-autodeploy-from-github-using-aws-codedeploy/" target="_blank" rel="noopener">https://crypt.codemancers.com/posts/2016-12-26-autodeploy-from-github-using-aws-codedeploy/</a></li>
+<li>建立IAM user的policy時，必須注意其中的<code>APPLICATION_NAME</code>和<code>DEPLOYMENT_GROUP</code>，要和我們建立的名稱一樣，不然github就存取不到了</li>
+<li>產生一組IAM user的Access key，記得複製</li>
+<li>到github帳號的<code>settings -&gt; Developer settings -&gt; Personal access tokens</code>產生一組token，並且勾選<code>repo:status</code>和<code>repo_deployment</code>，記得複製token</li>
+<li>到專案的<code>settings -&gt; Integrations &amp; services -&gt; Add service</code>，總共要加入兩個服務<code>AWS CodeDeploy EditDelete</code>和<code>GitHub Auto-Deployment</code>，各別填上相應的資訊就是了，剛剛的access key, github token都是在這裡使用</li>
+</ul>
+<p>接下來嘗試push commit，如果兩個服務都有順利運行就會有綠色勾勾，反之則會有驚嘆號的標示</p>
+<img src="/2017/12/18/Auto-deploy-from-GitHub-using-AWS-CodeDeploy/service.PNG" title="service">
+<p>github服務過了之後流程就會到codedeploy這邊，</p>
+<p>登入後在CodeDeploy deployments頁面查看是否有部署動作中</p>
+<ul>
+<li>點選<code>deployment ID</code>可以查看詳細的內容</li>
+<li>在內容中點選<code>view event</code>可以查看部屬的各個流程情況，如果失敗可以知道是哪個流程，也會有一些logs可以看<img src="/2017/12/18/Auto-deploy-from-GitHub-using-AWS-CodeDeploy/view_event.PNG" title="view_event"></li>
+<li>如果logs仍然不夠清楚知道失敗的點，可能就必須要進ec2中查看了，可以參考這篇 <a href="http://docs.aws.amazon.com/codedeploy/latest/userguide/deployments-view-logs.html#deployments-view-logs-instance" target="_blank" rel="noopener">http://docs.aws.amazon.com/codedeploy/latest/userguide/deployments-view-logs.html#deployments-view-logs-instance</a></li>
+</ul>
+<p>以上就是一個簡單的從github串連aws codedeploy的部署流程，並只部到一台機器上，在撰寫script時要非常注意，在這個地方我出錯非常多次。</p>
+<h2 id="issue"><a href="#issue" class="headerlink" title="issue"></a>issue</h2><ul>
+<li>如果要搭配github branch可能需要用aws codepipeline</li>
+<li>自動部屬似乎沒辦法設定overwrite模式(手動部屬可以)，所以會導致install流程時檔案重複而失敗，目前我是在install前先rm整個專案，留空給他重新部 <a href="https://shazi.info/aws-codedeploy-%E7%9A%84-file-already-exists-at-location-%E7%90%86%E8%A7%A3/" target="_blank" rel="noopener">AWS CodeDeploy 的 File already exists at location 理解</a></li>
+</ul>
+<h2 id="參考資料"><a href="#參考資料" class="headerlink" title="參考資料"></a>參考資料</h2><ul>
+<li><a href="https://crypt.codemancers.com/posts/2016-12-26-autodeploy-from-github-using-aws-codedeploy/" target="_blank" rel="noopener">Autodeploy from github using AWS CodeDeploy</a></li>
+<li><a href="http://docs.aws.amazon.com/zh_cn/codedeploy/latest/userguide/welcome.html" target="_blank" rel="noopener">AWS CodeDeploy-Welcome</a></li>
+<li><a href="http://docs.aws.amazon.com/zh_cn/codedeploy/latest/userguide/codedeploy-agent-operations-install-linux.html" target="_blank" rel="noopener">Codedeploy-agent-operations-install-linux</a></li>
+<li><a href="https://stackoverflow.com/questions/34951797/aws-codedeploy-github-file-already-exist" target="_blank" rel="noopener">AWS-CodeDeploy-Github-File-Already-Exist</a></li>
+<li><a href="https://github.com/aws/aws-codedeploy-agent/issues/14" target="_blank" rel="noopener">Add Support for “Overwrite” instruction in appspec.yml “Files” section</a></li>
+<li><a href="https://www.nosa.me/2014/11/13/aws-%E7%9A%84-codedeploy-%E6%98%AF%E5%A6%82%E4%BD%95%E5%81%9A-%E3%80%8C%E9%83%A8%E7%BD%B2%E3%80%8D%E7%9A%84/" target="_blank" rel="noopener">AWS 的 CodeDeploy 是如何做 「部署」的</a></li>
+<li><a href="http://docs.aws.amazon.com/codedeploy/latest/userguide/integrations-partners-github.html" target="_blank" rel="noopener">Integrating AWS CodeDeploy with GitHub</a></li>
+<li><a href="https://shazi.info/aws-codedeploy-%E6%9C%83%E4%BD%BF%E7%94%A8%E8%88%8A%E7%9A%84-appspec-yml-%E9%80%B2%E8%A1%8C-deploy-%E7%9A%84%E5%95%8F%E9%A1%8C/" target="_blank" rel="noopener">AWS CodeDeploy 會使用舊的 appspec.yml 進行 deploy 的問題</a></li>
+</ul>
+
+      
+    </div>
+    <footer class="article-footer">
+      <a data-url="https://blog.comicat.me/2017/12/18/Auto-deploy-from-GitHub-using-AWS-CodeDeploy/" data-id="ck9s52xgy0008tngfxhjqqose" class="article-share-link">分享</a>
+      
+      
+        <a href="https://blog.comicat.me/2017/12/18/Auto-deploy-from-GitHub-using-AWS-CodeDeploy/#disqus_thread" class="article-comment-link">留言</a>
+      
+      
+  <ul class="article-tag-list" itemprop="keywords"><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/AWS/" rel="tag">AWS</a></li><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/Deploy/" rel="tag">Deploy</a></li></ul>
+
+    </footer>
+  </div>
+  
+    
+ 
+<script src="/jquery/jquery.min.js"></script>
+
+  <div id="random_posts">
+    <h2>推薦文章</h2>
+    <div class="random_posts_ul">
+      <script>
+          var random_count =3
+          var site = {BASE_URI:'/'};
+          function load_random_posts(obj) {
+              var arr=site.posts;
+              if (!obj) return;
+              // var count = $(obj).attr('data-count') || 6;
+              for (var i, tmp, n = arr.length; n; i = Math.floor(Math.random() * n), tmp = arr[--n], arr[n] = arr[i], arr[i] = tmp);
+              arr = arr.slice(0, random_count);
+              var html = '<ul>';
+            
+              for(var j=0;j<arr.length;j++){
+                var item=arr[j];
+                html += '<li><strong>' + 
+                item.date + ':&nbsp;&nbsp;<a href="' + (site.BASE_URI+item.uri) + '">' + 
+                (item.title || item.uri) + '</a></strong>';
+                if(item.excerpt){
+                  html +='<div class="post-excerpt">'+item.excerpt+'</div>';
+                }
+                html +='</li>';
+                
+              }
+              $(obj).html(html + '</ul>');
+          }
+          $('.random_posts_ul').each(function () {
+              var c = this;
+              if (!site.posts || !site.posts.length){
+                  $.getJSON(site.BASE_URI + 'js/posts.js',function(json){site.posts = json;load_random_posts(c)});
+              } 
+               else{
+                load_random_posts(c);
+              }
+          });
+      </script>
+    </div>
+  </div>
+
+    
+<nav id="article-nav">
+  
+    <a href="/2018/02/12/AC-Y18%E8%A7%A3%E9%A1%8C%E8%A8%98%E9%8C%84/" id="article-nav-newer" class="article-nav-link-wrap">
+      <strong class="article-nav-caption">Newer</strong>
+      <div class="article-nav-title">
+        
+          AC-Y18解題記錄
+        
+      </div>
+    </a>
+  
+  
+    <a href="/2017/11/23/PHP-Redis/" id="article-nav-older" class="article-nav-link-wrap">
+      <strong class="article-nav-caption">Older</strong>
+      <div class="article-nav-title">PHP - Redis</div>
+    </a>
+  
+</nav>
+
+  
+</article>
+ 
+     
+  <div class="comments" id="comments">
+    
+     
+    <section id="comments">
+      <div id="disqus_thread">
+        <noscript>
+          Please enable JavaScript to view the
+          <a href="//disqus.com/?ref_noscript" target="_blank" rel="noopener">comments powered by Disqus.</a>
+        </noscript>
+      </div>
+      </section>
+      
+       
+       
+      
+      
+  </div>
+ 
+  
+
+</section>
+           
+    <aside id="sidebar">
+  
+    
+    
+    
+    <div class="widget-wrap">
+    
+      <div class="widget" id="toc-widget-fixed">
+      
+        <strong class="toc-title">文章目錄</strong>
+        <div class="toc-widget-list">
+              <ol class="toc"><li class="toc-item toc-level-2"><a class="toc-link" href="#流程摘要"><span class="toc-number">1.</span> <span class="toc-text">流程摘要</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#建立IAM-user-role-policy"><span class="toc-number">2.</span> <span class="toc-text">建立IAM user, role, policy</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#建立EC2-安裝codedeploy-agent"><span class="toc-number">3.</span> <span class="toc-text">建立EC2, 安裝codedeploy-agent</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#建立專案部署設定檔appspec-yml"><span class="toc-number">4.</span> <span class="toc-text">建立專案部署設定檔appspec.yml</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#建立code-deploy-application"><span class="toc-number">5.</span> <span class="toc-text">建立code deploy application</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#手動透過code-deploy部署一個GitHub專案"><span class="toc-number">6.</span> <span class="toc-text">手動透過code deploy部署一個GitHub專案</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#建立自動從GitHub通知部署的服務"><span class="toc-number">7.</span> <span class="toc-text">建立自動從GitHub通知部署的服務</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#issue"><span class="toc-number">8.</span> <span class="toc-text">issue</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#參考資料"><span class="toc-number">9.</span> <span class="toc-text">參考資料</span></a></li></ol>
+          </div>
+      </div>
+    </div>
+
+  
+    
+    
+    
+
+  
+    
+    
+    
+  
+    
+    
+    
+
+  
+    
+    
+    
+  
+    
+    
+    
+
+  
+    
+    
+    
+
+  
+</aside>
+
+      </div>
+      <footer id="footer">
+  
+  <div class="outer">
+    <div id="footer-left">
+      &copy; 2017 - 2020 comicat&nbsp;|&nbsp;
+      Theme by <a href="https://github.com/comicat-hu/hexo-theme-cafe" target="_blank">Cafe</a>
+    </div>
+     <div id="footer-right">
+      Contact&nbsp;|&nbsp;comicat.hu@gmail.com
+    </div>
+  </div>
+</footer>
+ 
+<script src="/jquery/jquery.min.js"></script>
+
+    </div>
+    <nav id="mobile-nav">
+  
+    <a href="/" class="mobile-nav-link">Home</a>
+  
+    <a href="/archives" class="mobile-nav-link">Archives</a>
+  
+    <a href="/tags" class="mobile-nav-link">Tags</a>
+  
+    <a href="/categories" class="mobile-nav-link">Categories</a>
+  
+</nav>
+    <img class="back-to-top-btn" src="/images/fly-to-top.png"/>
+<script>
+// Elevator script included on the page, already.
+window.onload = function() {
+  var elevator = new Elevator({
+    selector:'.back-to-top-btn',
+    element: document.querySelector('.back-to-top-btn'),
+    duration: 1000 // milliseconds
+  });
+}
+</script>
+      
+
+<script>
+  var disqus_shortname = 'blog-comicat';
+  
+  var disqus_url = 'https://blog.comicat.me/2017/12/18/Auto-deploy-from-GitHub-using-AWS-CodeDeploy/';
+  
+  (function(){
+    var dsq = document.createElement('script');
+    dsq.type = 'text/javascript';
+    dsq.async = true;
+    dsq.src = '//' + disqus_shortname + '.disqus.com/embed.js';
+    (document.getElementsByTagName('head')[0] || document.getElementsByTagName('body')[0]).appendChild(dsq);
+  })();
+</script>
+
+
+
+
+
+
+
+<!-- author:forvoid begin -->
+<!-- author:forvoid begin -->
+
+<!-- author:forvoid end -->
+
+<!-- author:forvoid end -->
+
+
+
+ 
+<script src="/js/is.js"></script>
+
+
+
+  
+<link rel="stylesheet" href="/fancybox/jquery.fancybox.css">
+
+  
+<script src="/fancybox/jquery.fancybox.pack.js"></script>
+
+
+
+
+<script src="/js/script.js"></script>
+
+
+<script src="/js/elevator.js"></script>
+
+  </div>
+</body>
+</html>

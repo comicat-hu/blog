@@ -1,0 +1,476 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <meta charset="utf-8">
+  
+  <title>w3school-PHP練習筆記-MySQL | Comicat&#39;s Blog</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
+  <meta name="description" content="https:&#x2F;&#x2F;www.w3schools.com&#x2F;php&#x2F;php_mysql_intro.asp  MySQL Database MySQL Connect MySQL Create DB MySQL Create Table MySQL Insert Data MySQL Get Last ID MySQL Insert Multiple MySQL Prepared MySQL Select">
+<meta property="og:type" content="article">
+<meta property="og:title" content="w3school-PHP練習筆記-MySQL">
+<meta property="og:url" content="https://blog.comicat.me/2017/09/21/w3school-PHP%E7%B7%B4%E7%BF%92%E7%AD%86%E8%A8%98-MySQL/index.html">
+<meta property="og:site_name" content="Comicat&#39;s Blog">
+<meta property="og:description" content="https:&#x2F;&#x2F;www.w3schools.com&#x2F;php&#x2F;php_mysql_intro.asp  MySQL Database MySQL Connect MySQL Create DB MySQL Create Table MySQL Insert Data MySQL Get Last ID MySQL Insert Multiple MySQL Prepared MySQL Select">
+<meta property="og:locale" content="zh_TW">
+<meta property="article:published_time" content="2017-09-21T10:03:35.000Z">
+<meta property="article:modified_time" content="2020-05-04T05:26:23.340Z">
+<meta property="article:author" content="comicat">
+<meta property="article:tag" content="PHP">
+<meta property="article:tag" content="Storage">
+<meta property="article:tag" content="MySQL">
+<meta property="article:tag" content="w3schools">
+<meta name="twitter:card" content="summary">
+  
+    <link rel="alternate" href="/atom.xml" title="Comicat&#39;s Blog" type="application/atom+xml">
+  
+  
+    <link rel="icon" href="/images/favicon.ico">
+  
+  
+    
+  
+  
+<link rel="stylesheet" href="/css/style.css">
+
+  
+<!-- Google Analytics -->
+<!--
+<script type="text/javascript">
+(function(i,s,o,g,r,a,m){i['GoogleAnalyticsObject']=r;i[r]=i[r]||function(){
+(i[r].q=i[r].q||[]).push(arguments)},i[r].l=1*new Date();a=s.createElement(o),
+m=s.getElementsByTagName(o)[0];a.async=1;a.src=g;m.parentNode.insertBefore(a,m)
+})(window,document,'script','//www.google-analytics.com/analytics.js','ga');
+
+ga('create', 'UA-126897949-1', 'auto');
+ga('send', 'pageview');
+
+</script>
+-->
+<!-- End Google Analytics -->
+
+<!-- Global Site Tag (gtag.js) - Google Analytics -->
+<script async src="https://www.googletagmanager.com/gtag/js?id=UA-126897949-1"></script>
+<script>
+  window.dataLayer = window.dataLayer || [];
+  function gtag(){dataLayer.push(arguments);}
+  gtag('js', new Date());
+
+  gtag('config', 'UA-126897949-1');
+  gtag('event', 'page_view', { 'send_to': 'UA-126897949-1' });
+</script>
+
+
+<meta name="generator" content="Hexo 4.2.0"></head>
+
+<body>
+  <div id="container">
+    <div id="wrap">
+      <header id="header">
+  <div id="banner"></div>
+  <div id="header-outer" class="outer">
+    
+    <div id="header-inner" class="inner">
+      <nav id="sub-nav">
+        
+          <a id="nav-rss-link" class="nav-icon" href="/atom.xml" title="RSS Feed"></a>
+        
+        <a id="nav-search-btn" class="nav-icon" title="搜尋"></a>
+      </nav>
+      <div id="search-form-wrap">
+        <form action="//google.com/search" method="get" accept-charset="UTF-8" class="search-form"><input type="search" name="q" class="search-form-input" placeholder="Search"><button type="submit" class="search-form-submit">&#xF002;</button><input type="hidden" name="sitesearch" value="https://blog.comicat.me"></form>
+      </div>
+      <nav id="main-nav">
+        <a id="main-nav-toggle" class="nav-icon"></a>
+        
+          <a class="main-nav-link" href="/">Home</a>
+        
+          <a class="main-nav-link" href="/archives">Archives</a>
+        
+          <a class="main-nav-link" href="/tags">Tags</a>
+        
+          <a class="main-nav-link" href="/categories">Categories</a>
+        
+      </nav>
+      
+    </div>
+    <div id="header-title" class="inner">
+      <h1 id="logo-wrap">
+        <a href="/" id="logo">Comicat&#39;s Blog</a>
+      </h1>
+      
+        <h2 id="subtitle-wrap">
+          <a href="/" id="subtitle">Find Something Funny</a>
+        </h2>
+      
+    </div>
+  </div>
+</header>
+      <div class="outer">
+        <section id="main"><article id="post-w3school-PHP練習筆記-MySQL" class="article article-type-post" itemscope itemprop="blogPost">
+  <div class="article-meta">
+    <a href="/2017/09/21/w3school-PHP%E7%B7%B4%E7%BF%92%E7%AD%86%E8%A8%98-MySQL/" class="article-date">
+  <time datetime="2017-09-21T10:03:35.000Z" itemprop="datePublished">2017-09-21</time>
+</a>
+    
+  <div class="article-category">
+    <a class="article-category-link" href="/categories/%E8%B3%87%E8%A8%8A%E6%8A%80%E8%A1%93/">資訊技術</a>►<a class="article-category-link" href="/categories/%E8%B3%87%E8%A8%8A%E6%8A%80%E8%A1%93/PHP/">PHP</a>
+  </div>
+
+  </div>
+  <div class="article-inner">
+    
+    
+      <header class="article-header">
+        
+  
+    <h1 class="article-title" itemprop="name">
+      w3school-PHP練習筆記-MySQL
+    </h1>
+  
+
+      </header>
+    
+    <div class="article-entry" itemprop="articleBody">
+      
+        <!-- Table of Contents -->
+        
+        <p><a href="https://www.w3schools.com/php/php_mysql_intro.asp" target="_blank" rel="noopener">https://www.w3schools.com/php/php_mysql_intro.asp</a></p>
+<ul>
+<li>MySQL Database</li>
+<li>MySQL Connect</li>
+<li>MySQL Create DB</li>
+<li>MySQL Create Table</li>
+<li>MySQL Insert Data</li>
+<li>MySQL Get Last ID</li>
+<li>MySQL Insert Multiple</li>
+<li>MySQL Prepared</li>
+<li>MySQL Select Data</li>
+<li>MySQL Delete Data</li>
+<li>MySQL Update Data</li>
+<li>MySQL Limit Data</li>
+</ul>
+<a id="more"></a>
+<h2 id="SQL"><a href="#SQL" class="headerlink" title="SQL"></a>SQL</h2><p>SQL(Structured Query Language)，ANSI標準，可以用來操作存取資料庫系統</p>
+<p>語法參考: 就挑自己喜歡的看吧，因為有時候不一定哪邊的解說比較好懂<br><a href="https://www.w3schools.com/sql/sql_syntax.asp" target="_blank" rel="noopener">https://www.w3schools.com/sql/sql_syntax.asp</a><br><a href="http://www.w3school.com.cn/sql/sql_syntax.asp" target="_blank" rel="noopener">http://www.w3school.com.cn/sql/sql_syntax.asp</a><br><a href="http://www.1keydata.com/tw/sql/sql.html" target="_blank" rel="noopener">http://www.1keydata.com/tw/sql/sql.html</a></p>
+<p>這邊會使用XAMPP中的MySQL(MariaDB)還有PDO(PHP Data Object)來操作</p>
+<h2 id="Connect"><a href="#Connect" class="headerlink" title="Connect"></a>Connect</h2><p>先上連接範例</p>
+<figure class="highlight php"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">try</span> &#123;</span><br><span class="line">    $config = <span class="keyword">include_once</span> <span class="string">'config.php'</span>;</span><br><span class="line">&#125; <span class="keyword">catch</span> (<span class="keyword">Exception</span> $e) &#123;</span><br><span class="line">    <span class="keyword">echo</span> <span class="string">'Missing config.php'</span>;</span><br><span class="line">    <span class="keyword">exit</span>;</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line">$servername = $config[<span class="string">'servername'</span>];</span><br><span class="line">$username = $config[<span class="string">'username'</span>];</span><br><span class="line">$password = $config[<span class="string">'password'</span>];</span><br><span class="line"></span><br><span class="line">$dbname = $config[<span class="string">'dbname'</span>];</span><br><span class="line"></span><br><span class="line">$dsn = <span class="string">"mysql:host=$servername;dbname=$dbname;"</span>;</span><br><span class="line"></span><br><span class="line"><span class="keyword">try</span> &#123;</span><br><span class="line">    $db = <span class="keyword">new</span> PDO($dsn, $username, $password);</span><br><span class="line">    <span class="comment">// set the PDO error mode to exception</span></span><br><span class="line">    $db-&gt;setAttribute(PDO::ATTR_ERRMODE, PDO::ERRMODE_EXCEPTION);</span><br><span class="line">    <span class="keyword">echo</span> <span class="string">"Connected successfully"</span>;</span><br><span class="line">&#125; <span class="keyword">catch</span> (PDOException $e) &#123;</span><br><span class="line">    <span class="keyword">echo</span> <span class="string">"Connection failed: "</span> . $e-&gt;getMessage();</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<ul>
+<li>保持良好的習慣將設定檔另外獨立一個檔案</li>
+<li>使用try catch攔截錯誤訊息，PDO有自己的例外處理<code>PDOException</code>可以使用</li>
+<li>PDO物件中必填的是<code>$dsn</code>(Data Source Name)這個參數，host填入資料庫伺服器的位置，通常還會填入<code>$dbname</code>來表示要USE db(雖然w3schools說沒填會丟例外，不過實際上並沒有，推測就像是我們連進MySQL server但沒下USE指令的狀況)</li>
+<li>使用者名稱跟帳號是選填，但是我們在#3582中的設定，將資料庫設成需要帳號跟密碼才能登入，所以這邊需要填寫</li>
+<li>程式結束會自動close連線，或是把PDO物件指向null，ex.<code>$conn = null</code></li>
+</ul>
+<h2 id="Create-DB"><a href="#Create-DB" class="headerlink" title="Create DB"></a>Create DB</h2><p>先連線資料庫，然後</p>
+<figure class="highlight php"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">$sql = <span class="string">'CREATE DATABASE mydb'</span>; <span class="comment">// 建立SQL語句</span></span><br><span class="line">$db-&gt;exec($sql); <span class="comment">// 執行SQL語句</span></span><br></pre></td></tr></table></figure>
+<p>就是這麼簡單。</p>
+<p>如果建立重複的資料庫，會收到例外訊息<br><code>SQLSTATE[HY000]: General error: 1007 Can&#39;t create database &#39;mydb&#39;; database exists</code></p>
+<h2 id="Use-DB"><a href="#Use-DB" class="headerlink" title="Use DB"></a>Use DB</h2><p>建立完資料庫記得，<code>$db-&gt;exec(&#39;USE mydb;&#39;);</code>，否則不會自動切換到你建立的資料庫。</p>
+<p>如果一開始連線就沒有指定DB，那接下來對資料表的操作都會收到例外訊息<br><code>SQLSTATE[3D000]: Invalid catalog name: 1046 No database selected</code></p>
+<h2 id="Insert-Data"><a href="#Insert-Data" class="headerlink" title="Insert Data"></a>Insert Data</h2><p>使用SQL語句<code>INSERT INTO table (欄位1, 欄位2,...) VALUES(值1, 值2,...)</code></p>
+<h2 id="Get-Last-ID"><a href="#Get-Last-ID" class="headerlink" title="Get Last ID"></a>Get Last ID</h2><p><code>$db-&gt;lastInsertId();</code>: 回傳最後插入的row id或序列值，對應到SQL語句的<code>LAST_INSERT_ID()</code></p>
+<p>不過這在使用上會和想像得結果不太一樣就是了，</p>
+<p>像是，交易中如果rollback了，lastInsertId不會是交易前的狀態。</p>
+<h2 id="Insert-Multiple"><a href="#Insert-Multiple" class="headerlink" title="Insert Multiple"></a>Insert Multiple</h2><p>使用</p>
+<ul>
+<li><code>$db-&gt;beginTransaction();</code> 開啟一段交易區塊</li>
+<li><code>$db-&gt;commit();</code> 提交結果</li>
+<li><code>$db-&gt;rollback();</code> 回溯結果，這個通常會被放在例外的catch處理中執行</li>
+</ul>
+<h2 id="Prepared"><a href="#Prepared" class="headerlink" title="Prepared"></a>Prepared</h2><p>使用Prepare可以預先解析SQL語句，在大量重複類型的句語可以省下解析時間，</p>
+<p>節省傳輸語句的資料量</p>
+<p>並且有效防止SQL Injection的狀況發生</p>
+<p>SQL prepare用法可以參考:<br><a href="http://www.codedata.com.tw/database/mysql-tutorial-12-prepared-statement/" target="_blank" rel="noopener">prepared-statement</a></p>
+<ul>
+<li>設定預執行語句<code>PREPAER statement_name FROM &#39;SQL語句&#39;;</code></li>
+<li>參數使用<code>?</code></li>
+<li>設定變數<code>SET @var_name = value;</code>或<code>SET @var_name := value;</code>，多變數可以用逗號隔開</li>
+<li>使用預執行語句<code>EXECUTE statement_name USING @var_name;</code>，這時就會把變數依序帶預執行語句的<code>?</code>中</li>
+</ul>
+<p>設定的變數和預執行語句都是獨立在每個連線裡的，close後都會被清除。</p>
+<h3 id="在PDO中的使用方式"><a href="#在PDO中的使用方式" class="headerlink" title="在PDO中的使用方式"></a>在PDO中的使用方式</h3><p>首先建立一個PDO Statement: <code>$statement = $db-&gt;prepare()</code>，</p>
+<p>預留的變數位置，可以使用<code>:</code>開頭的命名，或是直接用<code>?</code>代表。</p>
+<ul>
+<li><code>$statement = $db-&gt;prepare(&quot;INSERT INTO myguests (firstname, lastname, email) VALUES (:firstname, :lastname, :email)&quot;);</code></li>
+<li><code>$statement2 = $db-&gt;prepare(&quot;INSERT INTO myguests (firstname, lastname, email) VALUES (?, ?, ?)&quot;);</code></li>
+</ul>
+<p>再來可以使用PDO Statement中的bindParam將參數帶進去</p>
+<p>(使用冒號的綁定方法)</p>
+<figure class="highlight php"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">$statement1-&gt;bindParam(<span class="string">':firstname'</span>, $firstname);</span><br><span class="line">$statement1-&gt;bindParam(<span class="string">':lastname'</span>, $lastname);</span><br><span class="line">$statement1-&gt;bindParam(<span class="string">':email'</span>, $email);</span><br></pre></td></tr></table></figure>
+<p>或</p>
+<p>(使用問號的綁定方法，第一個變成位置index，從一開始)</p>
+<figure class="highlight php"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">$statement2-&gt;bindParam(<span class="number">1</span>, $firstname);</span><br><span class="line">$statement2-&gt;bindParam(<span class="number">2</span>, $lastname);</span><br><span class="line">$statement2-&gt;bindParam(<span class="number">3</span>, $email);</span><br></pre></td></tr></table></figure>
+<p>bindParam()函數可以選填第三個參數: data_type和第四個參數: length</p>
+<p>ex. <code>$statement2-&gt;bindParam(1, $firstname, POD::PARAM_STR, 10);</code>，表示接受$firstname為字串並且長度限制10，並且帶入到第一個位置的問號。</p>
+<p>最後使用PDO Statement的execute()執行它<br><code>$statement1-&gt;execute();</code></p>
+<p>bindParam()的回傳值是bool(true|false)，表示綁成功或失敗</p>
+<h3 id="參考"><a href="#參考" class="headerlink" title="參考"></a>參考</h3><p><a href="https://www.w3schools.com/php/php_mysql_prepared_statements.asp" target="_blank" rel="noopener">https://www.w3schools.com/php/php_mysql_prepared_statements.asp</a><br><a href="http://php.net/manual/zh/pdo.prepare.php" target="_blank" rel="noopener">http://php.net/manual/zh/pdo.prepare.php</a><br><a href="http://php.net/manual/zh/pdostatement.bindparam.php" target="_blank" rel="noopener">http://php.net/manual/zh/pdostatement.bindparam.php</a></p>
+<h2 id="exec-v-s-query"><a href="#exec-v-s-query" class="headerlink" title="exec() v.s. query()"></a>exec() v.s. query()</h2><p>PDO有兩種常見的即時處理SQL語句的函數</p>
+<ul>
+<li><code>$db-&gt;exec(SQL);</code> 通常用於不需要接收結果的語句，會傳回受影響的行總數(DELETE UPDATE INSERT CREATE…等)</li>
+<li><code>$db-&gt;query(SQL);</code> 通常用於需要接收結果的語句(SELECT…等)</li>
+</ul>
+<h2 id="Select-Data"><a href="#Select-Data" class="headerlink" title="Select Data"></a>Select Data</h2><p>可以使用<code>query()或是prepare()+execute()</code>來處理查詢，<br>並且使用<code>fetch()</code>來獲取一筆資料</p>
+<figure class="highlight php"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line">$sql = <span class="string">"SELECT * FROM myguests"</span>;</span><br><span class="line">$result = $db-&gt;query($sql);</span><br><span class="line"></span><br><span class="line">$result-&gt;setFetchMode(PDO::FETCH_ASSOC);</span><br><span class="line">$result-&gt;fetch();</span><br></pre></td></tr></table></figure>
+<p>或</p>
+<figure class="highlight php"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line">$statement = $db-&gt;prepare(<span class="string">"SELECT * FROM myguests"</span>);</span><br><span class="line">$statement-&gt;execute();</span><br><span class="line"></span><br><span class="line">$statement-&gt;setFetchMode(PDO::FETCH_ASSOC);</span><br><span class="line">$statement-&gt;fetch();</span><br></pre></td></tr></table></figure>
+<p>setFetchMode()可以設定讀取資料的格式，預設為<code>PDO::FETCH_BOTH</code>，拿到的資料會是索引和欄位名稱混合</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br></pre></td><td class="code"><pre><span class="line">Array</span><br><span class="line">(</span><br><span class="line">    [id] =&gt; 1</span><br><span class="line">    [0] =&gt; 1</span><br><span class="line">    [firstname] =&gt; John</span><br><span class="line">    [1] =&gt; John</span><br><span class="line">    [lastname] =&gt; Doe</span><br><span class="line">    [2] =&gt; Doe</span><br><span class="line">    [email] =&gt; john@example.com</span><br><span class="line">    [3] =&gt; john@example.com</span><br><span class="line">    [reg_date] =&gt; 2017-09-21 16:42:09</span><br><span class="line">    [4] =&gt; 2017-09-21 16:42:09</span><br><span class="line">)</span><br></pre></td></tr></table></figure>
+<p>設定為<code>PDO::FETCH_ASSOC</code>，只會留下欄位名稱</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br></pre></td><td class="code"><pre><span class="line">Array</span><br><span class="line">(</span><br><span class="line">    [id] =&gt; 1</span><br><span class="line">    [firstname] =&gt; John</span><br><span class="line">    [lastname] =&gt; Doe</span><br><span class="line">    [email] =&gt; john@example.com</span><br><span class="line">    [reg_date] =&gt; 2017-09-21 16:42:09</span><br><span class="line">)</span><br></pre></td></tr></table></figure>
+<ul>
+<li>fetch(): 可以讀取一筆資料，讀取完自動指向下一筆</li>
+<li>fetchAll(): 可以讀取全部資料</li>
+<li>fetchColumn(index): 可以讀取特定欄位的資料，index填入欄位的索引順序，預設讀取index = 0，讀取完自動指向下一筆</li>
+</ul>
+<h2 id="Delete-Data"><a href="#Delete-Data" class="headerlink" title="Delete Data"></a>Delete Data</h2><figure class="highlight php"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">$sql = <span class="string">"DELETE FROM myguests WHERE id = 2"</span>;</span><br><span class="line"><span class="keyword">echo</span> $db-&gt;exec($sql);</span><br></pre></td></tr></table></figure>
+<h2 id="Update-Data"><a href="#Update-Data" class="headerlink" title="Update Data"></a>Update Data</h2><figure class="highlight php"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line">$sql = <span class="string">"UPDATE myguests SET lastname='Doeeeee' WHERE id = 1"</span>;</span><br><span class="line">$statement = $db-&gt;prepare($sql);</span><br><span class="line">$statement-&gt;execute();</span><br><span class="line"></span><br><span class="line"><span class="keyword">echo</span> $statement-&gt;rowCount(); <span class="comment">// 影響總行數</span></span><br></pre></td></tr></table></figure>
+<h2 id="Limit-Data"><a href="#Limit-Data" class="headerlink" title="Limit Data"></a>Limit Data</h2><p>SQL語句</p>
+<p><code>SELECT * FROM myguests LIMIT 10 OFFSET 5</code> 跳過5筆後讀取10筆資料</p>
+<p>簡寫<code>SELECT * FROM myguests LIMIT 5, 10</code> (兩個數字會倒過來)</p>
+<h2 id="練習範例code"><a href="#練習範例code" class="headerlink" title="練習範例code"></a>練習範例code</h2><p><a href="https://github.com/comicat-hu/php-mysql" target="_blank" rel="noopener">https://github.com/comicat-hu/php-mysql</a></p>
+
+      
+    </div>
+    <footer class="article-footer">
+      <a data-url="https://blog.comicat.me/2017/09/21/w3school-PHP%E7%B7%B4%E7%BF%92%E7%AD%86%E8%A8%98-MySQL/" data-id="ck9s52xhz0029tngfctxhxq7k" class="article-share-link">分享</a>
+      
+      
+        <a href="https://blog.comicat.me/2017/09/21/w3school-PHP%E7%B7%B4%E7%BF%92%E7%AD%86%E8%A8%98-MySQL/#disqus_thread" class="article-comment-link">留言</a>
+      
+      
+  <ul class="article-tag-list" itemprop="keywords"><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/MySQL/" rel="tag">MySQL</a></li><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/PHP/" rel="tag">PHP</a></li><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/Storage/" rel="tag">Storage</a></li><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/w3schools/" rel="tag">w3schools</a></li></ul>
+
+    </footer>
+  </div>
+  
+    
+ 
+<script src="/jquery/jquery.min.js"></script>
+
+  <div id="random_posts">
+    <h2>推薦文章</h2>
+    <div class="random_posts_ul">
+      <script>
+          var random_count =3
+          var site = {BASE_URI:'/'};
+          function load_random_posts(obj) {
+              var arr=site.posts;
+              if (!obj) return;
+              // var count = $(obj).attr('data-count') || 6;
+              for (var i, tmp, n = arr.length; n; i = Math.floor(Math.random() * n), tmp = arr[--n], arr[n] = arr[i], arr[i] = tmp);
+              arr = arr.slice(0, random_count);
+              var html = '<ul>';
+            
+              for(var j=0;j<arr.length;j++){
+                var item=arr[j];
+                html += '<li><strong>' + 
+                item.date + ':&nbsp;&nbsp;<a href="' + (site.BASE_URI+item.uri) + '">' + 
+                (item.title || item.uri) + '</a></strong>';
+                if(item.excerpt){
+                  html +='<div class="post-excerpt">'+item.excerpt+'</div>';
+                }
+                html +='</li>';
+                
+              }
+              $(obj).html(html + '</ul>');
+          }
+          $('.random_posts_ul').each(function () {
+              var c = this;
+              if (!site.posts || !site.posts.length){
+                  $.getJSON(site.BASE_URI + 'js/posts.js',function(json){site.posts = json;load_random_posts(c)});
+              } 
+               else{
+                load_random_posts(c);
+              }
+          });
+      </script>
+    </div>
+  </div>
+
+    
+<nav id="article-nav">
+  
+    <a href="/2017/09/22/PHP-OOP%E7%B0%A1%E8%A8%98/" id="article-nav-newer" class="article-nav-link-wrap">
+      <strong class="article-nav-caption">Newer</strong>
+      <div class="article-nav-title">
+        
+          PHP OOP簡記
+        
+      </div>
+    </a>
+  
+  
+    <a href="/2017/09/19/Try-PHPUnit/" id="article-nav-older" class="article-nav-link-wrap">
+      <strong class="article-nav-caption">Older</strong>
+      <div class="article-nav-title">Try PHPUnit</div>
+    </a>
+  
+</nav>
+
+  
+</article>
+ 
+     
+  <div class="comments" id="comments">
+    
+     
+    <section id="comments">
+      <div id="disqus_thread">
+        <noscript>
+          Please enable JavaScript to view the
+          <a href="//disqus.com/?ref_noscript" target="_blank" rel="noopener">comments powered by Disqus.</a>
+        </noscript>
+      </div>
+      </section>
+      
+       
+       
+      
+      
+  </div>
+ 
+  
+
+</section>
+           
+    <aside id="sidebar">
+  
+    
+    
+    
+    <div class="widget-wrap">
+    
+      <div class="widget" id="toc-widget-fixed">
+      
+        <strong class="toc-title">文章目錄</strong>
+        <div class="toc-widget-list">
+              <ol class="toc"><li class="toc-item toc-level-2"><a class="toc-link" href="#SQL"><span class="toc-number">1.</span> <span class="toc-text">SQL</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#Connect"><span class="toc-number">2.</span> <span class="toc-text">Connect</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#Create-DB"><span class="toc-number">3.</span> <span class="toc-text">Create DB</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#Use-DB"><span class="toc-number">4.</span> <span class="toc-text">Use DB</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#Insert-Data"><span class="toc-number">5.</span> <span class="toc-text">Insert Data</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#Get-Last-ID"><span class="toc-number">6.</span> <span class="toc-text">Get Last ID</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#Insert-Multiple"><span class="toc-number">7.</span> <span class="toc-text">Insert Multiple</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#Prepared"><span class="toc-number">8.</span> <span class="toc-text">Prepared</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#在PDO中的使用方式"><span class="toc-number">8.1.</span> <span class="toc-text">在PDO中的使用方式</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#參考"><span class="toc-number">8.2.</span> <span class="toc-text">參考</span></a></li></ol></li><li class="toc-item toc-level-2"><a class="toc-link" href="#exec-v-s-query"><span class="toc-number">9.</span> <span class="toc-text">exec() v.s. query()</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#Select-Data"><span class="toc-number">10.</span> <span class="toc-text">Select Data</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#Delete-Data"><span class="toc-number">11.</span> <span class="toc-text">Delete Data</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#Update-Data"><span class="toc-number">12.</span> <span class="toc-text">Update Data</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#Limit-Data"><span class="toc-number">13.</span> <span class="toc-text">Limit Data</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#練習範例code"><span class="toc-number">14.</span> <span class="toc-text">練習範例code</span></a></li></ol>
+          </div>
+      </div>
+    </div>
+
+  
+    
+    
+    
+
+  
+    
+    
+    
+  
+    
+    
+    
+
+  
+    
+    
+    
+  
+    
+    
+    
+
+  
+    
+    
+    
+
+  
+</aside>
+
+      </div>
+      <footer id="footer">
+  
+  <div class="outer">
+    <div id="footer-left">
+      &copy; 2017 - 2020 comicat&nbsp;|&nbsp;
+      Theme by <a href="https://github.com/comicat-hu/hexo-theme-cafe" target="_blank">Cafe</a>
+    </div>
+     <div id="footer-right">
+      Contact&nbsp;|&nbsp;comicat.hu@gmail.com
+    </div>
+  </div>
+</footer>
+ 
+<script src="/jquery/jquery.min.js"></script>
+
+    </div>
+    <nav id="mobile-nav">
+  
+    <a href="/" class="mobile-nav-link">Home</a>
+  
+    <a href="/archives" class="mobile-nav-link">Archives</a>
+  
+    <a href="/tags" class="mobile-nav-link">Tags</a>
+  
+    <a href="/categories" class="mobile-nav-link">Categories</a>
+  
+</nav>
+    <img class="back-to-top-btn" src="/images/fly-to-top.png"/>
+<script>
+// Elevator script included on the page, already.
+window.onload = function() {
+  var elevator = new Elevator({
+    selector:'.back-to-top-btn',
+    element: document.querySelector('.back-to-top-btn'),
+    duration: 1000 // milliseconds
+  });
+}
+</script>
+      
+
+<script>
+  var disqus_shortname = 'blog-comicat';
+  
+  var disqus_url = 'https://blog.comicat.me/2017/09/21/w3school-PHP%E7%B7%B4%E7%BF%92%E7%AD%86%E8%A8%98-MySQL/';
+  
+  (function(){
+    var dsq = document.createElement('script');
+    dsq.type = 'text/javascript';
+    dsq.async = true;
+    dsq.src = '//' + disqus_shortname + '.disqus.com/embed.js';
+    (document.getElementsByTagName('head')[0] || document.getElementsByTagName('body')[0]).appendChild(dsq);
+  })();
+</script>
+
+
+
+
+
+
+
+<!-- author:forvoid begin -->
+<!-- author:forvoid begin -->
+
+<!-- author:forvoid end -->
+
+<!-- author:forvoid end -->
+
+
+
+ 
+<script src="/js/is.js"></script>
+
+
+
+  
+<link rel="stylesheet" href="/fancybox/jquery.fancybox.css">
+
+  
+<script src="/fancybox/jquery.fancybox.pack.js"></script>
+
+
+
+
+<script src="/js/script.js"></script>
+
+
+<script src="/js/elevator.js"></script>
+
+  </div>
+</body>
+</html>
