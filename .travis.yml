@@ -23,7 +23,6 @@ script:
 
 deploy:
   skip_cleanup: true
-  token: $GITHUB_TOKEN
   provider: script
   script: sh deploy.sh
   on:
