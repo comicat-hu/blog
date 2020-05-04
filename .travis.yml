@@ -17,6 +17,8 @@ before_install:
 - npm install
 
 before_script:
+- git config --global user.name 'comicat-hu'
+- git config --global user.email 'senline39518@gmail.com'
 - sed -i'' "s~https://github.com/comicat-hu/blog.git~https://${GITHUB_TOKEN}:x-oauth-basic@github.com/comicat-hu/blog.git~" _config.yml
 
 script:
