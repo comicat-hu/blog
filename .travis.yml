@@ -1,0 +1,29 @@
+language: node_js
+
+sudo: false
+
+node_js: 
+  - '12'
+
+cache:
+  apt: true
+  directories:
+      - node_modules
+
+branches:
+  only:
+    - source
+
+before_script:
+  - npm install hexo-cli -g
+
+script:
+  - hexo clean
+  - hexo generate
+
+deploy:
+  skip_cleanup: true
+  provider: script
+  script: "echo deploy doce."
+  on:
+    branch: source
