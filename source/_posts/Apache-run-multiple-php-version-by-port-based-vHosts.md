@@ -41,6 +41,7 @@ tags:
     - SRVROOT
     - Listen PORT (這邊我改成8080)
 * 手動啟動bin/httpd測試，應可連上localhost:8080和localhost:443，顯示index.html預設頁面
+* 建立Apache bin路徑到path環境變數
 * 註冊服務 httpd -k install
 * 啟動服務 httpd -k start
 * 重啟服務 httpd -k restart
