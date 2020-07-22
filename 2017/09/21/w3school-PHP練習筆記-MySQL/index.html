@@ -13,7 +13,7 @@
 <meta property="og:description" content="https:&#x2F;&#x2F;www.w3schools.com&#x2F;php&#x2F;php_mysql_intro.asp  MySQL Database MySQL Connect MySQL Create DB MySQL Create Table MySQL Insert Data MySQL Get Last ID MySQL Insert Multiple MySQL Prepared MySQL Select">
 <meta property="og:locale" content="zh_TW">
 <meta property="article:published_time" content="2017-09-21T10:03:35.000Z">
-<meta property="article:modified_time" content="2020-05-04T05:26:23.340Z">
+<meta property="article:modified_time" content="2020-07-22T07:41:16.556Z">
 <meta property="article:author" content="comicat">
 <meta property="article:tag" content="PHP">
 <meta property="article:tag" content="Storage">
@@ -60,7 +60,7 @@ ga('send', 'pageview');
 </script>
 
 
-<meta name="generator" content="Hexo 4.2.0"></head>
+<meta name="generator" content="Hexo 4.2.1"></head>
 
 <body>
   <div id="container">
@@ -150,11 +150,13 @@ ga('send', 'pageview');
 <li>MySQL Limit Data</li>
 </ul>
 <a id="more"></a>
+
 <h2 id="SQL"><a href="#SQL" class="headerlink" title="SQL"></a>SQL</h2><p>SQL(Structured Query Language)，ANSI標準，可以用來操作存取資料庫系統</p>
 <p>語法參考: 就挑自己喜歡的看吧，因為有時候不一定哪邊的解說比較好懂<br><a href="https://www.w3schools.com/sql/sql_syntax.asp" target="_blank" rel="noopener">https://www.w3schools.com/sql/sql_syntax.asp</a><br><a href="http://www.w3school.com.cn/sql/sql_syntax.asp" target="_blank" rel="noopener">http://www.w3school.com.cn/sql/sql_syntax.asp</a><br><a href="http://www.1keydata.com/tw/sql/sql.html" target="_blank" rel="noopener">http://www.1keydata.com/tw/sql/sql.html</a></p>
 <p>這邊會使用XAMPP中的MySQL(MariaDB)還有PDO(PHP Data Object)來操作</p>
 <h2 id="Connect"><a href="#Connect" class="headerlink" title="Connect"></a>Connect</h2><p>先上連接範例</p>
 <figure class="highlight php"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">try</span> &#123;</span><br><span class="line">    $config = <span class="keyword">include_once</span> <span class="string">'config.php'</span>;</span><br><span class="line">&#125; <span class="keyword">catch</span> (<span class="keyword">Exception</span> $e) &#123;</span><br><span class="line">    <span class="keyword">echo</span> <span class="string">'Missing config.php'</span>;</span><br><span class="line">    <span class="keyword">exit</span>;</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line">$servername = $config[<span class="string">'servername'</span>];</span><br><span class="line">$username = $config[<span class="string">'username'</span>];</span><br><span class="line">$password = $config[<span class="string">'password'</span>];</span><br><span class="line"></span><br><span class="line">$dbname = $config[<span class="string">'dbname'</span>];</span><br><span class="line"></span><br><span class="line">$dsn = <span class="string">"mysql:host=$servername;dbname=$dbname;"</span>;</span><br><span class="line"></span><br><span class="line"><span class="keyword">try</span> &#123;</span><br><span class="line">    $db = <span class="keyword">new</span> PDO($dsn, $username, $password);</span><br><span class="line">    <span class="comment">// set the PDO error mode to exception</span></span><br><span class="line">    $db-&gt;setAttribute(PDO::ATTR_ERRMODE, PDO::ERRMODE_EXCEPTION);</span><br><span class="line">    <span class="keyword">echo</span> <span class="string">"Connected successfully"</span>;</span><br><span class="line">&#125; <span class="keyword">catch</span> (PDOException $e) &#123;</span><br><span class="line">    <span class="keyword">echo</span> <span class="string">"Connection failed: "</span> . $e-&gt;getMessage();</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
 <ul>
 <li>保持良好的習慣將設定檔另外獨立一個檔案</li>
 <li>使用try catch攔截錯誤訊息，PDO有自己的例外處理<code>PDOException</code>可以使用</li>
@@ -164,6 +166,7 @@ ga('send', 'pageview');
 </ul>
 <h2 id="Create-DB"><a href="#Create-DB" class="headerlink" title="Create DB"></a>Create DB</h2><p>先連線資料庫，然後</p>
 <figure class="highlight php"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">$sql = <span class="string">'CREATE DATABASE mydb'</span>; <span class="comment">// 建立SQL語句</span></span><br><span class="line">$db-&gt;exec($sql); <span class="comment">// 執行SQL語句</span></span><br></pre></td></tr></table></figure>
+
 <p>就是這麼簡單。</p>
 <p>如果建立重複的資料庫，會收到例外訊息<br><code>SQLSTATE[HY000]: General error: 1007 Can&#39;t create database &#39;mydb&#39;; database exists</code></p>
 <h2 id="Use-DB"><a href="#Use-DB" class="headerlink" title="Use DB"></a>Use DB</h2><p>建立完資料庫記得，<code>$db-&gt;exec(&#39;USE mydb;&#39;);</code>，否則不會自動切換到你建立的資料庫。</p>
@@ -198,9 +201,11 @@ ga('send', 'pageview');
 <p>再來可以使用PDO Statement中的bindParam將參數帶進去</p>
 <p>(使用冒號的綁定方法)</p>
 <figure class="highlight php"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">$statement1-&gt;bindParam(<span class="string">':firstname'</span>, $firstname);</span><br><span class="line">$statement1-&gt;bindParam(<span class="string">':lastname'</span>, $lastname);</span><br><span class="line">$statement1-&gt;bindParam(<span class="string">':email'</span>, $email);</span><br></pre></td></tr></table></figure>
+
 <p>或</p>
 <p>(使用問號的綁定方法，第一個變成位置index，從一開始)</p>
 <figure class="highlight php"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">$statement2-&gt;bindParam(<span class="number">1</span>, $firstname);</span><br><span class="line">$statement2-&gt;bindParam(<span class="number">2</span>, $lastname);</span><br><span class="line">$statement2-&gt;bindParam(<span class="number">3</span>, $email);</span><br></pre></td></tr></table></figure>
+
 <p>bindParam()函數可以選填第三個參數: data_type和第四個參數: length</p>
 <p>ex. <code>$statement2-&gt;bindParam(1, $firstname, POD::PARAM_STR, 10);</code>，表示接受$firstname為字串並且長度限制10，並且帶入到第一個位置的問號。</p>
 <p>最後使用PDO Statement的execute()執行它<br><code>$statement1-&gt;execute();</code></p>
@@ -213,19 +218,25 @@ ga('send', 'pageview');
 </ul>
 <h2 id="Select-Data"><a href="#Select-Data" class="headerlink" title="Select Data"></a>Select Data</h2><p>可以使用<code>query()或是prepare()+execute()</code>來處理查詢，<br>並且使用<code>fetch()</code>來獲取一筆資料</p>
 <figure class="highlight php"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line">$sql = <span class="string">"SELECT * FROM myguests"</span>;</span><br><span class="line">$result = $db-&gt;query($sql);</span><br><span class="line"></span><br><span class="line">$result-&gt;setFetchMode(PDO::FETCH_ASSOC);</span><br><span class="line">$result-&gt;fetch();</span><br></pre></td></tr></table></figure>
+
 <p>或</p>
 <figure class="highlight php"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line">$statement = $db-&gt;prepare(<span class="string">"SELECT * FROM myguests"</span>);</span><br><span class="line">$statement-&gt;execute();</span><br><span class="line"></span><br><span class="line">$statement-&gt;setFetchMode(PDO::FETCH_ASSOC);</span><br><span class="line">$statement-&gt;fetch();</span><br></pre></td></tr></table></figure>
+
 <p>setFetchMode()可以設定讀取資料的格式，預設為<code>PDO::FETCH_BOTH</code>，拿到的資料會是索引和欄位名稱混合</p>
-<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br></pre></td><td class="code"><pre><span class="line">Array</span><br><span class="line">(</span><br><span class="line">    [id] =&gt; 1</span><br><span class="line">    [0] =&gt; 1</span><br><span class="line">    [firstname] =&gt; John</span><br><span class="line">    [1] =&gt; John</span><br><span class="line">    [lastname] =&gt; Doe</span><br><span class="line">    [2] =&gt; Doe</span><br><span class="line">    [email] =&gt; john@example.com</span><br><span class="line">    [3] =&gt; john@example.com</span><br><span class="line">    [reg_date] =&gt; 2017-09-21 16:42:09</span><br><span class="line">    [4] =&gt; 2017-09-21 16:42:09</span><br><span class="line">)</span><br></pre></td></tr></table></figure>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br></pre></td><td class="code"><pre><span class="line">Array</span><br><span class="line">(</span><br><span class="line">    [id] &#x3D;&gt; 1</span><br><span class="line">    [0] &#x3D;&gt; 1</span><br><span class="line">    [firstname] &#x3D;&gt; John</span><br><span class="line">    [1] &#x3D;&gt; John</span><br><span class="line">    [lastname] &#x3D;&gt; Doe</span><br><span class="line">    [2] &#x3D;&gt; Doe</span><br><span class="line">    [email] &#x3D;&gt; john@example.com</span><br><span class="line">    [3] &#x3D;&gt; john@example.com</span><br><span class="line">    [reg_date] &#x3D;&gt; 2017-09-21 16:42:09</span><br><span class="line">    [4] &#x3D;&gt; 2017-09-21 16:42:09</span><br><span class="line">)</span><br></pre></td></tr></table></figure>
+
 <p>設定為<code>PDO::FETCH_ASSOC</code>，只會留下欄位名稱</p>
-<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br></pre></td><td class="code"><pre><span class="line">Array</span><br><span class="line">(</span><br><span class="line">    [id] =&gt; 1</span><br><span class="line">    [firstname] =&gt; John</span><br><span class="line">    [lastname] =&gt; Doe</span><br><span class="line">    [email] =&gt; john@example.com</span><br><span class="line">    [reg_date] =&gt; 2017-09-21 16:42:09</span><br><span class="line">)</span><br></pre></td></tr></table></figure>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br></pre></td><td class="code"><pre><span class="line">Array</span><br><span class="line">(</span><br><span class="line">    [id] &#x3D;&gt; 1</span><br><span class="line">    [firstname] &#x3D;&gt; John</span><br><span class="line">    [lastname] &#x3D;&gt; Doe</span><br><span class="line">    [email] &#x3D;&gt; john@example.com</span><br><span class="line">    [reg_date] &#x3D;&gt; 2017-09-21 16:42:09</span><br><span class="line">)</span><br></pre></td></tr></table></figure>
+
 <ul>
 <li>fetch(): 可以讀取一筆資料，讀取完自動指向下一筆</li>
 <li>fetchAll(): 可以讀取全部資料</li>
 <li>fetchColumn(index): 可以讀取特定欄位的資料，index填入欄位的索引順序，預設讀取index = 0，讀取完自動指向下一筆</li>
 </ul>
 <h2 id="Delete-Data"><a href="#Delete-Data" class="headerlink" title="Delete Data"></a>Delete Data</h2><figure class="highlight php"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">$sql = <span class="string">"DELETE FROM myguests WHERE id = 2"</span>;</span><br><span class="line"><span class="keyword">echo</span> $db-&gt;exec($sql);</span><br></pre></td></tr></table></figure>
+
 <h2 id="Update-Data"><a href="#Update-Data" class="headerlink" title="Update Data"></a>Update Data</h2><figure class="highlight php"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line">$sql = <span class="string">"UPDATE myguests SET lastname='Doeeeee' WHERE id = 1"</span>;</span><br><span class="line">$statement = $db-&gt;prepare($sql);</span><br><span class="line">$statement-&gt;execute();</span><br><span class="line"></span><br><span class="line"><span class="keyword">echo</span> $statement-&gt;rowCount(); <span class="comment">// 影響總行數</span></span><br></pre></td></tr></table></figure>
+
 <h2 id="Limit-Data"><a href="#Limit-Data" class="headerlink" title="Limit Data"></a>Limit Data</h2><p>SQL語句</p>
 <p><code>SELECT * FROM myguests LIMIT 10 OFFSET 5</code> 跳過5筆後讀取10筆資料</p>
 <p>簡寫<code>SELECT * FROM myguests LIMIT 5, 10</code> (兩個數字會倒過來)</p>
@@ -234,7 +245,7 @@ ga('send', 'pageview');
       
     </div>
     <footer class="article-footer">
-      <a data-url="https://blog.comicat.me/2017/09/21/w3school-PHP%E7%B7%B4%E7%BF%92%E7%AD%86%E8%A8%98-MySQL/" data-id="ck9s52xhz0029tngfctxhxq7k" class="article-share-link">分享</a>
+      <a data-url="https://blog.comicat.me/2017/09/21/w3school-PHP%E7%B7%B4%E7%BF%92%E7%AD%86%E8%A8%98-MySQL/" data-id="ckcx268vp002dg7tzflnigo4q" class="article-share-link">分享</a>
       
       
         <a href="https://blog.comicat.me/2017/09/21/w3school-PHP%E7%B7%B4%E7%BF%92%E7%AD%86%E8%A8%98-MySQL/#disqus_thread" class="article-comment-link">留言</a>

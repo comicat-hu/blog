@@ -17,10 +17,10 @@
 <meta property="og:image" content="https://blog.comicat.me/2017/12/18/Auto-deploy-from-GitHub-using-AWS-CodeDeploy/service.PNG">
 <meta property="og:image" content="https://blog.comicat.me/2017/12/18/Auto-deploy-from-GitHub-using-AWS-CodeDeploy/view_event.PNG">
 <meta property="article:published_time" content="2017-12-18T03:15:09.000Z">
-<meta property="article:modified_time" content="2020-05-04T05:26:23.330Z">
+<meta property="article:modified_time" content="2020-07-22T07:41:16.536Z">
 <meta property="article:author" content="comicat">
-<meta property="article:tag" content="Deploy">
 <meta property="article:tag" content="AWS">
+<meta property="article:tag" content="Deploy">
 <meta name="twitter:card" content="summary">
 <meta name="twitter:image" content="https://blog.comicat.me/2017/12/18/Auto-deploy-from-GitHub-using-AWS-CodeDeploy/create-role.PNG">
   
@@ -63,7 +63,7 @@ ga('send', 'pageview');
 </script>
 
 
-<meta name="generator" content="Hexo 4.2.0"></head>
+<meta name="generator" content="Hexo 4.2.1"></head>
 
 <body>
   <div id="container">
@@ -148,11 +148,13 @@ ga('send', 'pageview');
 <li>建立自動從GitHub通知部署的服務</li>
 </ul>
 <a id="more"></a>
+
 <h2 id="建立IAM-user-role-policy"><a href="#建立IAM-user-role-policy" class="headerlink" title="建立IAM user, role, policy"></a>建立IAM user, role, policy</h2><ul>
 <li>參考 <a href="http://docs.aws.amazon.com/codedeploy/latest/userguide/getting-started-create-service-role.html" target="_blank" rel="noopener">http://docs.aws.amazon.com/codedeploy/latest/userguide/getting-started-create-service-role.html</a></li>
 <li>如果要規範特定region存取，可以edit Trust Relationship中的service設定</li>
 </ul>
-<img src="/2017/12/18/Auto-deploy-from-GitHub-using-AWS-CodeDeploy/create-role.PNG" title="create-role">
+<img src="/2017/12/18/Auto-deploy-from-GitHub-using-AWS-CodeDeploy/create-role.PNG" class="" title="create-role">
+
 <h2 id="建立EC2-安裝codedeploy-agent"><a href="#建立EC2-安裝codedeploy-agent" class="headerlink" title="建立EC2, 安裝codedeploy-agent"></a>建立EC2, 安裝codedeploy-agent</h2><ul>
 <li>起一台amazon linux ami t2 micro，記得加個tag Name</li>
 <li>參考 <a href="http://docs.aws.amazon.com/zh_cn/codedeploy/latest/userguide/codedeploy-agent-operations-install-linux.html" target="_blank" rel="noopener">http://docs.aws.amazon.com/zh_cn/codedeploy/latest/userguide/codedeploy-agent-operations-install-linux.html</a></li>
@@ -178,7 +180,8 @@ ga('send', 'pageview');
 <li>選擇前面設定的CodeDeployRole</li>
 <li>Advanced中可以設定部署失敗是否要rollback</li>
 </ul>
-<img src="/2017/12/18/Auto-deploy-from-GitHub-using-AWS-CodeDeploy/create_application.png" title="create_application">
+<img src="/2017/12/18/Auto-deploy-from-GitHub-using-AWS-CodeDeploy/create_application.png" class="" title="create_application">
+
 <h2 id="手動透過code-deploy部署一個GitHub專案"><a href="#手動透過code-deploy部署一個GitHub專案" class="headerlink" title="手動透過code deploy部署一個GitHub專案"></a>手動透過code deploy部署一個GitHub專案</h2><ul>
 <li>Create deployment</li>
 <li>Repository type選擇from !GitHub，輸入GitHub的代稱，如果登入的GitHub沒有連結aws過，會要求一個認證，點選即可。</li>
@@ -194,12 +197,13 @@ ga('send', 'pageview');
 <li>到專案的<code>settings -&gt; Integrations &amp; services -&gt; Add service</code>，總共要加入兩個服務<code>AWS CodeDeploy EditDelete</code>和<code>GitHub Auto-Deployment</code>，各別填上相應的資訊就是了，剛剛的access key, github token都是在這裡使用</li>
 </ul>
 <p>接下來嘗試push commit，如果兩個服務都有順利運行就會有綠色勾勾，反之則會有驚嘆號的標示</p>
-<img src="/2017/12/18/Auto-deploy-from-GitHub-using-AWS-CodeDeploy/service.PNG" title="service">
+<img src="/2017/12/18/Auto-deploy-from-GitHub-using-AWS-CodeDeploy/service.PNG" class="" title="service">
+
 <p>github服務過了之後流程就會到codedeploy這邊，</p>
 <p>登入後在CodeDeploy deployments頁面查看是否有部署動作中</p>
 <ul>
 <li>點選<code>deployment ID</code>可以查看詳細的內容</li>
-<li>在內容中點選<code>view event</code>可以查看部屬的各個流程情況，如果失敗可以知道是哪個流程，也會有一些logs可以看<img src="/2017/12/18/Auto-deploy-from-GitHub-using-AWS-CodeDeploy/view_event.PNG" title="view_event"></li>
+<li>在內容中點選<code>view event</code>可以查看部屬的各個流程情況，如果失敗可以知道是哪個流程，也會有一些logs可以看<img src="/2017/12/18/Auto-deploy-from-GitHub-using-AWS-CodeDeploy/view_event.PNG" class="" title="view_event"></li>
 <li>如果logs仍然不夠清楚知道失敗的點，可能就必須要進ec2中查看了，可以參考這篇 <a href="http://docs.aws.amazon.com/codedeploy/latest/userguide/deployments-view-logs.html#deployments-view-logs-instance" target="_blank" rel="noopener">http://docs.aws.amazon.com/codedeploy/latest/userguide/deployments-view-logs.html#deployments-view-logs-instance</a></li>
 </ul>
 <p>以上就是一個簡單的從github串連aws codedeploy的部署流程，並只部到一台機器上，在撰寫script時要非常注意，在這個地方我出錯非常多次。</p>
@@ -221,7 +225,7 @@ ga('send', 'pageview');
       
     </div>
     <footer class="article-footer">
-      <a data-url="https://blog.comicat.me/2017/12/18/Auto-deploy-from-GitHub-using-AWS-CodeDeploy/" data-id="ck9s52xgy0008tngfxhjqqose" class="article-share-link">分享</a>
+      <a data-url="https://blog.comicat.me/2017/12/18/Auto-deploy-from-GitHub-using-AWS-CodeDeploy/" data-id="ckcx268ua0007g7tz8qnud7x5" class="article-share-link">分享</a>
       
       
         <a href="https://blog.comicat.me/2017/12/18/Auto-deploy-from-GitHub-using-AWS-CodeDeploy/#disqus_thread" class="article-comment-link">留言</a>

@@ -16,7 +16,7 @@
 <meta property="og:image" content="https://blog.comicat.me/2017/09/19/Try-PHPUnit/phpunit_ok.PNG">
 <meta property="og:image" content="https://blog.comicat.me/2017/09/19/Try-PHPUnit/phpunit_vscode.PNG">
 <meta property="article:published_time" content="2017-09-19T06:12:53.000Z">
-<meta property="article:modified_time" content="2020-05-04T05:26:23.340Z">
+<meta property="article:modified_time" content="2020-07-22T07:41:16.548Z">
 <meta property="article:author" content="comicat">
 <meta property="article:tag" content="PHP">
 <meta property="article:tag" content="PHPUnit">
@@ -63,7 +63,7 @@ ga('send', 'pageview');
 </script>
 
 
-<meta name="generator" content="Hexo 4.2.0"></head>
+<meta name="generator" content="Hexo 4.2.1"></head>
 
 <body>
   <div id="container">
@@ -146,19 +146,24 @@ ga('send', 'pageview');
 <li>修改<code>xampp/php/phpunit.bat</code>的<code>:RUN &quot;%PHPBIN%&quot;</code>後的路徑檔名，改成剛剛載下來的檔案名(phpunit-5.7.21.phar)</li>
 <li><code>phpunit --version</code> 這時就可以看到新的PHPUnit版號了</li>
 </ol>
-<img src="/2017/09/19/Try-PHPUnit/phpunit_version.PNG" title="phpunit version">
+<img src="/2017/09/19/Try-PHPUnit/phpunit_version.PNG" class="" title="phpunit version">
+
 <a id="more"></a>
+
 <h2 id="簡單的測試範例"><a href="#簡單的測試範例" class="headerlink" title="簡單的測試範例"></a>簡單的測試範例</h2><ul>
 <li>在lib_test.php撰寫test case</li>
 </ul>
 <figure class="highlight php"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br></pre></td><td class="code"><pre><span class="line"><span class="meta">&lt;?php</span></span><br><span class="line"></span><br><span class="line"><span class="keyword">use</span> <span class="title">PHPUnit</span>\<span class="title">Framework</span>\<span class="title">TestCase</span>;</span><br><span class="line"></span><br><span class="line"><span class="keyword">require_once</span> <span class="string">'lib.php'</span>;</span><br><span class="line"></span><br><span class="line"><span class="class"><span class="keyword">class</span> <span class="title">InputTest</span> <span class="keyword">extends</span> <span class="title">TestCase</span></span></span><br><span class="line"><span class="class"></span>&#123;</span><br><span class="line">    <span class="keyword">public</span> <span class="function"><span class="keyword">function</span> <span class="title">testNormal</span><span class="params">()</span></span></span><br><span class="line"><span class="function">    </span>&#123;</span><br><span class="line">        <span class="keyword">$this</span>-&gt;assertEquals(<span class="string">'a'</span>, convertInput(<span class="string">'a'</span>));</span><br><span class="line">        <span class="keyword">$this</span>-&gt;assertEquals(<span class="string">'abc'</span>, convertInput(<span class="string">'abc'</span>));</span><br><span class="line">        <span class="keyword">$this</span>-&gt;assertEquals(<span class="string">'aaa'</span>, convertInput(<span class="string">'aaa'</span>));</span><br><span class="line">        <span class="keyword">$this</span>-&gt;assertEquals(<span class="string">'0'</span>, convertInput(<span class="string">'0'</span>));</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    <span class="keyword">public</span> <span class="function"><span class="keyword">function</span> <span class="title">testSpace</span><span class="params">()</span></span></span><br><span class="line"><span class="function">    </span>&#123;</span><br><span class="line">        <span class="keyword">$this</span>-&gt;assertEquals(<span class="string">''</span>, convertInput(<span class="string">' '</span>));</span><br><span class="line">        <span class="keyword">$this</span>-&gt;assertEquals(<span class="string">''</span>, convertInput(<span class="string">'   '</span>));</span><br><span class="line">        <span class="keyword">$this</span>-&gt;assertEquals(<span class="string">''</span>, convertInput(<span class="string">"\0"</span>));</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
 <ul>
 <li>lib.php的內容是一個簡單的轉換資料的function</li>
 </ul>
 <figure class="highlight php"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br></pre></td><td class="code"><pre><span class="line"><span class="meta">&lt;?php</span></span><br><span class="line"></span><br><span class="line"><span class="function"><span class="keyword">function</span> <span class="title">convertInput</span><span class="params">($data)</span></span></span><br><span class="line"><span class="function"></span>&#123;</span><br><span class="line">    $data = trim($data); <span class="comment">// Remove more space</span></span><br><span class="line">    $data = stripcslashes($data); <span class="comment">// Remove "\"</span></span><br><span class="line">    $data = htmlspecialchars($data); <span class="comment">// HTML special chars encode</span></span><br><span class="line">    <span class="keyword">return</span> $data;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
 <ul>
 <li><p>執行phpunit lib_test.php結果</p>
-<img src="/2017/09/19/Try-PHPUnit/phpunit_ok.PNG" title="phpunit ok">
+<img src="/2017/09/19/Try-PHPUnit/phpunit_ok.PNG" class="" title="phpunit ok">
+
 </li>
 </ul>
 <h2 id="在vscode執行phpunit"><a href="#在vscode執行phpunit" class="headerlink" title="在vscode執行phpunit"></a>在vscode執行phpunit</h2><ul>
@@ -169,7 +174,8 @@ ga('send', 'pageview');
 <p>執行狀況如下圖:</p>
 <p>紅線上方為測試全部通過</p>
 <p>紅線下方有一個案例失敗</p>
-<img src="/2017/09/19/Try-PHPUnit/phpunit_vscode.PNG" title="phpunit_vscode">
+<img src="/2017/09/19/Try-PHPUnit/phpunit_vscode.PNG" class="" title="phpunit_vscode">
+
 <h2 id="composer-install-phpunit"><a href="#composer-install-phpunit" class="headerlink" title="composer install phpunit"></a>composer install phpunit</h2><p><a href="https://phpunit.de/manual/current/en/installation.html#installation.composer" target="_blank" rel="noopener">installation.composer</a></p>
 <h3 id="安裝composer"><a href="#安裝composer" class="headerlink" title="安裝composer"></a>安裝composer</h3><p><code>composer --version</code>確認可以執行查看版本</p>
 <p>我裝在全域路徑(windows的路徑是預設在<code>C:\Users\使用者名稱\AppData\Roaming\Composer</code>)，composer會自動把套件裝去那<br><code>composer global require phpunit/phpunit ^5.7</code></p>
@@ -182,6 +188,7 @@ ga('send', 'pageview');
 <p>參考: <a href="https://github.com/composer/composer/issues/4584" target="_blank" rel="noopener">https://github.com/composer/composer/issues/4584</a></p>
 <h2 id="test-private-protected-function"><a href="#test-private-protected-function" class="headerlink" title="test private/protected function"></a>test private/protected function</h2><p><a href="http://php.net/manual/en/class.reflectionclass.php" target="_blank" rel="noopener">http://php.net/manual/en/class.reflectionclass.php</a><br><a href="https://stackoverflow.com/questions/249664/best-practices-to-test-protected-methods-with-phpunit" target="_blank" rel="noopener">https://stackoverflow.com/questions/249664/best-practices-to-test-protected-methods-with-phpunit</a></p>
 <figure class="highlight php"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">/**</span></span><br><span class="line"><span class="comment"> * 取得 SomeClass 這隻class的特定方法，設定存取權限</span></span><br><span class="line"><span class="comment"> * <span class="doctag">@param</span> string $name 方法的名稱</span></span><br><span class="line"><span class="comment"> * <span class="doctag">@return</span> ReflectionMethod</span></span><br><span class="line"><span class="comment"> */</span></span><br><span class="line"><span class="keyword">private</span> <span class="function"><span class="keyword">function</span> <span class="title">getMethod</span><span class="params">($name)</span> </span>&#123;</span><br><span class="line">    $class = <span class="keyword">new</span> \ReflectionClass(<span class="string">'SomeClass'</span>);</span><br><span class="line">    $method = $class-&gt;getMethod($name);</span><br><span class="line">    $method-&gt;setAccessible(<span class="keyword">true</span>);</span><br><span class="line">    <span class="keyword">return</span> $method;</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="comment">/**</span></span><br><span class="line"><span class="comment"> * 呼叫權限受限的方法時被執行</span></span><br><span class="line"><span class="comment"> * <span class="doctag">@param</span> string $methodName 自動填入方法名稱</span></span><br><span class="line"><span class="comment"> * <span class="doctag">@param</span> array  $args 自動填入呼叫方法的參數</span></span><br><span class="line"><span class="comment"> * <span class="doctag">@return</span> mixed 該方法的執行結果</span></span><br><span class="line"><span class="comment"> */</span></span><br><span class="line"><span class="keyword">public</span> <span class="function"><span class="keyword">function</span> <span class="title">__call</span><span class="params">($methodName, $args)</span></span></span><br><span class="line"><span class="function"></span>&#123;</span><br><span class="line">    $method = <span class="keyword">$this</span>-&gt;getMethod($methodName);</span><br><span class="line">    $result = $method-&gt;invokeArgs(<span class="keyword">$this</span>-&gt;api, $args);</span><br><span class="line">    <span class="keyword">return</span> $result;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
 <p>範例:</p>
 <p>當我<code>$this-&gt;getCache()</code>時，因為getCache在ApplyAnalysisToJob中是private方法，</p>
 <p>所以存取被拒絕，進入<code>__call()</code>，啟動getMethod()，透過<code>ReflectionClass</code>回傳可存取的<code>ReflectionMethod</code>物件，</p>
@@ -190,13 +197,14 @@ ga('send', 'pageview');
 <p>在<code>phpunit.xml</code>裡的filter區塊加入白名單設定，並且設定<code>addUncoveredFilesFromWhitelist=&quot;true&quot;</code></p>
 <p>將要產生覆蓋率報告的資料夾或檔案引入</p>
 <figure class="highlight xml"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line"><span class="tag">&lt;<span class="name">whitelist</span> <span class="attr">addUncoveredFilesFromWhitelist</span>=<span class="string">"true"</span>&gt;</span></span><br><span class="line">    <span class="tag">&lt;<span class="name">directory</span> <span class="attr">suffix</span>=<span class="string">".php"</span>&gt;</span>path\to\dir<span class="tag">&lt;/<span class="name">directory</span>&gt;</span></span><br><span class="line">    <span class="tag">&lt;<span class="name">file</span>&gt;</span>path\to\file<span class="tag">&lt;/<span class="name">file</span>&gt;</span></span><br><span class="line"><span class="tag">&lt;/<span class="name">whitelist</span>&gt;</span></span><br></pre></td></tr></table></figure>
+
 <p>這段設定表示加入一個資料夾(內符合suffix=”.php”的檔案)，和兩個單檔，所以產出的報告會包含這些檔案的執行覆蓋率</p>
 <p>透過這份覆蓋率報告可以得知，可能會有測試案例不滿足function中每行程式的情況，會有if, for沒有跑到之類的，表示測試案例不夠完整</p>
 
       
     </div>
     <footer class="article-footer">
-      <a data-url="https://blog.comicat.me/2017/09/19/Try-PHPUnit/" data-id="ck9s52xhi0016tngfm8v1ocye" class="article-share-link">分享</a>
+      <a data-url="https://blog.comicat.me/2017/09/19/Try-PHPUnit/" data-id="ckcx268uw000xg7tzg3kehjwk" class="article-share-link">分享</a>
       
       
         <a href="https://blog.comicat.me/2017/09/19/Try-PHPUnit/#disqus_thread" class="article-comment-link">留言</a>

@@ -14,7 +14,7 @@
 <meta property="og:locale" content="zh_TW">
 <meta property="og:image" content="https://blog.comicat.me/2017/08/29/PHP5-Codecademy%E8%AA%B2%E7%A8%8B%E5%AD%B8%E7%BF%92/phpcs_install.PNG">
 <meta property="article:published_time" content="2017-08-29T07:54:06.000Z">
-<meta property="article:modified_time" content="2020-05-04T05:26:23.340Z">
+<meta property="article:modified_time" content="2020-07-22T07:41:16.548Z">
 <meta property="article:author" content="comicat">
 <meta property="article:tag" content="PHP">
 <meta name="twitter:card" content="summary">
@@ -59,7 +59,7 @@ ga('send', 'pageview');
 </script>
 
 
-<meta name="generator" content="Hexo 4.2.0"></head>
+<meta name="generator" content="Hexo 4.2.1"></head>
 
 <body>
   <div id="container">
@@ -135,6 +135,7 @@ ga('send', 'pageview');
         
         <p>Learn Url: <a href="https://www.codecademy.com/learn/php" target="_blank" rel="noopener">https://www.codecademy.com/learn/php</a></p>
 <a id="more"></a>
+
 <p>適逢Codecademy整理課程，這版的課程使用的是比較舊的php版本(5.3.10-1ubuntu3.1)，而且Codecademy也已經計畫更新並在主頁下架該課程首頁，不過新版的似乎還沒上架，所以這個url可能會404。</p>
 <p>目前還是可以直接連進課程內容練習<a href="https://www.codecademy.com/courses/web-beginner-en-StaFQ/0/1" target="_blank" rel="noopener">Introduction to PHP</a> (已失效)</p>
 <p>p.s. Codecademy比較偏向語法快速上手，但是對於php的介紹比較少。</p>
@@ -142,7 +143,9 @@ ga('send', 'pageview');
 <p>邊看文件邊整理的一些PHP入門需知(持續更新): <a href="https://github.com/comicat-hu/php-note/blob/master/php.md" target="_blank" rel="noopener">php-note</a></p>
 <h2 id="PHP-CodeSniffer"><a href="#PHP-CodeSniffer" class="headerlink" title="PHP CodeSniffer"></a>PHP CodeSniffer</h2><p>可以幫助你檢查程式碼是否有符合PSR的規範。</p>
 <p>使用XAMPP安裝PHP CodeSniffer套件</p>
-<p>因為使用XAMPP裝的PHP已經有pear套件了，所以就不用再裝。<br>打開XAMPP shell輸入指令<br><code>pear install PHP_CodeSniffer</code><br>安裝完成畫面<br><img src="/2017/08/29/PHP5-Codecademy課程學習/phpcs_install.PNG" title="phpcs install"></p>
+<p>因為使用XAMPP裝的PHP已經有pear套件了，所以就不用再裝。<br>打開XAMPP shell輸入指令<br><code>pear install PHP_CodeSniffer</code><br>安裝完成畫面</p>
+<img src="/2017/08/29/PHP5-Codecademy%E8%AA%B2%E7%A8%8B%E5%AD%B8%E7%BF%92/phpcs_install.PNG" class="" title="phpcs install">
+
 <p>在VSCode中可以安裝phpcs套件來引入PHP CodeSniffer使用。<br>一些設定在phpcs的說明頁中可以查詢。</p>
 <h2 id="php-cs-fixer"><a href="#php-cs-fixer" class="headerlink" title="php-cs-fixer"></a>php-cs-fixer</h2><p>修正程式碼符合PSR-2<br><a href="https://github.com/FriendsOfPHP/PHP-CS-Fixer" target="_blank" rel="noopener">PHP-CS-Fixer</a></p>
 <p>我這邊是直接載phar檔。<br>vscode中安裝php-cs-fixer extension，設定php-cs-fixer.executablePath指到剛載下來的檔案。<br>F1 search : php-cs-fixer: fix this file 使用</p>
@@ -156,6 +159,7 @@ ga('send', 'pageview');
 </ul>
 <p>正常的PSR寫法應該為:</p>
 <figure class="highlight php"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">if</span> ($expr1) &#123;</span><br><span class="line">    <span class="comment">// if body</span></span><br><span class="line">&#125; <span class="keyword">elseif</span> ($expr2) &#123;</span><br><span class="line">    <span class="comment">// elseif body</span></span><br><span class="line">&#125; <span class="keyword">else</span> &#123;</span><br><span class="line">    <span class="comment">// else body;</span></span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
 <ul>
 <li>elseif 和 else if 的差異: <a href="http://php.net/manual/zh/control-structures.elseif.php" target="_blank" rel="noopener">php elseif</a><br>使用<code>else if</code> 在 : endif 的寫法下會導致解析錯誤，花括號寫法則沒有差異。</li>
 </ul>
@@ -171,6 +175,7 @@ ga('send', 'pageview');
 <li>使用<code>foreach</code>存取陣列</li>
 </ul>
 <figure class="highlight php"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">foreach</span> ($langs <span class="keyword">as</span> $lang) &#123;</span><br><span class="line">    <span class="keyword">echo</span> <span class="string">"&lt;li&gt;$lang&lt;/li&gt;"</span>;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
 <h3 id="Ch6-While-Loops-in-PHP"><a href="#Ch6-While-Loops-in-PHP" class="headerlink" title="Ch6 While Loops in PHP"></a>Ch6 While Loops in PHP</h3><ul>
 <li>記得<code>do while</code>的結尾要加;</li>
 </ul>
@@ -215,49 +220,16 @@ ga('send', 'pageview');
 <h4 id="註1"><a href="#註1" class="headerlink" title="註1"></a>註1</h4><p>在PHP4.2之後，count()函數有新增一個mode參數<code>count($arr, mode)</code></p>
 <p>mode參數不填寫預設為0，表示不遞回計算個數，意指只計算第一層的元素個數</p>
 <figure class="highlight php"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br></pre></td><td class="code"><pre><span class="line">$arr = [</span><br><span class="line">    [<span class="number">1</span>,<span class="number">2</span>],</span><br><span class="line">    <span class="number">3</span>,</span><br><span class="line">    <span class="number">4</span>,</span><br><span class="line">    [<span class="number">5</span>,<span class="number">6</span>,<span class="number">7</span>,[<span class="number">8</span>]],</span><br><span class="line">];</span><br><span class="line"></span><br><span class="line"><span class="keyword">echo</span> count($arr); <span class="comment">// 4</span></span><br></pre></td></tr></table></figure>
+
 <p>mode參數設成1或COUNT_RECURSIVE，表示遞迴計算元素個數，意指加總所有層的元素個數</p>
 <figure class="highlight php"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br></pre></td><td class="code"><pre><span class="line">$arr = [</span><br><span class="line">    [<span class="number">1</span>,<span class="number">2</span>],</span><br><span class="line">    <span class="number">3</span>,</span><br><span class="line">    <span class="number">4</span>,</span><br><span class="line">    [<span class="number">5</span>,<span class="number">6</span>,<span class="number">7</span>,[<span class="number">8</span>]],</span><br><span class="line">];</span><br><span class="line"></span><br><span class="line"><span class="keyword">echo</span> count($arr, <span class="number">1</span>); <span class="comment">// 11</span></span><br></pre></td></tr></table></figure>
+
 <p>$arr在第一層的有4個元素，<br>$arr在第二層的有6個元素，<br>$arr在第三層的有1個元素，</p>
 <p>故4 + 6 + 1 = 11</p>
 <h3 id="echo-vs-print-vs-print-r"><a href="#echo-vs-print-vs-print-r" class="headerlink" title="echo vs print() vs print_r()"></a>echo vs print() vs print_r()</h3><ul>
 <li>比較表</li>
 </ul>
-<table>
-<thead>
-<tr>
-<th></th>
-<th>echo</th>
-<th>print()</th>
-<th>print_r()</th>
-</tr>
-</thead>
-<tbody>
-<tr>
-<td> 型態</td>
-<td>語句</td>
-<td>函數</td>
-<td>函數</td>
-</tr>
-<tr>
-<td> 接受參數</td>
-<td>多個</td>
-<td>一個</td>
-<td>多個</td>
-</tr>
-<tr>
-<td> 參數型態</td>
-<td>string, number</td>
-<td>string, number</td>
-<td>mixed</td>
-</tr>
-<tr>
-<td> 回傳值</td>
-<td>無</td>
-<td>int(1)</td>
-<td>bool(true/false)</td>
-</tr>
-</tbody>
-</table>
+<p>| echo | print() | print_r()<br>———|———|———-|———<br> 型態 | 語句 | 函數 | 函數<br> 接受參數 | 多個 | 一個 | 多個<br> 參數型態 | string, number | string, number | mixed<br> 回傳值 | 無 | int(1) | bool(true/false)</p>
 <ul>
 <li>print_r() 如果加上第二個參數true，則不會輸出而是return函數處理完的值。</li>
 </ul>
@@ -271,6 +243,7 @@ ga('send', 'pageview');
 <p>為統一輸出避免顯示被自動轉型，所以我用var_dump()來處理輸出</p>
 <p>輸出執行下方程式碼</p>
 <figure class="highlight php"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">echo</span> var_dump($var);</span><br><span class="line"><span class="keyword">echo</span> var_dump(<span class="keyword">isset</span>($var));</span><br><span class="line"><span class="keyword">echo</span> var_dump(<span class="keyword">empty</span>($var));</span><br><span class="line"><span class="keyword">echo</span> var_dump(is_null($var));</span><br></pre></td></tr></table></figure>
+
 <ul>
 <li>不宣告$var<ul>
 <li>$var出現未定義變數警告訊息，並回傳NULL</li>
@@ -325,7 +298,7 @@ ga('send', 'pageview');
       
     </div>
     <footer class="article-footer">
-      <a data-url="https://blog.comicat.me/2017/08/29/PHP5-Codecademy%E8%AA%B2%E7%A8%8B%E5%AD%B8%E7%BF%92/" data-id="ck9s52xh8000mtngfqkfyqaqr" class="article-share-link">分享</a>
+      <a data-url="https://blog.comicat.me/2017/08/29/PHP5-Codecademy%E8%AA%B2%E7%A8%8B%E5%AD%B8%E7%BF%92/" data-id="ckcx268ut000sg7tz07jx5e8b" class="article-share-link">分享</a>
       
       
         <a href="https://blog.comicat.me/2017/08/29/PHP5-Codecademy%E8%AA%B2%E7%A8%8B%E5%AD%B8%E7%BF%92/#disqus_thread" class="article-comment-link">留言</a>

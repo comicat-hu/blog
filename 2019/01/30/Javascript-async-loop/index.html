@@ -13,7 +13,7 @@
 <meta property="og:description" content="Javascript 自ES7後支援潮潮的async-await語法，解決的許多不順眼的promise同步語法， 但是Array.prototype.forEach是沒有支援到async function的用法哦~ (天真的踩雷 底下給了一些程式片段範例:">
 <meta property="og:locale" content="zh_TW">
 <meta property="article:published_time" content="2019-01-30T08:27:21.000Z">
-<meta property="article:modified_time" content="2020-05-04T05:26:23.340Z">
+<meta property="article:modified_time" content="2020-07-22T07:41:16.548Z">
 <meta property="article:author" content="comicat">
 <meta property="article:tag" content="Javascript">
 <meta name="twitter:card" content="summary">
@@ -57,7 +57,7 @@ ga('send', 'pageview');
 </script>
 
 
-<meta name="generator" content="Hexo 4.2.0"></head>
+<meta name="generator" content="Hexo 4.2.1"></head>
 
 <body>
   <div id="container">
@@ -135,13 +135,17 @@ ga('send', 'pageview');
 <p>但是<code>Array.prototype.forEach</code>是沒有支援到async function的用法哦~ (天真的踩雷</p>
 <p>底下給了一些程式片段範例:</p>
 <a id="more"></a>
+
 <p>首先為了例子方便，我封裝了一個setTimeout，這個wait(ms)傳進要等待的時間，並且執行完後回傳一個promise，等等我們會用async-await來處理它。</p>
 <figure class="highlight js"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line"><span class="function"><span class="keyword">function</span> <span class="title">wait</span> (<span class="params">ms</span>) </span>&#123;</span><br><span class="line">    <span class="keyword">return</span> <span class="keyword">new</span> <span class="built_in">Promise</span>(<span class="function"><span class="keyword">function</span> (<span class="params">resolve, reject</span>) </span>&#123;</span><br><span class="line">        setTimeout(resolve, ms);</span><br><span class="line">    &#125;);</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
 <h2 id="forEach"><a href="#forEach" class="headerlink" title="forEach"></a>forEach</h2><p>我們期望程式開始後每隔1000ms log出一個陣列值。</p>
 <figure class="highlight js"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">async</span> <span class="function"><span class="keyword">function</span> <span class="title">run</span> (<span class="params"></span>) </span>&#123;</span><br><span class="line">    <span class="built_in">console</span>.log(<span class="string">'Start'</span>);</span><br><span class="line">    <span class="built_in">console</span>.time(<span class="string">'ExecuteTime'</span>);</span><br><span class="line"></span><br><span class="line">    <span class="keyword">var</span> arr = [<span class="string">'apple'</span>, <span class="string">'ball'</span>, <span class="string">'cat'</span>, <span class="string">'dog'</span>, <span class="string">'egg'</span>];</span><br><span class="line"></span><br><span class="line">    arr.forEach(<span class="keyword">async</span> <span class="function"><span class="keyword">function</span> (<span class="params">item</span>) </span>&#123;</span><br><span class="line">        <span class="built_in">console</span>.log(item);</span><br><span class="line">        <span class="keyword">await</span> wait(<span class="number">1000</span>);</span><br><span class="line">    &#125;);</span><br><span class="line"></span><br><span class="line">    <span class="built_in">console</span>.log(<span class="string">'End'</span>);</span><br><span class="line">    <span class="built_in">console</span>.timeEnd(<span class="string">'ExecuteTime'</span>); <span class="comment">// ExecuteTime: &lt; 5ms</span></span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line">run();</span><br></pre></td></tr></table></figure>
+
 <p>執行上面程式可以發現我們的wait完全沒等到，程式就結束了，總執行時間很短。</p>
 <h2 id="for-of"><a href="#for-of" class="headerlink" title="for-of"></a>for-of</h2><p>於是我們將程式修改成下面這種寫法。</p>
 <figure class="highlight js"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">async</span> <span class="function"><span class="keyword">function</span> <span class="title">run</span> (<span class="params"></span>) </span>&#123;</span><br><span class="line">    <span class="built_in">console</span>.log(<span class="string">'Start'</span>);</span><br><span class="line">    <span class="built_in">console</span>.time(<span class="string">'ExecuteTime'</span>);</span><br><span class="line"></span><br><span class="line">    <span class="keyword">var</span> arr = [<span class="string">'apple'</span>, <span class="string">'ball'</span>, <span class="string">'cat'</span>, <span class="string">'dog'</span>, <span class="string">'egg'</span>];</span><br><span class="line"></span><br><span class="line">    <span class="keyword">for</span> (<span class="keyword">var</span> item <span class="keyword">of</span> arr) &#123;</span><br><span class="line">        <span class="built_in">console</span>.log(item);</span><br><span class="line">        <span class="keyword">await</span> wait(<span class="number">1000</span>);</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    <span class="built_in">console</span>.log(<span class="string">'End'</span>);</span><br><span class="line">    <span class="built_in">console</span>.timeEnd(<span class="string">'ExecuteTime'</span>); <span class="comment">// ExecuteTime: 5xxx ms</span></span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line">run();</span><br></pre></td></tr></table></figure>
+
 <p>執行上面程式後，符合我們的期望每隔1秒輸出一個陣列值。</p>
 <h2 id="How-to-break-in-forEach"><a href="#How-to-break-in-forEach" class="headerlink" title="How to break in forEach"></a>How to break in forEach</h2><p>NO.</p>
 <p>在forEach裡沒辦法使用<code>break</code>，只能<code>return;</code>來跳過本次循環，有這種需求只能乖乖用for loop了。</p>
@@ -156,7 +160,7 @@ ga('send', 'pageview');
       
     </div>
     <footer class="article-footer">
-      <a data-url="https://blog.comicat.me/2019/01/30/Javascript-async-loop/" data-id="ck9s52xh1000ctngflgl9jav8" class="article-share-link">分享</a>
+      <a data-url="https://blog.comicat.me/2019/01/30/Javascript-async-loop/" data-id="ckcx268ul000eg7tz99rm23yv" class="article-share-link">分享</a>
       
       
         <a href="https://blog.comicat.me/2019/01/30/Javascript-async-loop/#disqus_thread" class="article-comment-link">留言</a>

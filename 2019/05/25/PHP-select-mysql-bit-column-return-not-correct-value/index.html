@@ -5,15 +5,15 @@
   
   <title>PHP select mysql bit column return not correct value | Comicat&#39;s Blog</title>
   <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
-  <meta name="description" content="最近在一個PHP5.3的專案中遇到存取MySQL bit型態欄位取值總是拿到0的狀況， 不要問我為什麼還在PHP5.3，嘛~ 萬惡歷史淵源嘛~ 進入正題~ 狀況摘要經查發現， 取bit&#x3D;1，php這邊得到 1string(1)&quot;\001&quot; 取bit&#x3D;0，php這邊得到 1string(1)&quot;\000&quot;">
+  <meta name="description" content="最近在一個PHP5.3的專案中遇到存取MySQL bit型態欄位取值總是拿到0的狀況， 不要問我為什麼還在PHP5.3，嘛~ 萬惡歷史淵源嘛~ 進入正題~ 狀況摘要經查發現， 取bit&#x3D;1，php這邊得到 1string(1)&quot;\001&quot;  取bit&#x3D;0，php這邊得到 1string(1)&quot;\000&quot;">
 <meta property="og:type" content="article">
 <meta property="og:title" content="PHP select mysql bit column return not correct value">
 <meta property="og:url" content="https://blog.comicat.me/2019/05/25/PHP-select-mysql-bit-column-return-not-correct-value/index.html">
 <meta property="og:site_name" content="Comicat&#39;s Blog">
-<meta property="og:description" content="最近在一個PHP5.3的專案中遇到存取MySQL bit型態欄位取值總是拿到0的狀況， 不要問我為什麼還在PHP5.3，嘛~ 萬惡歷史淵源嘛~ 進入正題~ 狀況摘要經查發現， 取bit&#x3D;1，php這邊得到 1string(1)&quot;\001&quot; 取bit&#x3D;0，php這邊得到 1string(1)&quot;\000&quot;">
+<meta property="og:description" content="最近在一個PHP5.3的專案中遇到存取MySQL bit型態欄位取值總是拿到0的狀況， 不要問我為什麼還在PHP5.3，嘛~ 萬惡歷史淵源嘛~ 進入正題~ 狀況摘要經查發現， 取bit&#x3D;1，php這邊得到 1string(1)&quot;\001&quot;  取bit&#x3D;0，php這邊得到 1string(1)&quot;\000&quot;">
 <meta property="og:locale" content="zh_TW">
 <meta property="article:published_time" content="2019-05-25T02:59:56.000Z">
-<meta property="article:modified_time" content="2020-05-04T05:26:23.340Z">
+<meta property="article:modified_time" content="2020-07-22T07:41:16.548Z">
 <meta property="article:author" content="comicat">
 <meta property="article:tag" content="PHP">
 <meta property="article:tag" content="MySQL">
@@ -58,7 +58,7 @@ ga('send', 'pageview');
 </script>
 
 
-<meta name="generator" content="Hexo 4.2.0"></head>
+<meta name="generator" content="Hexo 4.2.1"></head>
 
 <body>
   <div id="container">
@@ -137,9 +137,12 @@ ga('send', 'pageview');
 <h2 id="狀況摘要"><a href="#狀況摘要" class="headerlink" title="狀況摘要"></a>狀況摘要</h2><p>經查發現，</p>
 <p>取bit=1，php這邊得到</p>
 <figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">string(1)&quot;\001&quot;</span><br></pre></td></tr></table></figure>
+
 <p>取bit=0，php這邊得到</p>
 <figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">string(1)&quot;\000&quot;</span><br></pre></td></tr></table></figure>
+
 <a id="more"></a>
+
 <p>以嘗試過用這幾種設定都無法解決</p>
 <ul>
 <li><code>$pdo-&gt;setAttribute(PDO::ATTR_EMULATE_PREPARES, false);</code></li>
@@ -161,12 +164,13 @@ ga('send', 'pageview');
 <h2 id="如何判斷環境使用何種mysql-driver"><a href="#如何判斷環境使用何種mysql-driver" class="headerlink" title="如何判斷環境使用何種mysql driver"></a>如何判斷環境使用何種mysql driver</h2><p>通常phpinfo(php -i)沒有查閱到mysqlnd這個字眼時，使用的就是舊的libmysqlclient</p>
 <p>以下提供一段網路上找的的程式檢查，他是透過檢查mysqlnd特有的function來判斷使用的哪種driver</p>
 <figure class="highlight php"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br></pre></td><td class="code"><pre><span class="line">$hasMySQL = <span class="keyword">false</span>;</span><br><span class="line">$hasMySQLi = <span class="keyword">false</span>;</span><br><span class="line">$withMySQLnd = <span class="keyword">false</span>;</span><br><span class="line">$sentence=<span class="string">''</span>;</span><br><span class="line"></span><br><span class="line"><span class="keyword">if</span> (function_exists(<span class="string">'mysql_connect'</span>)) &#123;</span><br><span class="line">    $hasMySQL = <span class="keyword">true</span>;</span><br><span class="line">    $sentence.= <span class="string">"(Deprecated) MySQL &lt;b&gt;is installed&lt;/b&gt; "</span>;</span><br><span class="line">&#125; <span class="keyword">else</span></span><br><span class="line">    $sentence.= <span class="string">"(Deprecated) MySQL &lt;b&gt;is not&lt;/b&gt; installed "</span>;</span><br><span class="line"></span><br><span class="line"><span class="keyword">if</span> (function_exists(<span class="string">'mysqli_connect'</span>)) &#123;</span><br><span class="line">    $hasMySQLi = <span class="keyword">true</span>;</span><br><span class="line">    $sentence.= <span class="string">"and the new (improved) MySQL &lt;b&gt;is installed&lt;/b&gt;. "</span>;</span><br><span class="line">&#125; <span class="keyword">else</span></span><br><span class="line">    $sentence.= <span class="string">"and the new (improved) MySQL &lt;b&gt;is not installed&lt;/b&gt;. "</span>;</span><br><span class="line"></span><br><span class="line"><span class="keyword">if</span> (function_exists(<span class="string">'mysqli_fetch_all'</span>)) &#123;</span><br><span class="line">    $withMySQLnd = <span class="keyword">true</span>;</span><br><span class="line">    $sentence.= <span class="string">"This server is using MySQLnd as the driver."</span>;</span><br><span class="line">&#125; <span class="keyword">else</span></span><br><span class="line">    $sentence.= <span class="string">"This server is using libmysqlclient as the driver."</span>;</span><br><span class="line"></span><br><span class="line"><span class="keyword">echo</span> $sentence;</span><br></pre></td></tr></table></figure>
-<h2 id="參考資料"><a href="#參考資料" class="headerlink" title="參考資料"></a>參考資料</h2><p>​<em> <a href="https://stackoverflow.com/questions/10540483/pdostatement-mysql-inserting-value-0-into-a-bit1-field-results-in-1-written/10542145" target="_blank" rel="noopener">https://stackoverflow.com/questions/10540483/pdostatement-mysql-inserting-value-0-into-a-bit1-field-results-in-1-written/10542145</a><br>​</em> <a href="https://stackoverflow.com/questions/20079320/php-pdo-mysql-how-do-i-return-integer-and-numeric-columns-from-mysql-as-int" target="_blank" rel="noopener">https://stackoverflow.com/questions/20079320/php-pdo-mysql-how-do-i-return-integer-and-numeric-columns-from-mysql-as-int</a><br>​<em> <a href="https://stackoverflow.com/questions/15106985/mysql-select-bit1-shows-as-string3" target="_blank" rel="noopener">https://stackoverflow.com/questions/15106985/mysql-select-bit1-shows-as-string3</a><br>​</em> <a href="https://www.junorz.com/archives/683.html" target="_blank" rel="noopener">https://www.junorz.com/archives/683.html</a><br>​<em> <a href="http://www.q2zy.com/php-pdo%E9%A9%B1%E5%8A%A8-mysqlnd%E6%8A%98%E8%85%BE%E8%AE%B0/" target="_blank" rel="noopener">http://www.q2zy.com/php-pdo%E9%A9%B1%E5%8A%A8-mysqlnd%E6%8A%98%E8%85%BE%E8%AE%B0/</a><br>​</em> <a href="https://www.php.net/manual/zh/mysqlinfo.library.choosing.php" target="_blank" rel="noopener">https://www.php.net/manual/zh/mysqlinfo.library.choosing.php</a></p>
+
+<h2 id="參考資料"><a href="#參考資料" class="headerlink" title="參考資料"></a>參考資料</h2><p>​* <a href="https://stackoverflow.com/questions/10540483/pdostatement-mysql-inserting-value-0-into-a-bit1-field-results-in-1-written/10542145" target="_blank" rel="noopener">https://stackoverflow.com/questions/10540483/pdostatement-mysql-inserting-value-0-into-a-bit1-field-results-in-1-written/10542145</a><br>​* <a href="https://stackoverflow.com/questions/20079320/php-pdo-mysql-how-do-i-return-integer-and-numeric-columns-from-mysql-as-int" target="_blank" rel="noopener">https://stackoverflow.com/questions/20079320/php-pdo-mysql-how-do-i-return-integer-and-numeric-columns-from-mysql-as-int</a><br>​* <a href="https://stackoverflow.com/questions/15106985/mysql-select-bit1-shows-as-string3" target="_blank" rel="noopener">https://stackoverflow.com/questions/15106985/mysql-select-bit1-shows-as-string3</a><br>​* <a href="https://www.junorz.com/archives/683.html" target="_blank" rel="noopener">https://www.junorz.com/archives/683.html</a><br>​* <a href="http://www.q2zy.com/php-pdo%E9%A9%B1%E5%8A%A8-mysqlnd%E6%8A%98%E8%85%BE%E8%AE%B0/" target="_blank" rel="noopener">http://www.q2zy.com/php-pdo%E9%A9%B1%E5%8A%A8-mysqlnd%E6%8A%98%E8%85%BE%E8%AE%B0/</a><br>​* <a href="https://www.php.net/manual/zh/mysqlinfo.library.choosing.php" target="_blank" rel="noopener">https://www.php.net/manual/zh/mysqlinfo.library.choosing.php</a></p>
 
       
     </div>
     <footer class="article-footer">
-      <a data-url="https://blog.comicat.me/2019/05/25/PHP-select-mysql-bit-column-return-not-correct-value/" data-id="ck9s52xh7000itngfpgdy4wpl" class="article-share-link">分享</a>
+      <a data-url="https://blog.comicat.me/2019/05/25/PHP-select-mysql-bit-column-return-not-correct-value/" data-id="ckcx268ur000og7tz83jt6h1e" class="article-share-link">分享</a>
       
       
         <a href="https://blog.comicat.me/2019/05/25/PHP-select-mysql-bit-column-return-not-correct-value/#disqus_thread" class="article-comment-link">留言</a>
@@ -224,7 +228,7 @@ ga('send', 'pageview');
     
 <nav id="article-nav">
   
-    <a href="/2019/09/08/Apache-run-multiple-php-version-by-port-based-vHosts/" id="article-nav-newer" class="article-nav-link-wrap">
+    <a href="/2019/09/07/Apache-run-multiple-php-version-by-port-based-vHosts/" id="article-nav-newer" class="article-nav-link-wrap">
       <strong class="article-nav-caption">Newer</strong>
       <div class="article-nav-title">
         

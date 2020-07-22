@@ -13,7 +13,7 @@
 <meta property="og:description" content="UrlManager主要用來解析URL route，有兩種格式可以設定  get: 用query string指定route(&#x2F;?r&#x3D;controllerID&#x2F;actionID) path: 在URL中指定route(&#x2F;controllerID&#x2F;actionID)">
 <meta property="og:locale" content="zh_TW">
 <meta property="article:published_time" content="2017-10-20T10:24:35.000Z">
-<meta property="article:modified_time" content="2020-05-04T05:26:23.340Z">
+<meta property="article:modified_time" content="2020-07-22T07:41:16.552Z">
 <meta property="article:author" content="comicat">
 <meta property="article:tag" content="PHP">
 <meta property="article:tag" content="Yii1.x">
@@ -58,7 +58,7 @@ ga('send', 'pageview');
 </script>
 
 
-<meta name="generator" content="Hexo 4.2.0"></head>
+<meta name="generator" content="Hexo 4.2.1"></head>
 
 <body>
   <div id="container">
@@ -138,8 +138,10 @@ ga('send', 'pageview');
 <li>path: 在URL中指定route(/controllerID/actionID)</li>
 </ul>
 <a id="more"></a>
+
 <p>在config中可以設定，沒有指定的話get是預設格式</p>
 <figure class="highlight php"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br></pre></td><td class="code"><pre><span class="line"><span class="string">"components"</span> =&gt; <span class="keyword">array</span>(</span><br><span class="line">    <span class="string">'urlManager'</span> =&gt; <span class="keyword">array</span>(</span><br><span class="line">        <span class="string">'urlFormat'</span> =&gt; <span class="string">'path'</span>,</span><br><span class="line">        <span class="string">'rules'</span> =&gt; <span class="keyword">array</span>(</span><br><span class="line">            <span class="comment">// 格式化規則</span></span><br><span class="line">        ),</span><br><span class="line">    ),</span><br><span class="line">),</span><br></pre></td></tr></table></figure>
+
 <h2 id="CWebApplication-processRequest"><a href="#CWebApplication-processRequest" class="headerlink" title="CWebApplication::processRequest()"></a>CWebApplication::processRequest()</h2><p><code>$route = $this-&gt;getUrlManager()-&gt;parseUrl($this-&gt;getRequest());</code></p>
 <h2 id="CApplication-getUrlManager"><a href="#CApplication-getUrlManager" class="headerlink" title="CApplication::getUrlManager()"></a>CApplication::getUrlManager()</h2><p><code>return $this-&gt;getComponent(&#39;urlManager&#39;);</code></p>
 <p>在getComponent()，如果在應用程式中urlManager沒有被建立，這時會createComponent，</p>
@@ -148,6 +150,7 @@ ga('send', 'pageview');
 <p>最後回傳物件。</p>
 <p>接下來會有個init()的過程(call CUrlManager::init())，</p>
 <figure class="highlight php"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">parent</span>::init();</span><br><span class="line"><span class="keyword">$this</span>-&gt;processRules();</span><br></pre></td></tr></table></figure>
+
 <p>CUrlManager的父類別是CApplicationComponent，在這裡的init()有兩件事</p>
 <ul>
 <li>attachBehavoirs (預設behaviors是空陣列)</li>
@@ -159,6 +162,7 @@ ga('send', 'pageview');
 <li>再來才是foreach解析每條rule</li>
 </ul>
 <figure class="highlight php"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">foreach</span>(<span class="keyword">$this</span>-&gt;rules <span class="keyword">as</span> $pattern =&gt; $route)</span><br><span class="line">    <span class="keyword">$this</span>-&gt;_rules[] = <span class="keyword">$this</span>-&gt;createUrlRule($route,$pattern);</span><br></pre></td></tr></table></figure>
+
 <p>createUrlRule()中會先判斷使否有指定class，沒有的話會使用預設的CUrlRule(<code>$this-&gt;urlRuleClass</code>)，然後依照傳入的route, pattern回傳CUrlRule實體。(CUrlRule定義在CUrlManager.php中)</p>
 <ul>
 <li>將解析好的route存入cache</li>
@@ -174,11 +178,13 @@ ga('send', 'pageview');
 <li>拿之前的計算範例來改，math路徑下要求符合一個數字a，任意四種action，一個數字b。符合該規則的route會對應到相應的四種math/actionID，a,b 會直接被帶進GET對應的參數。</li>
 </ul>
 <figure class="highlight php"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line"><span class="string">'math/&lt;a:\d+&gt;&lt;action:(add|div|mul|sub)&gt;&lt;b:\d+&gt;'</span> =&gt; <span class="string">'math/&lt;action&gt;'</span></span><br></pre></td></tr></table></figure>
+
 <h2 id="使用-htaccess隱藏index-php"><a href="#使用-htaccess隱藏index-php" class="headerlink" title="使用.htaccess隱藏index.php"></a>使用.htaccess隱藏index.php</h2><p>一般我們在url路徑中需要包含index.php(尤其是在urlFormat = path時)，但是這樣非常麻煩而且不友善</p>
 <p>所以我們可以在index.php入口的同層路徑中加入.htaccess檔案</p>
 <p>確認httpd.conf有<code>LoadModule rewrite_module modules/mod_rewrite.so</code></p>
 <p>確認httpd.conf須設定AllowOverride ALL，表示允許該檔案的設定可以被覆寫(要開對地方，xampp的話是在<code>&lt;Directory &quot;C:/xampp/htdocs&quot;&gt;</code>的那個設定裡)</p>
-<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br></pre></td><td class="code"><pre><span class="line"># 啟用FollowSymLinks</span><br><span class="line">Options +FollowSymLinks</span><br><span class="line">IndexIgnore */*</span><br><span class="line"></span><br><span class="line"># 啟用rewrite功能</span><br><span class="line">RewriteEngine on</span><br><span class="line"></span><br><span class="line"># 請求的檔案 資料夾都不存在</span><br><span class="line">RewriteCond %&#123;REQUEST_FILENAME&#125; !-f</span><br><span class="line">RewriteCond %&#123;REQUEST_FILENAME&#125; !-d</span><br><span class="line"></span><br><span class="line"># forward到index.php這隻檔案</span><br><span class="line">RewriteRule . index.php</span><br></pre></td></tr></table></figure>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br></pre></td><td class="code"><pre><span class="line"># 啟用FollowSymLinks</span><br><span class="line">Options +FollowSymLinks</span><br><span class="line">IndexIgnore *&#x2F;*</span><br><span class="line"></span><br><span class="line"># 啟用rewrite功能</span><br><span class="line">RewriteEngine on</span><br><span class="line"></span><br><span class="line"># 請求的檔案 資料夾都不存在</span><br><span class="line">RewriteCond %&#123;REQUEST_FILENAME&#125; !-f</span><br><span class="line">RewriteCond %&#123;REQUEST_FILENAME&#125; !-d</span><br><span class="line"></span><br><span class="line"># forward到index.php這隻檔案</span><br><span class="line">RewriteRule . index.php</span><br></pre></td></tr></table></figure>
+
 <h2 id="參考資料"><a href="#參考資料" class="headerlink" title="參考資料"></a>參考資料</h2><ul>
 <li><a href="http://www.yiichina.com/doc/guide/1.1/topics.url" target="_blank" rel="noopener">http://www.yiichina.com/doc/guide/1.1/topics.url</a></li>
 <li><a href="http://blog.xiayf.cn/2014/11/12/read-yii-code-2/" target="_blank" rel="noopener">http://blog.xiayf.cn/2014/11/12/read-yii-code-2/</a></li>
@@ -187,7 +193,7 @@ ga('send', 'pageview');
       
     </div>
     <footer class="article-footer">
-      <a data-url="https://blog.comicat.me/2017/10/20/Yii-framework-UrlManager/" data-id="ck9s52xhq001otngfkpleyj8i" class="article-share-link">分享</a>
+      <a data-url="https://blog.comicat.me/2017/10/20/Yii-framework-UrlManager/" data-id="ckcx268vi001wg7tzas1v71bc" class="article-share-link">分享</a>
       
       
         <a href="https://blog.comicat.me/2017/10/20/Yii-framework-UrlManager/#disqus_thread" class="article-comment-link">留言</a>

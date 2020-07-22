@@ -13,7 +13,7 @@
 <meta property="og:description" content="使用Yii來建立一個登入表單 model建立在protected\models下，config需要設定import 動作流程大概是這樣:">
 <meta property="og:locale" content="zh_TW">
 <meta property="article:published_time" content="2017-10-17T03:45:24.000Z">
-<meta property="article:modified_time" content="2020-05-04T05:26:23.340Z">
+<meta property="article:modified_time" content="2020-07-22T07:41:16.552Z">
 <meta property="article:author" content="comicat">
 <meta property="article:tag" content="PHP">
 <meta property="article:tag" content="Yii1.x">
@@ -58,7 +58,7 @@ ga('send', 'pageview');
 </script>
 
 
-<meta name="generator" content="Hexo 4.2.0"></head>
+<meta name="generator" content="Hexo 4.2.1"></head>
 
 <body>
   <div id="container">
@@ -136,35 +136,41 @@ ga('send', 'pageview');
 <p>model建立在<code>protected\models</code>下，config需要設定import</p>
 <p>動作流程大概是這樣:</p>
 <a id="more"></a>
+
 <ul>
 <li>進入<code>site/login</code></li>
 <li>在actionLogin中create form data model，catch POST，render login page</li>
 </ul>
 <figure class="highlight php"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br></pre></td><td class="code"><pre><span class="line">$model = <span class="keyword">new</span> LoginForm;</span><br><span class="line"></span><br><span class="line"><span class="keyword">if</span> (<span class="keyword">isset</span>($_POST[<span class="string">'LoginForm'</span>])) &#123;</span><br><span class="line"></span><br><span class="line">    <span class="comment">// collection users data, use CModel setAttributes()</span></span><br><span class="line">    $model-&gt;attributes = $_POST[<span class="string">'LoginForm'</span>];</span><br><span class="line"></span><br><span class="line">    <span class="keyword">if</span> ($model-&gt;validate()) &#123;</span><br><span class="line">        <span class="comment">// default to '/'</span></span><br><span class="line">        <span class="keyword">$this</span>-&gt;redirect(Yii::app()-&gt;user-&gt;returnUrl);</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="keyword">$this</span>-&gt;render(<span class="string">'login'</span>, [<span class="string">'model'</span> =&gt; $model]);</span><br></pre></td></tr></table></figure>
+
 <ul>
 <li>在LoginForm model中處理資料驗證，覆寫rules()</li>
 </ul>
 <figure class="highlight php"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">public</span> <span class="function"><span class="keyword">function</span> <span class="title">rules</span><span class="params">()</span></span></span><br><span class="line"><span class="function"></span>&#123;</span><br><span class="line">    <span class="keyword">return</span> [</span><br><span class="line">        <span class="comment">// username and password are required</span></span><br><span class="line">        <span class="comment">// use CRequiredValidator</span></span><br><span class="line">        [<span class="string">'username, password'</span>, <span class="string">'required'</span>],</span><br><span class="line">        <span class="comment">// rememberMe needs to be a boolean</span></span><br><span class="line">        <span class="comment">// use CBooleanValidator</span></span><br><span class="line">        [<span class="string">'rememberMe'</span>, <span class="string">'boolean'</span>],</span><br><span class="line">        <span class="comment">// password needs to be authenticated</span></span><br><span class="line">        <span class="comment">// use method authenticate()</span></span><br><span class="line">        [<span class="string">'password'</span>, <span class="string">'authenticate'</span>],</span><br><span class="line">    ];</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
 <ul>
-<li>如果驗證都無誤，redirect到user-&gt;returnUrl，預設是’\’，可以setReturnUrl()修改</li>
+<li>如果驗證都無誤，redirect到user-&gt;returnUrl，預設是’&#39;，可以setReturnUrl()修改</li>
 </ul>
 <p>LoginForm model中有用到authenticate()，這個方法是要自己寫的，</p>
 <p>用來驗證password的Validator</p>
 <figure class="highlight php"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">public</span> <span class="function"><span class="keyword">function</span> <span class="title">authenticate</span><span class="params">($attribute, $params)</span></span></span><br><span class="line"><span class="function"></span>&#123;</span><br><span class="line">    <span class="keyword">$this</span>-&gt;_identity = <span class="keyword">new</span> UserIdentity(<span class="keyword">$this</span>-&gt;username, <span class="keyword">$this</span>-&gt;password);</span><br><span class="line"></span><br><span class="line">    <span class="keyword">if</span> (!<span class="keyword">$this</span>-&gt;_identity-&gt;authenticate()) &#123;</span><br><span class="line">      <span class="keyword">$this</span>-&gt;addError(<span class="string">'password'</span>, <span class="string">'Invalid Username or Password!'</span>);</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
 <p>這邊用一個自訂的class UserIdentity extends CUserIdentity，</p>
 <p>繼承自CUserIdentity的authenticate()是需要自行覆寫的，不然預設就是丟一個例外</p>
 <p>CUserIdentity中也有預定義一些errorCode的常數可以用</p>
 <figure class="highlight php"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br></pre></td><td class="code"><pre><span class="line"><span class="class"><span class="keyword">class</span> <span class="title">UserIdentity</span> <span class="keyword">extends</span> <span class="title">CUserIdentity</span></span></span><br><span class="line"><span class="class"></span>&#123;</span><br><span class="line">    <span class="keyword">public</span> <span class="function"><span class="keyword">function</span> <span class="title">authenticate</span><span class="params">()</span></span></span><br><span class="line"><span class="function">    </span>&#123;</span><br><span class="line"></span><br><span class="line">        <span class="keyword">if</span> (strlen(<span class="keyword">$this</span>-&gt;password) &lt; <span class="number">5</span>) &#123;</span><br><span class="line">            <span class="keyword">$this</span>-&gt;errorCode = <span class="keyword">self</span>::ERROR_PASSWORD_INVALID;</span><br><span class="line">        &#125; <span class="keyword">else</span> &#123;</span><br><span class="line">            <span class="keyword">$this</span>-&gt;errorCode = <span class="keyword">self</span>::ERROR_NONE;</span><br><span class="line">        &#125;</span><br><span class="line"></span><br><span class="line">        <span class="keyword">return</span> !<span class="keyword">$this</span>-&gt;errorCode;</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
 <p>在view中可以使用yii helper<code>CHtml::beginForm()</code>或是widget<code>beginWidget(&#39;CActiveForm&#39;)</code>來建立表單，兩種略有不同</p>
 <p>程式就直接參考<a href="http://www.yiichina.com/doc/guide/1.1/form.view" target="_blank" rel="noopener">form.view</a></p>
 <p>可以看到建出來的input html是用陣列的形式填充輸入資料</p>
 <figure class="highlight html"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line"><span class="tag">&lt;<span class="name">input</span> <span class="attr">name</span>=<span class="string">"LoginForm[username]"</span> <span class="attr">id</span>=<span class="string">"LoginForm_username"</span> <span class="attr">type</span>=<span class="string">"text"</span> /&gt;</span></span><br></pre></td></tr></table></figure>
+
 <p>所以在上面action中我們才能直接使用<code>$_POST[&#39;LoginForm&#39;]</code>取得整個form data並且填進data model中。</p>
 
       
     </div>
     <footer class="article-footer">
-      <a data-url="https://blog.comicat.me/2017/10/17/Yii-framework-Form/" data-id="ck9s52xhm001htngfq99yvbtt" class="article-share-link">分享</a>
+      <a data-url="https://blog.comicat.me/2017/10/17/Yii-framework-Form/" data-id="ckcx268v8001hg7tz88f9cxae" class="article-share-link">分享</a>
       
       
         <a href="https://blog.comicat.me/2017/10/17/Yii-framework-Form/#disqus_thread" class="article-comment-link">留言</a>
@@ -293,7 +299,7 @@ ga('send', 'pageview');
           </li>
         
           <li>
-            <a href="/2019/09/08/Apache-run-multiple-php-version-by-port-based-vHosts/">Apache run multiple php version by port-based vHosts</a>
+            <a href="/2019/09/07/Apache-run-multiple-php-version-by-port-based-vHosts/">Apache run multiple php version by port-based vHosts</a>
           </li>
         
           <li>

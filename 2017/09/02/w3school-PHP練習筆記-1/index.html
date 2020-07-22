@@ -5,12 +5,12 @@
   
   <title>w3school PHP練習筆記-1 | Comicat&#39;s Blog</title>
   <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
-  <meta name="description" content="https:&#x2F;&#x2F;www.w3schools.com&#x2F;php&#x2F;php_forms.asp  PHP Forms PHP Advanced MySQL Database PHP - AJAX  PHP Forms - 全  PHP Advanced PHP Arrays Multi PHP Date and Time PHP Include PHP File Handling PHP File Ope">
+  <meta name="description" content="https:&#x2F;&#x2F;www.w3schools.com&#x2F;php&#x2F;php_forms.asp  PHP Forms  PHP Advanced  MySQL Database  PHP - AJAX  PHP Forms - 全  PHP Advanced  PHP Arrays Multi PHP Date and Time PHP Include PHP File Handling PHP File">
 <meta property="og:type" content="article">
 <meta property="og:title" content="w3school PHP練習筆記-1">
 <meta property="og:url" content="https://blog.comicat.me/2017/09/02/w3school-PHP%E7%B7%B4%E7%BF%92%E7%AD%86%E8%A8%98-1/index.html">
 <meta property="og:site_name" content="Comicat&#39;s Blog">
-<meta property="og:description" content="https:&#x2F;&#x2F;www.w3schools.com&#x2F;php&#x2F;php_forms.asp  PHP Forms PHP Advanced MySQL Database PHP - AJAX  PHP Forms - 全  PHP Advanced PHP Arrays Multi PHP Date and Time PHP Include PHP File Handling PHP File Ope">
+<meta property="og:description" content="https:&#x2F;&#x2F;www.w3schools.com&#x2F;php&#x2F;php_forms.asp  PHP Forms  PHP Advanced  MySQL Database  PHP - AJAX  PHP Forms - 全  PHP Advanced  PHP Arrays Multi PHP Date and Time PHP Include PHP File Handling PHP File">
 <meta property="og:locale" content="zh_TW">
 <meta property="og:image" content="https://blog.comicat.me/2017/09/02/w3school-PHP%E7%B7%B4%E7%BF%92%E7%AD%86%E8%A8%98-1/include_file_error.PNG">
 <meta property="og:image" content="https://blog.comicat.me/2017/09/02/w3school-PHP%E7%B7%B4%E7%BF%92%E7%AD%86%E8%A8%98-1/require_file_error.PNG">
@@ -19,7 +19,7 @@
 <meta property="og:image" content="https://blog.comicat.me/2017/09/02/w3school-PHP%E7%B7%B4%E7%BF%92%E7%AD%86%E8%A8%98-1/upload_file_info.PNG">
 <meta property="og:image" content="https://blog.comicat.me/2017/09/02/w3school-PHP%E7%B7%B4%E7%BF%92%E7%AD%86%E8%A8%98-1/get_image_size.PNG">
 <meta property="article:published_time" content="2017-09-02T10:20:05.000Z">
-<meta property="article:modified_time" content="2020-05-04T05:26:23.340Z">
+<meta property="article:modified_time" content="2020-07-22T07:41:16.556Z">
 <meta property="article:author" content="comicat">
 <meta property="article:tag" content="PHP">
 <meta property="article:tag" content="w3schools">
@@ -65,7 +65,7 @@ ga('send', 'pageview');
 </script>
 
 
-<meta name="generator" content="Hexo 4.2.0"></head>
+<meta name="generator" content="Hexo 4.2.1"></head>
 
 <body>
   <div id="container">
@@ -141,14 +141,18 @@ ga('send', 'pageview');
         
         <p><a href="https://www.w3schools.com/php/php_forms.asp" target="_blank" rel="noopener">https://www.w3schools.com/php/php_forms.asp</a></p>
 <ul>
-<li>PHP Forms</li>
-<li>PHP Advanced</li>
-<li>MySQL Database</li>
+<li><p>PHP Forms</p>
+</li>
+<li><p>PHP Advanced</p>
+</li>
+<li><p>MySQL Database</p>
+</li>
 <li><p>PHP - AJAX</p>
 </li>
 <li><p>PHP Forms - 全</p>
 </li>
-<li>PHP Advanced<ul>
+<li><p>PHP Advanced</p>
+<ul>
 <li>PHP Arrays Multi</li>
 <li>PHP Date and Time</li>
 <li>PHP Include</li>
@@ -160,16 +164,17 @@ ga('send', 'pageview');
 </li>
 </ul>
 <a id="more"></a>
+
 <h2 id="include-vs-require"><a href="#include-vs-require" class="headerlink" title="include vs require"></a>include vs require</h2><p>include與require同是引入檔案</p>
 <p>實驗在include及require不存在的檔案之後echo “Hello”</p>
 <ul>
 <li><p>使用include引入時，如果檔案不存在或錯誤發生，會出現警告訊息，但程式仍然會繼續執行。</p>
 <p>圖中可以看到下面的Hello仍然有輸出</p>
-<img src="/2017/09/02/w3school-PHP練習筆記-1/include_file_error.PNG" title="include file error">
+<img src="/2017/09/02/w3school-PHP%E7%B7%B4%E7%BF%92%E7%AD%86%E8%A8%98-1/include_file_error.PNG" class="" title="include file error">
 </li>
 <li><p>使用require引入時，如果檔案不存在或錯誤發生，會出現錯誤訊息，程式會立即中斷執行。</p>
 <p>錯誤之後就沒有輸出了</p>
-<img src="/2017/09/02/w3school-PHP練習筆記-1/require_file_error.PNG" title="require file error">
+<img src="/2017/09/02/w3school-PHP%E7%B7%B4%E7%BF%92%E7%AD%86%E8%A8%98-1/require_file_error.PNG" class="" title="require file error">
 </li>
 <li><p><code>include_once</code> 及 <code>require_once</code>同以上效果，多加了能避免重複引用的狀況。</p>
 </li>
@@ -210,6 +215,7 @@ ga('send', 'pageview');
 </li>
 </ul>
 <h3 id="用以下方式處理迴圈"><a href="#用以下方式處理迴圈" class="headerlink" title="用以下方式處理迴圈"></a>用以下方式處理迴圈</h3><figure class="highlight php"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">foreach</span> ($variable <span class="keyword">as</span> $key =&gt; &amp;$value) &#123;</span><br><span class="line">    <span class="comment">//code...</span></span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
 <p>如果在迴圈結束後沒有<code>unset($value)</code>會發生記憶體位置指向不正確，<br>而導致之後取值可能發生問題，var_dump()結果會看到&amp;記號，標示出該型態為一個指向(類似指標的概念??</p>
 <p>如果非必要也許直接用明確的陣列存取方式會穩定一些。</p>
 <h3 id="PHP變數範圍"><a href="#PHP變數範圍" class="headerlink" title="PHP變數範圍"></a>PHP變數範圍</h3><p>PHP的變數作用範圍(Scope)通常都只有小區域，尤其是當一個變數需要跨function內外處理的時候更需要注意。<br>一般變數宣告後，可以在自身、include和require的檔案中作用，但不包括function內部。</p>
@@ -217,37 +223,43 @@ ga('send', 'pageview');
 <li>function內外的變數是分開的</li>
 </ul>
 <figure class="highlight php"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br></pre></td><td class="code"><pre><span class="line">$a = <span class="number">5</span>;</span><br><span class="line">$b = <span class="number">7</span>;</span><br><span class="line"></span><br><span class="line"><span class="function"><span class="keyword">function</span> <span class="title">add</span><span class="params">()</span></span></span><br><span class="line"><span class="function"></span>&#123;</span><br><span class="line">    $a ++;</span><br><span class="line">    <span class="keyword">echo</span> $a + $b; <span class="comment">// null</span></span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line">add();</span><br><span class="line">var_dump($a, $b); <span class="comment">// int(5) int(7)</span></span><br></pre></td></tr></table></figure>
+
 <p>輸出會出現警告訊息，因為$a和$b在add()內未定義值，於是結果會是null。</p>
 <ul>
 <li>傳值進去function</li>
 </ul>
 <figure class="highlight php"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br></pre></td><td class="code"><pre><span class="line">$a = <span class="number">5</span>;</span><br><span class="line">$b = <span class="number">7</span>;</span><br><span class="line"></span><br><span class="line"><span class="function"><span class="keyword">function</span> <span class="title">add</span><span class="params">($a, $b)</span></span></span><br><span class="line"><span class="function"></span>&#123;</span><br><span class="line">    $a ++;</span><br><span class="line">    <span class="keyword">echo</span> $a + $b; <span class="comment">// 13</span></span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line">add($a, $b);</span><br><span class="line">var_dump($a, $b); <span class="comment">//int(5) int(7)</span></span><br></pre></td></tr></table></figure>
+
 <p>這時我們定義兩個參數$a, $b給add()，並且把外面的$a, $b透過參數傳進add()內，得到$a + $b結果為13，但外頭的$a, $b仍然維持原值。</p>
 <ul>
 <li>傳參考進去function</li>
 </ul>
 <figure class="highlight php"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br></pre></td><td class="code"><pre><span class="line">$a = <span class="number">5</span>;</span><br><span class="line">$b = <span class="number">7</span>;</span><br><span class="line"></span><br><span class="line"><span class="function"><span class="keyword">function</span> <span class="title">add</span><span class="params">(&amp;$a, &amp;$b)</span></span></span><br><span class="line"><span class="function"></span>&#123;</span><br><span class="line">    $a ++;</span><br><span class="line">    <span class="keyword">echo</span> $a + $b; <span class="comment">// 13</span></span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line">add($a, $b);</span><br><span class="line">var_dump($a, $b); <span class="comment">//int(6) int(7)</span></span><br></pre></td></tr></table></figure>
+
 <p>這時add()內的對於變數的操作，則會直接影響到外面(因為參考同一個變數操作)，外面的$a, $b值被更新。</p>
 <ul>
 <li>使用global宣告</li>
 </ul>
 <figure class="highlight php"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br></pre></td><td class="code"><pre><span class="line">$a = <span class="number">5</span>;</span><br><span class="line">$b = <span class="number">7</span>;</span><br><span class="line"></span><br><span class="line"><span class="function"><span class="keyword">function</span> <span class="title">add</span><span class="params">()</span></span></span><br><span class="line"><span class="function"></span>&#123;</span><br><span class="line">    <span class="keyword">global</span> $a, $b;</span><br><span class="line">    $a ++;</span><br><span class="line">    <span class="keyword">echo</span> $a + $b; <span class="comment">// 13</span></span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line">add();</span><br><span class="line">var_dump($a, $b); <span class="comment">//int(6) int(7)</span></span><br></pre></td></tr></table></figure>
+
 <p>global關鍵字表示這裡宣告的變數將會參考外部全域的變數，是直接指向外部變數去操作，所以內外連動。</p>
 <ul>
 <li>使用預設的$GLOBALS陣列來存取</li>
 </ul>
 <figure class="highlight php"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br></pre></td><td class="code"><pre><span class="line">$a = <span class="number">5</span>;</span><br><span class="line">$b = <span class="number">7</span>;</span><br><span class="line"></span><br><span class="line"><span class="function"><span class="keyword">function</span> <span class="title">addGlobal</span><span class="params">()</span></span></span><br><span class="line"><span class="function"></span>&#123;</span><br><span class="line">    $GLOBALS[<span class="string">'a'</span>] ++;</span><br><span class="line">    <span class="keyword">echo</span> $GLOBALS[<span class="string">'a'</span>] + $GLOBALS[<span class="string">'b'</span>]; <span class="comment">// 13</span></span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line">addGlobal();</span><br><span class="line">var_dump($a, $b); <span class="comment">//int(6) int(7)</span></span><br></pre></td></tr></table></figure>
+
 <p>$GLOBALS裡存放了許多預設的全域變數，包括用global宣告過的變數，而使用$GLOBALS[‘a’]也會自動與$a做連動，不管是存取更動了哪一方的值，都相當於修改了兩邊。(等同於上面global用法)</p>
 <ul>
 <li>static宣告</li>
 </ul>
 <p>使用static靜態宣告的變數，將會在程式執行前就分配記憶體空間，並且在程式執行結束後才釋放，並且不會因為多次呼叫而重置內容。</p>
 <figure class="highlight php"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br></pre></td><td class="code"><pre><span class="line"><span class="function"><span class="keyword">function</span> <span class="title">add</span><span class="params">()</span></span></span><br><span class="line"><span class="function"></span>&#123;</span><br><span class="line">    <span class="keyword">static</span> $a = <span class="number">0</span>;</span><br><span class="line">    $a ++;</span><br><span class="line">    <span class="keyword">echo</span> $a;</span><br><span class="line">&#125;</span><br><span class="line">add(); <span class="comment">// 1</span></span><br><span class="line">add(); <span class="comment">// 2</span></span><br></pre></td></tr></table></figure>
+
 <h3 id="PHP-Advanced-重點摘要"><a href="#PHP-Advanced-重點摘要" class="headerlink" title="PHP Advanced 重點摘要"></a>PHP Advanced 重點摘要</h3><ul>
 <li><p>Array Multi</p>
 <ul>
 <li>多維陣列的存取</li>
-<li>把多維陣列分類進表格及清單中<img src="/2017/09/02/w3school-PHP練習筆記-1/array_multi.PNG" title="array multiple">
+<li>把多維陣列分類進表格及清單中<img src="/2017/09/02/w3school-PHP%E7%B7%B4%E7%BF%92%E7%AD%86%E8%A8%98-1/array_multi.PNG" class="" title="array multiple">
 </li>
 </ul>
 </li>
@@ -303,8 +315,8 @@ ga('send', 'pageview');
 <li>File Upload<ul>
 <li>確認php.ini中的設定file_uploads=On (upload_max_filesize可以限制上傳檔案大小，同時post_max_size必須大於upload_max_filesize，memory_limit &gt; post_max_size)</li>
 <li>設定form method=”post”，設定enctype=”multipart/form-data”</li>
-<li>設定input type=”file”，預設會出現如圖中紅框內的樣式，選擇檔案會跳出檔案對話窗<img src="/2017/09/02/w3school-PHP練習筆記-1/input_type_file.PNG" title="input_type_file"></li>
-<li>上傳之後的檔案資訊可以透過<code>$_FILES[&quot;input name&quot;]</code>取得(裡面會包含name, type, tmp_name, error, size)<img src="/2017/09/02/w3school-PHP練習筆記-1/upload_file_info.PNG" title="upload_file_info"></li>
+<li>設定input type=”file”，預設會出現如圖中紅框內的樣式，選擇檔案會跳出檔案對話窗<img src="/2017/09/02/w3school-PHP%E7%B7%B4%E7%BF%92%E7%AD%86%E8%A8%98-1/input_type_file.PNG" class="" title="input_type_file"></li>
+<li>上傳之後的檔案資訊可以透過<code>$_FILES[&quot;input name&quot;]</code>取得(裡面會包含name, type, tmp_name, error, size)<img src="/2017/09/02/w3school-PHP%E7%B7%B4%E7%BF%92%E7%AD%86%E8%A8%98-1/upload_file_info.PNG" class="" title="upload_file_info"></li>
 <li>basename(path)函數可用於取得路徑中檔案的名稱</li>
 <li>pathinfo(path, option) option不填預設是回傳array(“dirname” =&gt; “”, “basename” =&gt; “”, “extension” =&gt; “”)</li>
 <li>option = PATHINFO_DIRNAME，回傳string(dirname)</li>
@@ -313,7 +325,7 @@ ga('send', 'pageview');
 <li>上傳的檔案會被放到xampp/tmp資料夾下，並且有一個系統產生的tmp_name</li>
 <li>可以透過move_uploaded_file(tmp_name, target path) 來移動，target path要是一個完整包含檔案名稱的路徑</li>
 <li>file_exists(path) 檢查檔案是否存在</li>
-<li>getimagesize(path)可以取得關於圖片的一些資訊，如果不是回傳false<img src="/2017/09/02/w3school-PHP練習筆記-1/get_image_size.PNG" title="get_image_size"></li>
+<li>getimagesize(path)可以取得關於圖片的一些資訊，如果不是回傳false<img src="/2017/09/02/w3school-PHP%E7%B7%B4%E7%BF%92%E7%AD%86%E8%A8%98-1/get_image_size.PNG" class="" title="get_image_size"></li>
 <li>0 存放寬度</li>
 <li>1 存放高度</li>
 <li>2 存放圖片類型(1 = GIF，2 = JPG，3 = PNG，4 = SWF，5 = PSD，6 = BMP，7 = TIFF(intel byte order)，8 = TIFF(motorola byte order)，9 = JPC，10 = JP2，11 = JPX，12 = JB2，13 = SWC，14 = IFF，15 = WBMP，16 = XBM)</li>
@@ -335,7 +347,7 @@ ga('send', 'pageview');
       
     </div>
     <footer class="article-footer">
-      <a data-url="https://blog.comicat.me/2017/09/02/w3school-PHP%E7%B7%B4%E7%BF%92%E7%AD%86%E8%A8%98-1/" data-id="ck9s52xhw0022tngf9dr9v8ii" class="article-share-link">分享</a>
+      <a data-url="https://blog.comicat.me/2017/09/02/w3school-PHP%E7%B7%B4%E7%BF%92%E7%AD%86%E8%A8%98-1/" data-id="ckcx268vm0026g7tz000u97im" class="article-share-link">分享</a>
       
       
         <a href="https://blog.comicat.me/2017/09/02/w3school-PHP%E7%B7%B4%E7%BF%92%E7%AD%86%E8%A8%98-1/#disqus_thread" class="article-comment-link">留言</a>

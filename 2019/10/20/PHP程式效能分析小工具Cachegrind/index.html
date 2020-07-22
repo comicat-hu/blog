@@ -14,7 +14,7 @@
 <meta property="og:locale" content="zh_TW">
 <meta property="og:image" content="https://blog.comicat.me/2019/10/20/PHP%E7%A8%8B%E5%BC%8F%E6%95%88%E8%83%BD%E5%88%86%E6%9E%90%E5%B0%8F%E5%B7%A5%E5%85%B7Cachegrind/qcachegring%E4%BB%8B%E9%9D%A2%E5%8F%83%E8%80%83.png">
 <meta property="article:published_time" content="2019-10-20T07:31:54.000Z">
-<meta property="article:modified_time" content="2020-05-04T05:26:23.340Z">
+<meta property="article:modified_time" content="2020-07-22T07:41:16.548Z">
 <meta property="article:author" content="comicat">
 <meta property="article:tag" content="PHP">
 <meta name="twitter:card" content="summary">
@@ -59,7 +59,7 @@ ga('send', 'pageview');
 </script>
 
 
-<meta name="generator" content="Hexo 4.2.0"></head>
+<meta name="generator" content="Hexo 4.2.1"></head>
 
 <body>
   <div id="container">
@@ -134,10 +134,13 @@ ga('send', 'pageview');
         <!-- Table of Contents -->
         
         <p>借助XDebug Profiler記錄callstack，再用Cachegrind工具圖形化顯示，讓我們可以快速簡單地瞭解程式碼效能瓶頸，在追蹤程式碼時也十分好用。</p>
-<img src="/2019/10/20/PHP程式效能分析小工具Cachegrind/qcachegring介面參考.png" title="qcachegring介面參考">
+<img src="/2019/10/20/PHP%E7%A8%8B%E5%BC%8F%E6%95%88%E8%83%BD%E5%88%86%E6%9E%90%E5%B0%8F%E5%B7%A5%E5%85%B7Cachegrind/qcachegring%E4%BB%8B%E9%9D%A2%E5%8F%83%E8%80%83.png" class="" title="qcachegring介面參考">
+
 <a id="more"></a>
+
 <h2 id="設定xdebug-profiler"><a href="#設定xdebug-profiler" class="headerlink" title="設定xdebug profiler"></a>設定xdebug profiler</h2><p>首先需要在php.ini中啟用XDebug，並且填入以下設定</p>
-<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br></pre></td><td class="code"><pre><span class="line">;預設不啟用</span><br><span class="line">xdebug.profiler_enable=0</span><br><span class="line">;可帶XDEBUG_PROFILE=1參數透過GET或POST觸發</span><br><span class="line">xdebug.profiler_enable_trigger=1</span><br><span class="line">;檔名格式</span><br><span class="line">xdebug.profiler_output_name=callgrind.%H_%t.out</span><br><span class="line">;存放的資料夾，需要先開好並給它存取權限</span><br><span class="line">xdebug.profiler_output_dir=&quot;D:\xdebug_profiler_output\&quot;</span><br></pre></td></tr></table></figure>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br></pre></td><td class="code"><pre><span class="line">;預設不啟用</span><br><span class="line">xdebug.profiler_enable&#x3D;0</span><br><span class="line">;可帶XDEBUG_PROFILE&#x3D;1參數透過GET或POST觸發</span><br><span class="line">xdebug.profiler_enable_trigger&#x3D;1</span><br><span class="line">;檔名格式</span><br><span class="line">xdebug.profiler_output_name&#x3D;callgrind.%H_%t.out</span><br><span class="line">;存放的資料夾，需要先開好並給它存取權限</span><br><span class="line">xdebug.profiler_output_dir&#x3D;&quot;D:\xdebug_profiler_output\&quot;</span><br></pre></td></tr></table></figure>
+
 <h2 id="產生並載入記錄檔"><a href="#產生並載入記錄檔" class="headerlink" title="產生並載入記錄檔"></a>產生並載入記錄檔</h2><p>接著只要實際存取一下網頁，並且帶上<code>XDEBUG_PROFILE=1</code>參數，每個請求就會產生一筆記錄檔案在指定的位置了。</p>
 <p>用Cachegrind載入後，就會自動顯示如首圖了。</p>
 <p>耗時顯示可切換成百分比或1/1000000秒。</p>
@@ -151,7 +154,7 @@ ga('send', 'pageview');
       
     </div>
     <footer class="article-footer">
-      <a data-url="https://blog.comicat.me/2019/10/20/PHP%E7%A8%8B%E5%BC%8F%E6%95%88%E8%83%BD%E5%88%86%E6%9E%90%E5%B0%8F%E5%B7%A5%E5%85%B7Cachegrind/" data-id="ck9s52xhb000stngfmk73ga0p" class="article-share-link">分享</a>
+      <a data-url="https://blog.comicat.me/2019/10/20/PHP%E7%A8%8B%E5%BC%8F%E6%95%88%E8%83%BD%E5%88%86%E6%9E%90%E5%B0%8F%E5%B7%A5%E5%85%B7Cachegrind/" data-id="ckcx268uu000tg7tz3mxn4dcz" class="article-share-link">分享</a>
       
       
         <a href="https://blog.comicat.me/2019/10/20/PHP%E7%A8%8B%E5%BC%8F%E6%95%88%E8%83%BD%E5%88%86%E6%9E%90%E5%B0%8F%E5%B7%A5%E5%85%B7Cachegrind/#disqus_thread" class="article-comment-link">留言</a>
@@ -219,7 +222,7 @@ ga('send', 'pageview');
     </a>
   
   
-    <a href="/2019/09/08/Apache-run-multiple-php-version-by-port-based-vHosts/" id="article-nav-older" class="article-nav-link-wrap">
+    <a href="/2019/09/07/Apache-run-multiple-php-version-by-port-based-vHosts/" id="article-nav-older" class="article-nav-link-wrap">
       <strong class="article-nav-caption">Older</strong>
       <div class="article-nav-title">Apache run multiple php version by port-based vHosts</div>
     </a>

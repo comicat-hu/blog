@@ -14,7 +14,7 @@
 <meta property="og:locale" content="zh_TW">
 <meta property="og:image" content="https://blog.comicat.me/2017/10/06/Yii-framework-Controller/yii_accessRules.PNG">
 <meta property="article:published_time" content="2017-10-06T03:59:32.000Z">
-<meta property="article:modified_time" content="2020-05-04T05:26:23.340Z">
+<meta property="article:modified_time" content="2020-07-22T07:41:16.552Z">
 <meta property="article:author" content="comicat">
 <meta property="article:tag" content="PHP">
 <meta property="article:tag" content="Yii1.x">
@@ -60,7 +60,7 @@ ga('send', 'pageview');
 </script>
 
 
-<meta name="generator" content="Hexo 4.2.0"></head>
+<meta name="generator" content="Hexo 4.2.1"></head>
 
 <body>
   <div id="container">
@@ -138,9 +138,11 @@ ga('send', 'pageview');
 <h2 id="Controller"><a href="#Controller" class="headerlink" title="Controller"></a>Controller</h2><p>Controller繼承自CController，但由於可能會有很多Controller，為了提高共用性，可在<code>protected\components</code>中定義了<code>class Controller extends CController</code>，再由各種情境自行去定義<code>class xxxController extends Controller</code>並存放在<code>protected\controllers</code>下。</p>
 <p>controller執行時會呼叫相對應的action，action會與model溝通並將結果呈現在view上。</p>
 <a id="more"></a>
+
 <p>預設(沒有指定route)的action是index(actionIndex)， <code>CController::defaultAction = &#39;xxx&#39;</code>可以設定預設action</p>
 <p>名稱中的<code>Controller</code>後綴和<code>action</code>前綴都是必須的寫法規則!</p>
 <figure class="highlight php"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br></pre></td><td class="code"><pre><span class="line"><span class="class"><span class="keyword">class</span> <span class="title">SiteController</span> <span class="keyword">extends</span> <span class="title">Controller</span></span></span><br><span class="line"><span class="class"></span>&#123;</span><br><span class="line">    <span class="keyword">public</span> <span class="function"><span class="keyword">function</span> <span class="title">actionIndex</span><span class="params">()</span></span></span><br><span class="line"><span class="function">    </span>&#123;</span><br><span class="line">        <span class="keyword">echo</span> <span class="string">'Action Index!'</span>;</span><br><span class="line">    &#125;</span><br><span class="line">    </span><br><span class="line">    <span class="keyword">public</span> <span class="function"><span class="keyword">function</span> <span class="title">actionHello</span><span class="params">()</span></span></span><br><span class="line"><span class="function">    </span>&#123;</span><br><span class="line">        <span class="keyword">echo</span> <span class="string">'Action Hello!!'</span>;</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
 <h2 id="Route"><a href="#Route" class="headerlink" title="Route"></a>Route</h2><p>使用者可以透過設定不同的route參數來存取特定的controller和action，參數名稱預設是使用<code>r</code>(CUrlManager::routeVar設定)，參數值由controller前綴詞和action的後綴詞加上<code>/</code>所組成，所以我們要存取上方範例程式中的兩個action，預設狀況的URL大概會長的像這樣<br>site對應到SiteController</p>
 <p><code>index.php?r=site/index</code>, <code>index.php?r=site/hello</code></p>
 <p>如果路由長這樣<code>r=a/b/hello</code>，則會自動對應路徑<code>controllers/a</code>下的BController，並呼叫其中的actionHello()</p>
@@ -160,9 +162,12 @@ ga('send', 'pageview');
 </ul>
 <p>以實作一個簡易計算功能為例，像是我在<code>controllers\math</code>下定義了兩隻不同的action，一隻做加法一隻做減法</p>
 <figure class="highlight php"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br></pre></td><td class="code"><pre><span class="line"><span class="class"><span class="keyword">class</span> <span class="title">addAction</span> <span class="keyword">extends</span> <span class="title">CAction</span></span></span><br><span class="line"><span class="class"></span>&#123;</span><br><span class="line">    <span class="keyword">public</span> <span class="function"><span class="keyword">function</span> <span class="title">run</span><span class="params">($a, $b)</span></span></span><br><span class="line"><span class="function">    </span>&#123;</span><br><span class="line">        $sum = $a + $b;</span><br><span class="line">        <span class="keyword">echo</span> $sum;</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
 <figure class="highlight php"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br></pre></td><td class="code"><pre><span class="line"><span class="class"><span class="keyword">class</span> <span class="title">subAction</span> <span class="keyword">extends</span> <span class="title">CAction</span></span></span><br><span class="line"><span class="class"></span>&#123;</span><br><span class="line">    <span class="keyword">public</span> <span class="function"><span class="keyword">function</span> <span class="title">run</span><span class="params">($a, $b)</span></span></span><br><span class="line"><span class="function">    </span>&#123;</span><br><span class="line">        $diff = $a - $b;</span><br><span class="line">        <span class="keyword">echo</span> $diff;</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
 <p>這時我在不同的controller中只要這樣寫，就可以用<code>控制器名稱/add&amp;a=10&amp;b=5</code>和<code>控制器名稱/sub&amp;a=10&amp;b=5</code>來計算10+5和10-5了</p>
 <figure class="highlight php"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">public</span> <span class="function"><span class="keyword">function</span> <span class="title">actions</span><span class="params">()</span></span></span><br><span class="line"><span class="function"></span>&#123;</span><br><span class="line">    <span class="keyword">return</span> [</span><br><span class="line">        <span class="string">'add'</span> =&gt; <span class="string">'application.controllers.math.addAction'</span>,</span><br><span class="line">        <span class="string">'sub'</span> =&gt; <span class="string">'application.controllers.math.subAction'</span>,</span><br><span class="line">    ];</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
 <p>–</p>
 <h2 id="Filter"><a href="#Filter" class="headerlink" title="Filter"></a>Filter</h2><p>filter可以用來設定動作執行的過濾條件，可以直接在controller中定義一個名稱為filter前綴的方法，也可以另外自己定義一個filter物件(extends CFilter)，</p>
 <p><code>$filterChain</code>是一個<code>CFilterChain</code>物件實體，包含了與該動作相關的filter list</p>
@@ -170,10 +175,12 @@ ga('send', 'pageview');
 <li>controller中的filter</li>
 </ul>
 <figure class="highlight php"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">public</span> <span class="function"><span class="keyword">function</span> <span class="title">filterTest</span><span class="params">($filterChain)</span></span></span><br><span class="line"><span class="function"></span>&#123;</span><br><span class="line">    <span class="comment">// Do something filter</span></span><br><span class="line">    $filterChain-&gt;run(); <span class="comment">// 呼叫下一個filter執行</span></span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
 <ul>
 <li>自定義filter class (驗證URL qurey中的參數a, b都是數字)</li>
 </ul>
 <figure class="highlight php"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br></pre></td><td class="code"><pre><span class="line"><span class="class"><span class="keyword">class</span> <span class="title">MathFilter</span> <span class="keyword">extends</span> <span class="title">CFilter</span></span></span><br><span class="line"><span class="class"></span>&#123;</span><br><span class="line">    <span class="comment">// preFilter()會在action執行前被呼叫</span></span><br><span class="line">    <span class="keyword">protected</span> <span class="function"><span class="keyword">function</span> <span class="title">preFilter</span><span class="params">($filterChain)</span></span></span><br><span class="line"><span class="function">    </span>&#123;</span><br><span class="line">        $request = Yii::app()-&gt;request; <span class="comment">// 取得request物件</span></span><br><span class="line">        $a = $request-&gt;getQuery(<span class="string">'a'</span>); <span class="comment">// 取出qurey參數值</span></span><br><span class="line">        $b = $request-&gt;getQuery(<span class="string">'b'</span>);</span><br><span class="line"></span><br><span class="line">        <span class="comment">// 回傳true表示繼續執行下個filter</span></span><br><span class="line">        <span class="keyword">if</span> (is_numeric($a) &amp;&amp; is_numeric($b)) &#123;</span><br><span class="line">            <span class="keyword">return</span> <span class="keyword">true</span>;</span><br><span class="line">        &#125;</span><br><span class="line"></span><br><span class="line">        <span class="comment">// 回傳false表示停止執行下個filter</span></span><br><span class="line">        <span class="keyword">echo</span> <span class="string">'Invalid query params.'</span>;</span><br><span class="line">        <span class="keyword">return</span> <span class="keyword">false</span>;</span><br><span class="line">    &#125;</span><br><span class="line">    <span class="comment">// postFilter()會在action執行後被呼叫</span></span><br><span class="line">    <span class="keyword">protected</span> <span class="function"><span class="keyword">function</span> <span class="title">postFilter</span><span class="params">()</span></span></span><br><span class="line"><span class="function">    </span>&#123;</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
 <ul>
 <li><p>在controller中使用filter，覆寫從CController繼承來的filters()方法，回傳一個陣列，包含filter name或路徑(array)，會依照回傳的陣列index的順序呼叫執行</p>
 </li>
@@ -181,9 +188,13 @@ ga('send', 'pageview');
 </li>
 </ul>
 <figure class="highlight php"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">// 對add, sub, mul, div四個action預執行controllers\filters下的MathFilter</span></span><br><span class="line"><span class="comment">// 再對全部的action預執行filterTest</span></span><br><span class="line"><span class="keyword">public</span> <span class="function"><span class="keyword">function</span> <span class="title">filters</span><span class="params">()</span></span></span><br><span class="line"><span class="function"></span>&#123;</span><br><span class="line">    <span class="keyword">return</span> [</span><br><span class="line">        [</span><br><span class="line">            <span class="string">'application.controllers.filters.MathFilter + add, sub, mul, div'</span>,</span><br><span class="line">        ],</span><br><span class="line">        <span class="string">'test'</span>,</span><br><span class="line">    ];</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
 <h2 id="accessControl"><a href="#accessControl" class="headerlink" title="accessControl"></a>accessControl</h2><p>在之前文章中我們使用Gii生成的table CRUD controller中，有一個<code>accessRules()</code>，這是給<code>filterAccessControl()</code>(從CController繼承)所使用的，因此我們可以覆寫<code>accessRules()</code>來定義自己的權限控制(預設是空陣列)</p>
 <figure class="highlight php"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">public</span> <span class="function"><span class="keyword">function</span> <span class="title">filterAccessControl</span><span class="params">($filterChain)</span></span></span><br><span class="line"><span class="function"></span>&#123;</span><br><span class="line">    $filter = <span class="keyword">new</span> CAccessControlFilter;</span><br><span class="line">    $filter-&gt;setRule(<span class="keyword">$this</span>-&gt;accessRules());</span><br><span class="line">    $filter-&gt;filter($filterChain);</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
-<p>這段是table controller中的accessRules()<br><img src="/2017/10/06/Yii-framework-Controller/yii_accessRules.PNG" title="yii_accessRules"></p>
+
+<p>這段是table controller中的accessRules()</p>
+<img src="/2017/10/06/Yii-framework-Controller/yii_accessRules.PNG" class="" title="yii_accessRules">
+
 <p>權限是由上而下逐條檢查的，有符合就不會繼續套用下去<br><code>*</code> : 表示所有使用者<br><code>@</code> : 表示以驗證的使用者<br><code>?</code> : 表示匿名使用者</p>
 <p>所以我們</p>
 <ul>
@@ -202,7 +213,7 @@ ga('send', 'pageview');
       
     </div>
     <footer class="article-footer">
-      <a data-url="https://blog.comicat.me/2017/10/06/Yii-framework-Controller/" data-id="ck9s52xhf0010tngf4am2jmoe" class="article-share-link">分享</a>
+      <a data-url="https://blog.comicat.me/2017/10/06/Yii-framework-Controller/" data-id="ckcx268v30019g7tz2doe4fm8" class="article-share-link">分享</a>
       
       
         <a href="https://blog.comicat.me/2017/10/06/Yii-framework-Controller/#disqus_thread" class="article-comment-link">留言</a>

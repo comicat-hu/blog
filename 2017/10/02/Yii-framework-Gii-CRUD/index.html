@@ -21,7 +21,7 @@
 <meta property="og:image" content="https://blog.comicat.me/2017/10/02/Yii-framework-Gii-CRUD/yii_manage_view.PNG">
 <meta property="og:image" content="https://blog.comicat.me/2017/10/02/Yii-framework-Gii-CRUD/yii_manage_update.PNG">
 <meta property="article:published_time" content="2017-10-02T10:06:01.000Z">
-<meta property="article:modified_time" content="2020-05-04T05:26:23.340Z">
+<meta property="article:modified_time" content="2020-07-22T07:41:16.552Z">
 <meta property="article:author" content="comicat">
 <meta property="article:tag" content="PHP">
 <meta property="article:tag" content="Yii1.x">
@@ -67,7 +67,7 @@ ga('send', 'pageview');
 </script>
 
 
-<meta name="generator" content="Hexo 4.2.0"></head>
+<meta name="generator" content="Hexo 4.2.1"></head>
 
 <body>
   <div id="container">
@@ -145,29 +145,43 @@ ga('send', 'pageview');
 <h2 id="設定資料庫連線資訊"><a href="#設定資料庫連線資訊" class="headerlink" title="設定資料庫連線資訊"></a>設定資料庫連線資訊</h2><p>yii framework使用PDO操作資料庫，</p>
 <p>在<code>protected\config\database.php</code>中設定資料庫連線資訊，預設幫你連到sqlite，這邊我修改成連接到現有的MySQL</p>
 <a id="more"></a>
+
 <figure class="highlight php"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">return</span> <span class="keyword">array</span>(</span><br><span class="line">    <span class="string">'connectionString'</span> =&gt; <span class="string">'mysql:host=localhost;dbname=mydb'</span>,</span><br><span class="line">    <span class="string">'emulatePrepare'</span> =&gt; <span class="keyword">true</span>,</span><br><span class="line">    <span class="string">'username'</span> =&gt; <span class="string">'*****'</span>,</span><br><span class="line">    <span class="string">'password'</span> =&gt; <span class="string">'*****'</span>,</span><br><span class="line">    <span class="string">'charset'</span> =&gt; <span class="string">'utf8'</span>,</span><br><span class="line">);</span><br></pre></td></tr></table></figure>
+
 <h2 id="Enable-Gii"><a href="#Enable-Gii" class="headerlink" title="Enable Gii"></a>Enable Gii</h2><p>要使用Gii，先到protected\config\main.php中啟用modules gii(拿掉註解)，並且設個password</p>
-<p>連上<code>/index.php?r=gii</code>，輸入密碼後就可以進入gii 介面<br><img src="/2017/10/02/Yii-framework-Gii-CRUD/yii_gii.PNG" title="yii_gii"></p>
+<p>連上<code>/index.php?r=gii</code>，輸入密碼後就可以進入gii 介面</p>
+<img src="/2017/10/02/Yii-framework-Gii-CRUD/yii_gii.PNG" class="" title="yii_gii">
+
 <h2 id="Generate-Model"><a href="#Generate-Model" class="headerlink" title="Generate Model"></a>Generate Model</h2><p>進入Model Generator，如果連線設定正確的話可以順利進入，反之會有exception畫面，</p>
-<p>建立一個table-myguest的model，預覽執行後會在<code>protected\models</code>生成一個Myguests.php<br><img src="/2017/10/02/Yii-framework-Gii-CRUD/yii_gii_model_generator.PNG" title="yii_gii_model_generator"></p>
-<h2 id="Generate-View、Controller"><a href="#Generate-View、Controller" class="headerlink" title="Generate View、Controller"></a>Generate View、Controller</h2><p>進入CRUD Generator，輸入Model Class name，自動新建下列檔案<br><img src="/2017/10/02/Yii-framework-Gii-CRUD/yii_gii_crud_generator.PNG" title="yii_gii_crud_generator"></p>
+<p>建立一個table-myguest的model，預覽執行後會在<code>protected\models</code>生成一個Myguests.php</p>
+<img src="/2017/10/02/Yii-framework-Gii-CRUD/yii_gii_model_generator.PNG" class="" title="yii_gii_model_generator">
+
+<h2 id="Generate-View、Controller"><a href="#Generate-View、Controller" class="headerlink" title="Generate View、Controller"></a>Generate View、Controller</h2><p>進入CRUD Generator，輸入Model Class name，自動新建下列檔案</p>
+<img src="/2017/10/02/Yii-framework-Gii-CRUD/yii_gii_crud_generator.PNG" class="" title="yii_gii_crud_generator">
+
 <p>完成後連上<code>/index.php?r=myguests</code>就可以看到讀取的資料結果</p>
-<img src="/2017/10/02/Yii-framework-Gii-CRUD/yii_read.PNG" title="yii_read">
+<img src="/2017/10/02/Yii-framework-Gii-CRUD/yii_read.PNG" class="" title="yii_read">
+
 <p>點選manage或進入<code>/index.php?r=site/login</code>，登入之後可到後台進行CUD操作</p>
 <p>預設有”demo/demo”, “admin/admin”兩組帳號密碼可以使用，在<code>\protected\components\UserIdentity.php</code>可以看到一些使用者驗證設定，但這邊先不要修改，因為admin這個帳號跟很多隻檔案連動。</p>
-<p>登入成功後到<code>index.php?r=myguests/admin</code>，可以看到所有資料並且有操作的功能(操作功能會受限於MySQL登入帳號的權限，如果權限不夠操作後會有alert錯誤)<br><img src="/2017/10/02/Yii-framework-Gii-CRUD/yii_manage.PNG" title="yii_manage"></p>
+<p>登入成功後到<code>index.php?r=myguests/admin</code>，可以看到所有資料並且有操作的功能(操作功能會受限於MySQL登入帳號的權限，如果權限不夠操作後會有alert錯誤)</p>
+<img src="/2017/10/02/Yii-framework-Gii-CRUD/yii_manage.PNG" class="" title="yii_manage">
+
 <ul>
 <li>新增單筆資料(Create)</li>
 </ul>
-<img src="/2017/10/02/Yii-framework-Gii-CRUD/yii_manage_create.PNG" title="yii_manage_create">
+<img src="/2017/10/02/Yii-framework-Gii-CRUD/yii_manage_create.PNG" class="" title="yii_manage_create">
+
 <ul>
 <li>點選放大鏡查看單筆資料(Read)</li>
 </ul>
-<img src="/2017/10/02/Yii-framework-Gii-CRUD/yii_manage_view.PNG" title="yii_manage_view">
+<img src="/2017/10/02/Yii-framework-Gii-CRUD/yii_manage_view.PNG" class="" title="yii_manage_view">
+
 <ul>
 <li>點選鉛筆修改單筆資料(Update)</li>
 </ul>
-<img src="/2017/10/02/Yii-framework-Gii-CRUD/yii_manage_update.PNG" title="yii_manage_update">
+<img src="/2017/10/02/Yii-framework-Gii-CRUD/yii_manage_update.PNG" class="" title="yii_manage_update">
+
 <ul>
 <li>點選刪除單筆資料(Delete)，會跳Alert詢問是否刪除</li>
 </ul>
@@ -175,7 +189,7 @@ ga('send', 'pageview');
       
     </div>
     <footer class="article-footer">
-      <a data-url="https://blog.comicat.me/2017/10/02/Yii-framework-Gii-CRUD/" data-id="ck9s52xhl001etngfb9jurffe" class="article-share-link">分享</a>
+      <a data-url="https://blog.comicat.me/2017/10/02/Yii-framework-Gii-CRUD/" data-id="ckcx268vb001lg7tzcf1y39y8" class="article-share-link">分享</a>
       
       
         <a href="https://blog.comicat.me/2017/10/02/Yii-framework-Gii-CRUD/#disqus_thread" class="article-comment-link">留言</a>

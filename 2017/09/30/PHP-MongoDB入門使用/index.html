@@ -14,7 +14,7 @@
 <meta property="og:locale" content="zh_TW">
 <meta property="og:image" content="https://blog.comicat.me/2017/09/30/PHP-MongoDB%E5%85%A5%E9%96%80%E4%BD%BF%E7%94%A8/mongo_listDBs.PNG">
 <meta property="article:published_time" content="2017-09-30T07:02:37.000Z">
-<meta property="article:modified_time" content="2020-05-04T05:26:23.340Z">
+<meta property="article:modified_time" content="2020-07-22T07:41:16.548Z">
 <meta property="article:author" content="comicat">
 <meta property="article:tag" content="PHP">
 <meta property="article:tag" content="Storage">
@@ -61,7 +61,7 @@ ga('send', 'pageview');
 </script>
 
 
-<meta name="generator" content="Hexo 4.2.0"></head>
+<meta name="generator" content="Hexo 4.2.1"></head>
 
 <body>
   <div id="container">
@@ -138,25 +138,36 @@ ga('send', 'pageview');
         <p>需要安裝PHP mongo extension</p>
 <p>安裝參考: <a href="http://www.w3big.com/zh-TW/mongodb/mongodb-install-php-driver.html" target="_blank" rel="noopener">http://www.w3big.com/zh-TW/mongodb/mongodb-install-php-driver.html</a></p>
 <a id="more"></a>
+
 <h2 id="connect-mongo"><a href="#connect-mongo" class="headerlink" title="connect mongo"></a>connect mongo</h2><p>預設會連接到<code>mongodb://localhost:27017</code></p>
 <figure class="highlight php"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">$mongo = <span class="keyword">new</span> MongoClient();</span><br></pre></td></tr></table></figure>
+
 <h2 id="use-db"><a href="#use-db" class="headerlink" title="use db"></a>use db</h2><p>db不存在會自動產生一個新的，建立一個叫myDB的資料庫</p>
 <figure class="highlight php"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">$db = $mongo-&gt;myDB;</span><br></pre></td></tr></table></figure>
+
 <h2 id="show-dbs"><a href="#show-dbs" class="headerlink" title="show dbs"></a>show dbs</h2><p>取得所有db的資訊與統計(Array)，空db不會列出來</p>
 <figure class="highlight php"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">$dbs = $mongo-&gt;listDBs();</span><br></pre></td></tr></table></figure>
-<img src="/2017/09/30/PHP-MongoDB入門使用/mongo_listDBs.PNG" title="mongo_listDBs">
+
+<img src="/2017/09/30/PHP-MongoDB%E5%85%A5%E9%96%80%E4%BD%BF%E7%94%A8/mongo_listDBs.PNG" class="" title="mongo_listDBs">
+
 <p>最後還有一個totalSize標示出總大小</p>
 <h2 id="create-collection"><a href="#create-collection" class="headerlink" title="create collection"></a>create collection</h2><p>建立一個叫users的集合</p>
 <figure class="highlight php"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">$collection = $db-&gt;createCollection(<span class="string">'users'</span>);</span><br></pre></td></tr></table></figure>
+
 <h2 id="show-collections"><a href="#show-collections" class="headerlink" title="show collections"></a>show collections</h2><p>取得所有$db中的集合資訊(Array)</p>
 <figure class="highlight php"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">$db-&gt;listCollections();</span><br></pre></td></tr></table></figure>
+
 <h2 id="insert-data"><a href="#insert-data" class="headerlink" title="insert data"></a>insert data</h2><p>在集合中插入一筆資料，$data是一個Array</p>
 <figure class="highlight php"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">$collection-&gt;insert($data);</span><br></pre></td></tr></table></figure>
+
 <h2 id="find-data"><a href="#find-data" class="headerlink" title="find data"></a>find data</h2><p>取得一個MongoCursor Object，<br>必須使用迴圈讀取</p>
 <figure class="highlight php"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line">$cursor = $collection-&gt;find();</span><br><span class="line"><span class="keyword">foreach</span> ($cursor <span class="keyword">as</span> $data) &#123;</span><br><span class="line">    print_r($data);</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
 <h2 id="update-data"><a href="#update-data" class="headerlink" title="update data"></a>update data</h2><p>把所有id = 1的資料的age更新成25</p>
 <figure class="highlight php"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">$collection-&gt;update(<span class="keyword">array</span>(<span class="string">'id'</span> =&gt; <span class="number">1</span>), <span class="keyword">array</span>(<span class="string">'$set'</span> =&gt; <span class="keyword">array</span>(<span class="string">'age'</span> =&gt; <span class="number">25</span>)));</span><br></pre></td></tr></table></figure>
+
 <h2 id="remove-data"><a href="#remove-data" class="headerlink" title="remove data"></a>remove data</h2><figure class="highlight php"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">$collection-&gt;remove();</span><br></pre></td></tr></table></figure>
+
 <h2 id="insert-vs-save"><a href="#insert-vs-save" class="headerlink" title="insert() vs save()"></a>insert() vs save()</h2><p>在mongo shell中直接輸入指令不加括號可以看到執行的函數內容。</p>
 <p>insert()是直接插入資料，效率較好</p>
 <p>save()會先判斷是否有重複，如果資料存在就呼叫update()，反之insert()</p>
@@ -164,7 +175,7 @@ ga('send', 'pageview');
       
     </div>
     <footer class="article-footer">
-      <a data-url="https://blog.comicat.me/2017/09/30/PHP-MongoDB%E5%85%A5%E9%96%80%E4%BD%BF%E7%94%A8/" data-id="ck9s52xha000otngf8awwfxdg" class="article-share-link">分享</a>
+      <a data-url="https://blog.comicat.me/2017/09/30/PHP-MongoDB%E5%85%A5%E9%96%80%E4%BD%BF%E7%94%A8/" data-id="ckcx268un000hg7tz4cnwdzqc" class="article-share-link">分享</a>
       
       
         <a href="https://blog.comicat.me/2017/09/30/PHP-MongoDB%E5%85%A5%E9%96%80%E4%BD%BF%E7%94%A8/#disqus_thread" class="article-comment-link">留言</a>

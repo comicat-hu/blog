@@ -19,7 +19,7 @@
 <meta property="og:image" content="https://blog.comicat.me/2017/09/25/XAMPP-MySQL%E5%85%A5%E9%96%80%E4%BD%BF%E7%94%A8/mariadb_autocommit.PNG">
 <meta property="og:image" content="https://blog.comicat.me/2017/09/25/XAMPP-MySQL%E5%85%A5%E9%96%80%E4%BD%BF%E7%94%A8/transaction_example.PNG">
 <meta property="article:published_time" content="2017-09-25T06:39:09.000Z">
-<meta property="article:modified_time" content="2020-05-04T05:26:23.340Z">
+<meta property="article:modified_time" content="2020-07-22T07:41:16.548Z">
 <meta property="article:author" content="comicat">
 <meta property="article:tag" content="PHP">
 <meta property="article:tag" content="Storage">
@@ -67,7 +67,7 @@ ga('send', 'pageview');
 </script>
 
 
-<meta name="generator" content="Hexo 4.2.0"></head>
+<meta name="generator" content="Hexo 4.2.1"></head>
 
 <body>
   <div id="container">
@@ -142,9 +142,14 @@ ga('send', 'pageview');
         <!-- Table of Contents -->
         
         <p>XAMPP內的MySQL是MariaDB。</p>
-<h2 id="How-to-use"><a href="#How-to-use" class="headerlink" title="How to use"></a>How to use</h2><p>XAMPP也內建有資料庫管理工具PhpMyAdmin，啟動MySQL後，在你的主機/phpmyadmin路徑下可以開啟它。<br><img src="/2017/09/25/XAMPP-MySQL入門使用/phpmyadmin.PNG" title="phpmyadmin"></p>
+<h2 id="How-to-use"><a href="#How-to-use" class="headerlink" title="How to use"></a>How to use</h2><p>XAMPP也內建有資料庫管理工具PhpMyAdmin，啟動MySQL後，在你的主機/phpmyadmin路徑下可以開啟它。</p>
+<img src="/2017/09/25/XAMPP-MySQL%E5%85%A5%E9%96%80%E4%BD%BF%E7%94%A8/phpmyadmin.PNG" class="" title="phpmyadmin">
+
 <a id="more"></a>
-<p>當然你也可以用shell登入，不過指令有點多，這邊就先不採用<br><img src="/2017/09/25/XAMPP-MySQL入門使用/mysql_shell.PNG" title="mysql_shell"></p>
+
+<p>當然你也可以用shell登入，不過指令有點多，這邊就先不採用</p>
+<img src="/2017/09/25/XAMPP-MySQL%E5%85%A5%E9%96%80%E4%BD%BF%E7%94%A8/mysql_shell.PNG" class="" title="mysql_shell">
+
 <p>預設phpmyadmin會使用root直接登入，所以我們來看一點權限設定的部分</p>
 <p><a href="http://www.mauchiuan.com/2015/12/xampp-5615-mysql-phpmyadmin.html" target="_blank" rel="noopener">XAMPP 5.6.15 修改 MySQL 密碼與 PhpMyAdmin 設定</a></p>
 <ul>
@@ -161,10 +166,12 @@ ga('send', 'pageview');
 <li><a href="https://www.future-vr.com/%E3%80%90%E6%95%99%E5%AD%B8%E3%80%91windows%E4%B8%8B%E7%9A%84%E6%9E%B6%E7%AB%99%E5%B7%A5%E5%85%B7-xampp-mysql%E7%AF%87/" target="_blank" rel="noopener">【教學】Windows下的架站工具 – XAMPP (MYSQL篇)</a></li>
 <li><a href="http://140.129.118.16/~richwang/102-2-Courses/DBA/playerinfo-102-2.html" target="_blank" rel="noopener">http://140.129.118.16/~richwang/102-2-Courses/DBA/playerinfo-102-2.html</a> (shell)</li>
 </ul>
-<h2 id="MariaDB的版本資訊"><a href="#MariaDB的版本資訊" class="headerlink" title="MariaDB的版本資訊"></a>MariaDB的版本資訊</h2><img src="/2017/09/25/XAMPP-MySQL入門使用/mariadb_version.PNG" title="mariadb_version">
+<h2 id="MariaDB的版本資訊"><a href="#MariaDB的版本資訊" class="headerlink" title="MariaDB的版本資訊"></a>MariaDB的版本資訊</h2><img src="/2017/09/25/XAMPP-MySQL%E5%85%A5%E9%96%80%E4%BD%BF%E7%94%A8/mariadb_version.PNG" class="" title="mariadb_version">
+
 <h2 id="MySQL家族版本圖"><a href="#MySQL家族版本圖" class="headerlink" title="MySQL家族版本圖"></a>MySQL家族版本圖</h2><p><img src="http://i.imgur.com/HMxj2Zw.png" alt="mysql_version"></p>
 <h2 id="MySQL-default-engine"><a href="#MySQL-default-engine" class="headerlink" title="MySQL default engine"></a>MySQL default engine</h2><ul>
-<li>MySQL 5.1之前預設是: MyISAM</li>
+<li><p>MySQL 5.1之前預設是: MyISAM</p>
+</li>
 <li><p>MySQL 5.5之後預設是: InnoDB</p>
 <p>(中間的版本好像跳掉了???)</p>
 </li>
@@ -181,12 +188,16 @@ ga('send', 'pageview');
 <p>參考: <a href="https://blog.gslin.org/archives/2012/11/24/3034/mysql-%E4%B8%AD%EF%BC%8Cmyisam-%E8%88%87-innodb-%E5%B8%B6%E4%BE%86%E7%9A%84%E5%B7%AE%E7%95%B0/" target="_blank" rel="noopener">MySQL 中，MyISAM 與 InnoDB 帶來的差異</a></p>
 <h2 id="START-TRANSACTION-BEGIN"><a href="#START-TRANSACTION-BEGIN" class="headerlink" title="START TRANSACTION(BEGIN)"></a>START TRANSACTION(BEGIN)</h2><p>(InnoDB)</p>
 <p>預設狀況下，SQL語句都會被立即執行並且提交結果</p>
-<p>可以<code>SELECT @@AUTOCOMMIT;</code>查詢這個參數，預設為1<br><img src="/2017/09/25/XAMPP-MySQL入門使用/mariadb_autocommit.PNG" title="mariadb_autocommit"></p>
+<p>可以<code>SELECT @@AUTOCOMMIT;</code>查詢這個參數，預設為1</p>
+<img src="/2017/09/25/XAMPP-MySQL%E5%85%A5%E9%96%80%E4%BD%BF%E7%94%A8/mariadb_autocommit.PNG" class="" title="mariadb_autocommit">
+
 <p><code>START TRANSACTION;</code>或<code>BEGIN;</code>可以開啟一個交易區塊，表示在<code>COMMIT;</code>指令執行前的SQL執行結果都不會被立即提交出去</p>
 <p>意思是當你在中間做新增、刪除、修改…等，在別的連線中都還不會存取到你的結果(但有一些指令會強制造成交易中斷)，</p>
 <p>交易中<code>ROLLBACK;</code>指令會讓交易取消，並且回到交易前的狀態。</p>
 <p><code>SET AUTOCOMMIT = 0;</code>這時候自動提交的功能被關閉，所以即使不開啟交易也是會像上面的狀況一樣，必須等到<code>COMMIT;</code>才會將結果提交出去。</p>
-<p>查詢autocommit參數 = 1，開啟交易區塊，並且插入一筆資料<code>(3, &#39;Jimmy&#39;)</code>，從另一個連線查看並沒有結果(還沒COMMIT)<br><img src="/2017/09/25/XAMPP-MySQL入門使用/transaction_example.PNG" title="transaction_example"></p>
+<p>查詢autocommit參數 = 1，開啟交易區塊，並且插入一筆資料<code>(3, &#39;Jimmy&#39;)</code>，從另一個連線查看並沒有結果(還沒COMMIT)</p>
+<img src="/2017/09/25/XAMPP-MySQL%E5%85%A5%E9%96%80%E4%BD%BF%E7%94%A8/transaction_example.PNG" class="" title="transaction_example">
+
 <p>參考:</p>
 <ul>
 <li><a href="http://xyz.cinc.biz/2013/05/mysql-transaction.html" target="_blank" rel="noopener">http://xyz.cinc.biz/2013/05/mysql-transaction.html</a></li>
@@ -201,7 +212,7 @@ ga('send', 'pageview');
       
     </div>
     <footer class="article-footer">
-      <a data-url="https://blog.comicat.me/2017/09/25/XAMPP-MySQL%E5%85%A5%E9%96%80%E4%BD%BF%E7%94%A8/" data-id="ck9s52xhc000ttngfuqok7o6u" class="article-share-link">分享</a>
+      <a data-url="https://blog.comicat.me/2017/09/25/XAMPP-MySQL%E5%85%A5%E9%96%80%E4%BD%BF%E7%94%A8/" data-id="ckcx268uy0011g7tz34a3crsy" class="article-share-link">分享</a>
       
       
         <a href="https://blog.comicat.me/2017/09/25/XAMPP-MySQL%E5%85%A5%E9%96%80%E4%BD%BF%E7%94%A8/#disqus_thread" class="article-comment-link">留言</a>
