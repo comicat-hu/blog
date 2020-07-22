@@ -6,10 +6,9 @@ theme use [comicat-hu/hexo-theme-cafe](https://github.com/comicat-hu/hexo-theme-
 
 ## Getting Starting
 
-### clone roject
+### clone Project
 
-* `git clone https://github.com/comicat-hu/blog`
-* `git checkout source`
+* `git clone -b source https://github.com/comicat-hu/blog`
 * `git submodule update --init --recursive`
 
 ### install dependencies
