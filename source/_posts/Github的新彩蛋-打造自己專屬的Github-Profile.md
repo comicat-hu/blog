@@ -7,7 +7,7 @@ tags:
   - Github
 ---
 
-前陣子Github釋出了一個彩蛋功能，在個人首頁提供了一個小區塊，
+前陣子Github釋出了一個彩蛋新功能，在個人首頁提供了一個小區塊，
 
 讓我們可以用Markdown語法「揮灑創意」，可以用於自由設計個人頁的封面資料。
 
@@ -19,7 +19,7 @@ tags:
 
 ## 啟用Github Profile
 
-要啟用這個區塊非常簡單，只要先建立一個同Github usesrname的Repository，並在其中添加`README.md`這個檔案。
+要啟用這個區塊非常簡單，只要先建立一個同Github username的Repository，並在其中添加`README.md`這個檔案。
 
 相信對於Github的資深使用者來說，寫README算是家常便飯的事了吧，在其中建立自己的內容就會自動在個人首頁顯示囉！
 
