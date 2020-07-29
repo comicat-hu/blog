@@ -1,5 +1,7 @@
 # blog
 
+[![Build Status](https://travis-ci.com/comicat-hu/blog.svg?branch=source)](https://travis-ci.com/comicat-hu/blog)
+
 source for <https://blog.comicat.me>
 
 theme use [comicat-hu/hexo-theme-cafe](https://github.com/comicat-hu/hexo-theme-cafe) (forked from [giscafer/hexo-theme-cafe](https://github.com/giscafer/hexo-theme-cafe))
