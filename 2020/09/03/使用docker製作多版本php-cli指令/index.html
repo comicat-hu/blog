@@ -1,0 +1,413 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <meta charset="utf-8">
+  
+  <title>使用docker製作多版本php-cli指令 | Comicat&#39;s Blog</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
+  <meta name="description" content="因為工作剛好需要經手到一個骨灰級的php專案，clone and install後第一件事就是跑測試， 但是本地端的php版本是7.4，一跑下去本來沒錯誤的測試都過不了， 想起公司大神曾玩過的docker container tools，這次就來試一下吧~">
+<meta property="og:type" content="article">
+<meta property="og:title" content="使用docker製作多版本php-cli指令">
+<meta property="og:url" content="https://blog.comicat.me/2020/09/03/%E4%BD%BF%E7%94%A8docker%E8%A3%BD%E4%BD%9C%E5%A4%9A%E7%89%88%E6%9C%ACphp-cli%E6%8C%87%E4%BB%A4/index.html">
+<meta property="og:site_name" content="Comicat&#39;s Blog">
+<meta property="og:description" content="因為工作剛好需要經手到一個骨灰級的php專案，clone and install後第一件事就是跑測試， 但是本地端的php版本是7.4，一跑下去本來沒錯誤的測試都過不了， 想起公司大神曾玩過的docker container tools，這次就來試一下吧~">
+<meta property="og:locale" content="zh_TW">
+<meta property="og:image" content="https://blog.comicat.me/2020/09/03/%E4%BD%BF%E7%94%A8docker%E8%A3%BD%E4%BD%9C%E5%A4%9A%E7%89%88%E6%9C%ACphp-cli%E6%8C%87%E4%BB%A4/phpcli_init_version_info.png">
+<meta property="og:image" content="https://blog.comicat.me/2020/09/03/%E4%BD%BF%E7%94%A8docker%E8%A3%BD%E4%BD%9C%E5%A4%9A%E7%89%88%E6%9C%ACphp-cli%E6%8C%87%E4%BB%A4/xdebug_install_success.png">
+<meta property="og:image" content="https://blog.comicat.me/2020/09/03/%E4%BD%BF%E7%94%A8docker%E8%A3%BD%E4%BD%9C%E5%A4%9A%E7%89%88%E6%9C%ACphp-cli%E6%8C%87%E4%BB%A4/xdebug_settings_success.png">
+<meta property="og:image" content="https://blog.comicat.me/2020/09/03/%E4%BD%BF%E7%94%A8docker%E8%A3%BD%E4%BD%9C%E5%A4%9A%E7%89%88%E6%9C%ACphp-cli%E6%8C%87%E4%BB%A4/run_php56_cli.png">
+<meta property="article:published_time" content="2020-09-03T09:26:04.000Z">
+<meta property="article:modified_time" content="2020-09-04T09:03:05.505Z">
+<meta property="article:author" content="comicat">
+<meta property="article:tag" content="PHP">
+<meta property="article:tag" content="Docker">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:image" content="https://blog.comicat.me/2020/09/03/%E4%BD%BF%E7%94%A8docker%E8%A3%BD%E4%BD%9C%E5%A4%9A%E7%89%88%E6%9C%ACphp-cli%E6%8C%87%E4%BB%A4/phpcli_init_version_info.png">
+  
+    <link rel="alternate" href="/atom.xml" title="Comicat&#39;s Blog" type="application/atom+xml">
+  
+  
+    <link rel="icon" href="/images/favicon.ico">
+  
+  
+    
+  
+  
+<link rel="stylesheet" href="/css/style.css">
+
+  
+<!-- Google Analytics -->
+<!--
+<script type="text/javascript">
+(function(i,s,o,g,r,a,m){i['GoogleAnalyticsObject']=r;i[r]=i[r]||function(){
+(i[r].q=i[r].q||[]).push(arguments)},i[r].l=1*new Date();a=s.createElement(o),
+m=s.getElementsByTagName(o)[0];a.async=1;a.src=g;m.parentNode.insertBefore(a,m)
+})(window,document,'script','//www.google-analytics.com/analytics.js','ga');
+
+ga('create', 'UA-126897949-1', 'auto');
+ga('send', 'pageview');
+
+</script>
+-->
+<!-- End Google Analytics -->
+
+<!-- Global Site Tag (gtag.js) - Google Analytics -->
+<script async src="https://www.googletagmanager.com/gtag/js?id=UA-126897949-1"></script>
+<script>
+  window.dataLayer = window.dataLayer || [];
+  function gtag(){dataLayer.push(arguments);}
+  gtag('js', new Date());
+
+  gtag('config', 'UA-126897949-1');
+  gtag('event', 'page_view', { 'send_to': 'UA-126897949-1' });
+</script>
+
+
+<meta name="generator" content="Hexo 4.2.1"></head>
+
+<body>
+  <div id="container">
+    <div id="wrap">
+      <header id="header">
+  <div id="banner"></div>
+  <div id="header-outer" class="outer">
+    
+    <div id="header-inner" class="inner">
+      <nav id="sub-nav">
+        
+          <a id="nav-rss-link" class="nav-icon" href="/atom.xml" title="RSS Feed"></a>
+        
+        <a id="nav-search-btn" class="nav-icon" title="搜尋"></a>
+      </nav>
+      <div id="search-form-wrap">
+        <form action="//google.com/search" method="get" accept-charset="UTF-8" class="search-form"><input type="search" name="q" class="search-form-input" placeholder="Search"><button type="submit" class="search-form-submit">&#xF002;</button><input type="hidden" name="sitesearch" value="https://blog.comicat.me"></form>
+      </div>
+      <nav id="main-nav">
+        <a id="main-nav-toggle" class="nav-icon"></a>
+        
+          <a class="main-nav-link" href="/">Home</a>
+        
+          <a class="main-nav-link" href="/archives">Archives</a>
+        
+          <a class="main-nav-link" href="/tags">Tags</a>
+        
+          <a class="main-nav-link" href="/categories">Categories</a>
+        
+      </nav>
+      
+    </div>
+    <div id="header-title" class="inner">
+      <h1 id="logo-wrap">
+        <a href="/" id="logo">Comicat&#39;s Blog</a>
+      </h1>
+      
+        <h2 id="subtitle-wrap">
+          <a href="/" id="subtitle">Find Something Funny</a>
+        </h2>
+      
+    </div>
+  </div>
+</header>
+      <div class="outer">
+        <section id="main"><article id="post-使用docker製作多版本php-cli指令" class="article article-type-post" itemscope itemprop="blogPost">
+  <div class="article-meta">
+    <a href="/2020/09/03/%E4%BD%BF%E7%94%A8docker%E8%A3%BD%E4%BD%9C%E5%A4%9A%E7%89%88%E6%9C%ACphp-cli%E6%8C%87%E4%BB%A4/" class="article-date">
+  <time datetime="2020-09-03T09:26:04.000Z" itemprop="datePublished">2020-09-03</time>
+</a>
+    
+  <div class="article-category">
+    <a class="article-category-link" href="/categories/%E8%B3%87%E8%A8%8A%E6%8A%80%E8%A1%93/">資訊技術</a>►<a class="article-category-link" href="/categories/%E8%B3%87%E8%A8%8A%E6%8A%80%E8%A1%93/Docker/">Docker</a>
+  </div>
+
+  </div>
+  <div class="article-inner">
+    
+    
+      <header class="article-header">
+        
+  
+    <h1 class="article-title" itemprop="name">
+      使用docker製作多版本php-cli指令
+    </h1>
+  
+
+      </header>
+    
+    <div class="article-entry" itemprop="articleBody">
+      
+        <!-- Table of Contents -->
+        
+        <p>因為工作剛好需要經手到一個骨灰級的php專案，clone and install後第一件事就是跑測試，</p>
+<p>但是本地端的php版本是7.4，一跑下去本來沒錯誤的測試都過不了，</p>
+<p>想起公司大神曾玩過的docker container tools，這次就來試一下吧~</p>
+<a id="more"></a>
+
+<h2 id="建立php-cli-image"><a href="#建立php-cli-image" class="headerlink" title="建立php-cli image"></a>建立php-cli image</h2><ul>
+<li><p>首先下載使用php5.6-cli這個docker image。</p>
+<figure class="highlight sh"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">docker run -it php:5.6-cli bash</span><br></pre></td></tr></table></figure>
+</li>
+<li><p>進container後執行<code>php -v</code>確認版本資訊。</p>
+<img src="/2020/09/03/%E4%BD%BF%E7%94%A8docker%E8%A3%BD%E4%BD%9C%E5%A4%9A%E7%89%88%E6%9C%ACphp-cli%E6%8C%87%E4%BB%A4/phpcli_init_version_info.png" class="" title="phpcli_init_version_info">
+</li>
+<li><p>我們測試使用phpunit需要安裝xdebug。<br>查詢PHP支援的對應xdebug版號，<a href="https://xdebug.org/download/historical" target="_blank" rel="noopener">https://xdebug.org/download/historical</a>。<br>這個image已經內建了pecl，<code>pecl install xdebug-2.5.5</code>，就可以安裝xdebug了 (不帶版號則會裝最新版)。</p>
+<img src="/2020/09/03/%E4%BD%BF%E7%94%A8docker%E8%A3%BD%E4%BD%9C%E5%A4%9A%E7%89%88%E6%9C%ACphp-cli%E6%8C%87%E4%BB%A4/xdebug_install_success.png" class="" title="xdebug_install_success">
+</li>
+<li><p>設定php.ini，並啟用xdebug</p>
+<figure class="highlight sh"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line"><span class="built_in">cd</span> <span class="string">'/usr/local/etc/php/'</span></span><br><span class="line">cp  php.ini-development php.ini</span><br><span class="line"></span><br><span class="line"><span class="comment"># 依照xdebug安裝成功後的提供的資訊在php.ini中添加設定</span></span><br><span class="line"><span class="built_in">echo</span> <span class="string">"zend_extension=/usr/local/lib/php/extensions/no-debug-non-zts-20131226/xdebug.so"</span> &gt;&gt; php.ini</span><br><span class="line">php -v</span><br></pre></td></tr></table></figure>
+<p>正確啟用後php的版本資訊中會看到<code>with Xdebug v2.5.5</code>的字樣了。</p>
+<img src="/2020/09/03/%E4%BD%BF%E7%94%A8docker%E8%A3%BD%E4%BD%9C%E5%A4%9A%E7%89%88%E6%9C%ACphp-cli%E6%8C%87%E4%BB%A4/xdebug_settings_success.png" class="" title="xdebug_settings_success">
+</li>
+<li><p>離開container，建立新的layer，並加上tag</p>
+<figure class="highlight sh"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment"># 使用剛剛操作的container-id</span></span><br><span class="line">docker commit <span class="variable">$&#123;container-id&#125;</span></span><br><span class="line"><span class="comment"># 使用剛剛commit回傳的image-id</span></span><br><span class="line">docker tag <span class="variable">$&#123;image-id&#125;</span> php56</span><br></pre></td></tr></table></figure>
+
+</li>
+</ul>
+<h2 id="建立alias指令"><a href="#建立alias指令" class="headerlink" title="建立alias指令"></a>建立alias指令</h2><ul>
+<li><p>呼叫container幫我們執行php</p>
+<figure class="highlight sh"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">docker container run -it --rm php56 php -v</span><br></pre></td></tr></table></figure>
+</li>
+<li><p>將當前目錄掛進container執行指令</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">docker container run -it --rm -v $(pwd):&#x2F;source -w &#x2F;source php56 ls -al</span><br></pre></td></tr></table></figure>
+</li>
+<li><p>建立alias<br>在.bashrc或.zshrc中加入設定</p>
+<figure class="highlight sh"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line"><span class="built_in">alias</span> php56=<span class="string">"docker container run -it --rm -v \$(pwd):/source -w /source php56 php"</span></span><br></pre></td></tr></table></figure>
+<p><code>$(pwd)</code>之前的<code>\</code>一定要記得，不然alias會在一登入時就將其解析成固定的路徑。</p>
+</li>
+</ul>
+<p>當我們執行<code>php56</code>時，實際上就是呼叫container幫我們執行php了。</p>
+<img src="/2020/09/03/%E4%BD%BF%E7%94%A8docker%E8%A3%BD%E4%BD%9C%E5%A4%9A%E7%89%88%E6%9C%ACphp-cli%E6%8C%87%E4%BB%A4/run_php56_cli.png" class="" title="run_php56_cli">
+
+      
+    </div>
+    <footer class="article-footer">
+      <a data-url="https://blog.comicat.me/2020/09/03/%E4%BD%BF%E7%94%A8docker%E8%A3%BD%E4%BD%9C%E5%A4%9A%E7%89%88%E6%9C%ACphp-cli%E6%8C%87%E4%BB%A4/" data-id="ckeo0gxso002hh134fmipgk51" class="article-share-link">分享</a>
+      
+      
+        <a href="https://blog.comicat.me/2020/09/03/%E4%BD%BF%E7%94%A8docker%E8%A3%BD%E4%BD%9C%E5%A4%9A%E7%89%88%E6%9C%ACphp-cli%E6%8C%87%E4%BB%A4/#disqus_thread" class="article-comment-link">留言</a>
+      
+      
+  <ul class="article-tag-list" itemprop="keywords"><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/Docker/" rel="tag">Docker</a></li><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/PHP/" rel="tag">PHP</a></li></ul>
+
+    </footer>
+  </div>
+  
+    
+ 
+<script src="/jquery/jquery.min.js"></script>
+
+  <div id="random_posts">
+    <h2>推薦文章</h2>
+    <div class="random_posts_ul">
+      <script>
+          var random_count =3
+          var site = {BASE_URI:'/'};
+          function load_random_posts(obj) {
+              var arr=site.posts;
+              if (!obj) return;
+              // var count = $(obj).attr('data-count') || 6;
+              for (var i, tmp, n = arr.length; n; i = Math.floor(Math.random() * n), tmp = arr[--n], arr[n] = arr[i], arr[i] = tmp);
+              arr = arr.slice(0, random_count);
+              var html = '<ul>';
+            
+              for(var j=0;j<arr.length;j++){
+                var item=arr[j];
+                html += '<li><strong>' + 
+                item.date + ':&nbsp;&nbsp;<a href="' + (site.BASE_URI+item.uri) + '">' + 
+                (item.title || item.uri) + '</a></strong>';
+                if(item.excerpt){
+                  html +='<div class="post-excerpt">'+item.excerpt+'</div>';
+                }
+                html +='</li>';
+                
+              }
+              $(obj).html(html + '</ul>');
+          }
+          $('.random_posts_ul').each(function () {
+              var c = this;
+              if (!site.posts || !site.posts.length){
+                  $.getJSON(site.BASE_URI + 'js/posts.js',function(json){site.posts = json;load_random_posts(c)});
+              } 
+               else{
+                load_random_posts(c);
+              }
+          });
+      </script>
+    </div>
+  </div>
+
+    
+<nav id="article-nav">
+  
+  
+    <a href="/2020/07/22/Github%E7%9A%84%E6%96%B0%E5%BD%A9%E8%9B%8B-%E6%89%93%E9%80%A0%E8%87%AA%E5%B7%B1%E5%B0%88%E5%B1%AC%E7%9A%84Github-Profile/" id="article-nav-older" class="article-nav-link-wrap">
+      <strong class="article-nav-caption">Older</strong>
+      <div class="article-nav-title">Github的新彩蛋 - 打造自己專屬的Github Profile</div>
+    </a>
+  
+</nav>
+
+  
+</article>
+ 
+     
+  <div class="comments" id="comments">
+    
+     
+    <section id="comments">
+      <div id="disqus_thread">
+        <noscript>
+          Please enable JavaScript to view the
+          <a href="//disqus.com/?ref_noscript" target="_blank" rel="noopener">comments powered by Disqus.</a>
+        </noscript>
+      </div>
+      </section>
+      
+       
+       
+      
+      
+  </div>
+ 
+  
+
+</section>
+           
+    <aside id="sidebar">
+  
+    
+    
+    
+    <div class="widget-wrap">
+    
+      <div class="widget" id="toc-widget-fixed">
+      
+        <strong class="toc-title">文章目錄</strong>
+        <div class="toc-widget-list">
+              <ol class="toc"><li class="toc-item toc-level-2"><a class="toc-link" href="#建立php-cli-image"><span class="toc-number">1.</span> <span class="toc-text">建立php-cli image</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#建立alias指令"><span class="toc-number">2.</span> <span class="toc-text">建立alias指令</span></a></li></ol>
+          </div>
+      </div>
+    </div>
+
+  
+    
+    
+    
+
+  
+    
+    
+    
+  
+    
+    
+    
+
+  
+    
+    
+    
+  
+    
+    
+    
+
+  
+    
+    
+    
+
+  
+</aside>
+
+      </div>
+      <footer id="footer">
+  
+  <div class="outer">
+    <div id="footer-left">
+      &copy; 2017 - 2020 comicat&nbsp;|&nbsp;
+      Theme by <a href="https://github.com/comicat-hu/hexo-theme-cafe" target="_blank">Cafe</a>
+    </div>
+     <div id="footer-right">
+      Contact&nbsp;|&nbsp;comicat.hu@gmail.com
+    </div>
+  </div>
+</footer>
+ 
+<script src="/jquery/jquery.min.js"></script>
+
+    </div>
+    <nav id="mobile-nav">
+  
+    <a href="/" class="mobile-nav-link">Home</a>
+  
+    <a href="/archives" class="mobile-nav-link">Archives</a>
+  
+    <a href="/tags" class="mobile-nav-link">Tags</a>
+  
+    <a href="/categories" class="mobile-nav-link">Categories</a>
+  
+</nav>
+    <img class="back-to-top-btn" src="/images/fly-to-top.png"/>
+<script>
+// Elevator script included on the page, already.
+window.onload = function() {
+  var elevator = new Elevator({
+    selector:'.back-to-top-btn',
+    element: document.querySelector('.back-to-top-btn'),
+    duration: 1000 // milliseconds
+  });
+}
+</script>
+      
+
+<script>
+  var disqus_shortname = 'blog-comicat';
+  
+  var disqus_url = 'https://blog.comicat.me/2020/09/03/%E4%BD%BF%E7%94%A8docker%E8%A3%BD%E4%BD%9C%E5%A4%9A%E7%89%88%E6%9C%ACphp-cli%E6%8C%87%E4%BB%A4/';
+  
+  (function(){
+    var dsq = document.createElement('script');
+    dsq.type = 'text/javascript';
+    dsq.async = true;
+    dsq.src = '//' + disqus_shortname + '.disqus.com/embed.js';
+    (document.getElementsByTagName('head')[0] || document.getElementsByTagName('body')[0]).appendChild(dsq);
+  })();
+</script>
+
+
+
+
+
+
+
+<!-- author:forvoid begin -->
+<!-- author:forvoid begin -->
+
+<!-- author:forvoid end -->
+
+<!-- author:forvoid end -->
+
+
+
+ 
+<script src="/js/is.js"></script>
+
+
+
+  
+<link rel="stylesheet" href="/fancybox/jquery.fancybox.css">
+
+  
+<script src="/fancybox/jquery.fancybox.pack.js"></script>
+
+
+
+
+<script src="/js/script.js"></script>
+
+
+<script src="/js/elevator.js"></script>
+
+  </div>
+</body>
+</html>
