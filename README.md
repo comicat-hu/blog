@@ -36,3 +36,7 @@ theme use [comicat-hu/hexo-theme-cafe](https://github.com/comicat-hu/hexo-theme-
 ### deploy
 
 * `git push origin source`: build and deploy by travis-ci, keep deploy commit history.
+
+### update theme submodule
+
+* `git submodule foreach --recursive git pull origin master`
