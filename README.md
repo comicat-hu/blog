@@ -21,7 +21,8 @@ theme use [comicat-hu/hexo-theme-cafe](https://github.com/comicat-hu/hexo-theme-
 ### basic hexo command
 
 * `hexo g` (generate files in public folder)
-* `hexo s` (run local server on port 4000)
+* `hexo s` (run local server on port 4000, stop by ctrl+c)
+* `hexo s &` (run local server in background, stop by `kill` process id)
 * <del> `hexo d` (deploy project follow _config.yml deploy setting)</del> ("hexo d" used force push cause deploy commit history missing)
 * `hexo clean` (clean all files in public folder, recommand clean after modify any framework and theme file)
 
