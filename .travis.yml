@@ -22,7 +22,6 @@ before_script:
 
 script:
 - hexo -v
-- hexo clean
 - hexo generate
 
 deploy:
