@@ -16,7 +16,7 @@ branches:
   - /deploy-.*/
 
 before_install:
-- npm install hexo-cli -g
+- npm install hexo-cli -g && hexo -v
 - npm install
 
 before_script:
@@ -25,6 +25,7 @@ before_script:
 - sed -i'' "s~https://github.com/comicat-hu/blog.git~https://${GITHUB_TOKEN}:x-oauth-basic@github.com/comicat-hu/blog.git~" _config.yml
 
 script:
+- hexo -v
 - hexo generate
 
 deploy:
