@@ -12,8 +12,9 @@ branches:
   - /deploy-.*/
 
 before_install:
-- npm install hexo-cli -g && hexo -v
+- npm install hexo-cli -g
 - npm install
+- hexo -v
 
 before_script:
 - git config --global user.name 'comicat-hu'
