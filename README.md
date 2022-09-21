@@ -1,6 +1,6 @@
 # blog
 
-[![Build Status](https://travis-ci.com/comicat-hu/blog.svg?branch=source)](https://travis-ci.com/comicat-hu/blog)
+[![Build Status](https://app.travis-ci.com/comicat-hu/blog.svg?branch=source)](https://travis-ci.com/comicat-hu/blog)
 
 source for <https://blog.comicat.me>
 
