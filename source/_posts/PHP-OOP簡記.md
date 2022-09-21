@@ -23,7 +23,7 @@ tags:
 另外找到還不錯的系列文章
 
 * [iT邦幫忙: PHP物件導向](http://ithelp.ithome.com.tw/search?search=PHP%E7%89%A9%E4%BB%B6%E5%B0%8E%E5%90%91&tab=article)
-* <http://oomusou.io/php/php-namespace/#Version>
+* <https://old-oomusou.goodjack.tw/php/php-namespace/>
 * <http://ithelp.ithome.com.tw/users/20000108/ironman/690?page=1>
 
 ## OOP 三大用法簡介
