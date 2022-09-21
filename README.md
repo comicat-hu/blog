@@ -33,7 +33,7 @@ theme use [comicat-hu/hexo-theme-cafe](https://github.com/comicat-hu/hexo-theme-
 * use `<!--more-->` to set post preview
 * use `{% asset_img Picture_Name Picture_ALT %}` to set a picture in post
 
-### deploy
+### deploy to github-pages
 
 * `git push origin source`: build and deploy by travis-ci, keep deploy commit history.
 
