@@ -13,7 +13,7 @@
 <meta property="og:description" content="演算法解題記錄">
 <meta property="og:locale" content="zh_TW">
 <meta property="article:published_time" content="2018-02-12T06:05:56.000Z">
-<meta property="article:modified_time" content="2022-09-21T12:38:17.168Z">
+<meta property="article:modified_time" content="2022-11-28T09:17:52.606Z">
 <meta property="article:author" content="comicat">
 <meta property="article:tag" content="Algorithm">
 <meta name="twitter:card" content="summary">
@@ -134,23 +134,7 @@ ga('send', 'pageview');
         <p>演算法解題記錄</p>
 <a id="more"></a>
 
-<h2 id="00"><a href="#00" class="headerlink" title="00"></a>00</h2><p>Write a function:</p>
-<p>  <code>function solution(A);</code></p>
-<p>that, given an array A of N integers, returns the smallest positive integer (greater than 0) that does not occur in A.</p>
-<p>For example, given A = [1, 3, 6, 4, 1, 2], the function should return 5.</p>
-<p>Given A = [1, 2, 3], the function should return 4.<br>Given A = [-1, -3], the function should return 1.</p>
-<p>Assume that:</p>
-<ul>
-<li>N is an integer within the range [1..100,000];</li>
-<li>each element of array A is an integer within the range [-1,000,000..1,000,000].</li>
-</ul>
-<p>Complexity:</p>
-<ul>
-<li>expected worst-case time complexity is O(N);</li>
-<li>expected worst-case space complexity is O(N), beyond input storage (not counting the storage required for input arguments).</li>
-</ul>
-<hr>
-<h3 id="00-JS參考解"><a href="#00-JS參考解" class="headerlink" title="00 JS參考解"></a>00 JS參考解</h3><ul>
+<h2 id="00"><a href="#00" class="headerlink" title="00"></a>00</h2><h3 id="00-JS參考解"><a href="#00-JS參考解" class="headerlink" title="00 JS參考解"></a>00 JS參考解</h3><ul>
 <li>time: O(N), space: O(1)</li>
 <li>使用原輸入陣列來標記(index = value - 1)</li>
 </ul>
@@ -158,39 +142,6 @@ ga('send', 'pageview');
 
 <ul>
 <li>Ref: <a href="https://leetcode.com/problems/first-missing-positive/discuss/17071/My-short-c++-solution-O(1)-space-and-O(n)-time" target="_blank" rel="noopener">https://leetcode.com/problems/first-missing-positive/discuss/17071/My-short-c++-solution-O(1)-space-and-O(n)-time</a></li>
-</ul>
-<hr>
-<hr>
-<h2 id="01"><a href="#01" class="headerlink" title="01"></a>01</h2><p>An interval is a pair (A, B) of integers such that A &lt;= B. Two intervals (A, B) and (C, D) overlap if there exists an integer L such that A &lt;= L &lt;= B and C &lt;= L &lt;= D. Intervals that do not overlap are called disjoint. The union of intervals (A, B) and (C, D) is defined as:</p>
-<ul>
-<li>either a single interval (min(A, C), max(B, D)), when (A, B) and (C, D) overlap, or</li>
-<li>the intervals (A, B) and (C, D) themselves, when they are disjoint.</li>
-</ul>
-<p>Taking the union of two intervals is a commutative and associative operation, so it<br>can be extended to an arbitrary number of intervals.</p>
-<p>For example, consider the following eight intervals:</p>
-<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">( 1,   5)       (12,   15)        (42,   44)</span><br><span class="line">(70,  72)       (36,   36)        (-4,    2)</span><br><span class="line">(43,  69)       (15,   24)</span><br></pre></td></tr></table></figure>
-
-<p>Intervals (1, 5) and (-4, 2) overlap and their union is (-4, 5). Intervals (12, 15) and (15, 24) overlap and their union is (12, 24). Intervals (42, 44) and (43, 69) overlap and their union is (42, 69). Intervals (70, 72) and (36, 36) are disjoint and do not overlap with other intervals. The union of all eight intervals consists of the following five pairwise disjoint intervals:</p>
-<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">(-4,  5)        (12, 24)         (42, 69)</span><br><span class="line">(70, 72)        (36, 36)</span><br></pre></td></tr></table></figure>
-
-<p>Write a function:</p>
-<p>  <code>function solution(A, B);</code></p>
-<p>that, given two zero-indexed arrays A and B consisting of N elements each, returns the number of pairwise disjoint intervals constituting the union of N intervals described by arrays A and B. The K-th interval, where K is an integer within the range [0..(N - 1)], is defined as (A[K], B[K]).</p>
-<p>For example, given the following arrays A and B consisting of eight elements each:</p>
-<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">A[0] &#x3D;  1    A[1] &#x3D; 12    A[2] &#x3D; 42</span><br><span class="line">A[3] &#x3D; 70    A[4] &#x3D; 36    A[5] &#x3D; -4</span><br><span class="line">A[6] &#x3D; 43    A[7] &#x3D; 15</span><br></pre></td></tr></table></figure>
-
-<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">B[0] &#x3D;  5    B[1] &#x3D; 15    B[2] &#x3D; 44</span><br><span class="line">B[3] &#x3D; 72    B[4] &#x3D; 36    B[5] &#x3D; 2</span><br><span class="line">B[6] &#x3D; 69    B[7] &#x3D; 24</span><br></pre></td></tr></table></figure>
-
-<p>the function should return 5, because the intervals described by these arrays correspond to the example above. Assume that:</p>
-<ul>
-<li>N is an integer within the range [0..100,000];</li>
-<li>each element of arrays A, B is an integer within the range [-1,000,000,000..1,000,000,000];</li>
-<li>A[K] &lt;= B[K] for integers K within the range [0..(N - 1)].</li>
-</ul>
-<p>Complexity:</p>
-<ul>
-<li>expected worst-case time complexity is O(N*log(N));</li>
-<li>expected worst-case space complexity is O(N), beyond input storage (not counting the storage required for input arguments).</li>
 </ul>
 <hr>
 <h3 id="01-JS參考解"><a href="#01-JS參考解" class="headerlink" title="01 JS參考解"></a>01 JS參考解</h3><ul>
@@ -203,55 +154,6 @@ ga('send', 'pageview');
 
 <p>Ref: <a href="https://www.geeksforgeeks.org/merging-intervals/" target="_blank" rel="noopener">https://www.geeksforgeeks.org/merging-intervals/</a></p>
 <hr>
-<hr>
-<h2 id="03"><a href="#03" class="headerlink" title="03"></a>03</h2><p>A chessboard consisting of N rows and M columns is given. Each square of the board is either empty or blocked.</p>
-<p>A knight is a chess piece that perform the following moves in one turn:</p>
-<ul>
-<li>two squares up and one square left;</li>
-<li>two squares up and one square right;</li>
-<li>one square up and two squares left;</li>
-<li>one square up and two squares right;</li>
-<li>one square down and two squares left;</li>
-<li>one square down and two squares right;</li>
-<li>two squares down and one square left;</li>
-<li>two squares down and one square right.</li>
-</ul>
-<p>The number of possible moves can be reduced if the knight would fall off the board or if the destination square is blocked.</p>
-<p>The board can be described by a zero-indexed matrix consisting of N rows and M columns of integers. A square of the board is empty if its corresponding matrix element has value 0 and blocked if its corresponding matrix element has value 1.</p>
-<p>For example, consider the following matrix A consisting of four rows and three columns:</p>
-<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line">A[0][0] &#x3D; 0    A[0][1] &#x3D; 0    A[0][2] &#x3D; 0</span><br><span class="line">A[1][0] &#x3D; 0    A[1][1] &#x3D; 0    A[1][2] &#x3D; 1</span><br><span class="line">A[2][0] &#x3D; 1    A[2][1] &#x3D; 0    A[2][2] &#x3D; 0</span><br><span class="line">A[3][0] &#x3D; 0    A[3][1] &#x3D; 0    A[3][2] &#x3D; 0</span><br></pre></td></tr></table></figure>
-
-<p>Consider a knight standing on the upper-left square. It requires seven turns to move to the lower-right square:</p>
-<ul>
-<li>in the first turn the knight moves from square (0, 0) to square (2, 1);</li>
-<li>in the second turn the knight moves from square (2, 1) to square (0, 2);</li>
-<li>in the third turn the knight moves from square (0, 2) to square (1, 0);</li>
-<li>in the fourth turn the knight moves from square (1, 0) to square (2, 2);</li>
-<li>in the fifth turn the knight moves from square (2, 2) to square (3, 0);</li>
-<li>in the sixth turn the knight moves from square (3, 0) to square (1, 1);</li>
-<li>in the seventh turn the knight moves from square (1, 1) to square (3, 2).</li>
-</ul>
-<p>Note that a shorter path of length three exists, but the knight cannot take it because some of the squares along this path are blocked.</p>
-<p>Write a function:</p>
-<p>  <code>function solution(A);</code></p>
-<p>that, given a zero-indexed matrix A consisting of N rows and M columns describing chessboard, returns the minimum number of turns that the knight requires to move from the upper-left square to the lower-right square. The function should return -1 if it is impossible for the knight to move from the upper-left square to the lower-right square.</p>
-<p>Assume that:</p>
-<ul>
-<li>N and M are integers within the range [1..1,000,000];</li>
-<li>the number of elements in matrix A is within the range [1..1,000,000];</li>
-<li>each element of matrix A is an integer that can have one of the following values: 0, 1;</li>
-<li>A[0][0] = A[N-1][M-1] = 0</li>
-</ul>
-<p>For example, given matrix A consisting of four rows and three columns such that:</p>
-<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line">A[0][0] &#x3D; 0    A[0][1] &#x3D; 0    A[0][2] &#x3D; 0</span><br><span class="line">A[1][0] &#x3D; 0    A[1][1] &#x3D; 0    A[1][2] &#x3D; 1</span><br><span class="line">A[2][0] &#x3D; 1    A[2][1] &#x3D; 0    A[2][2] &#x3D; 0</span><br><span class="line">A[3][0] &#x3D; 0    A[3][1] &#x3D; 0    A[3][2] &#x3D; 0</span><br></pre></td></tr></table></figure>
-
-<p>the function should return 7, as explained in the example above.</p>
-<p>Complexity:</p>
-<ul>
-<li>expected worst-case time complexity is O(N*M);</li>
-<li>expected worst-case space complexity is O(N*M).</li>
-</ul>
-<hr>
 <h2 id="03-JS參考解"><a href="#03-JS參考解" class="headerlink" title="03 JS參考解"></a>03 JS參考解</h2><ul>
 <li>BFS，優先走到終點的就是最短路徑了</li>
 <li>用queue存每步的所有情況</li>
@@ -263,7 +165,7 @@ ga('send', 'pageview');
       
     </div>
     <footer class="article-footer">
-      <a data-url="https://blog.comicat.me/2018/02/12/AC-Y18%E8%A7%A3%E9%A1%8C%E8%A8%98%E9%8C%84/" data-id="cl8bm2z7g0001e4tgc3iqd0wn" class="article-share-link">分享</a>
+      <a data-url="https://blog.comicat.me/2018/02/12/AC-Y18%E8%A7%A3%E9%A1%8C%E8%A8%98%E9%8C%84/" data-id="clb0kv9tr0001iqnihay73tt9" class="article-share-link">分享</a>
       
       
         <a href="https://blog.comicat.me/2018/02/12/AC-Y18%E8%A7%A3%E9%A1%8C%E8%A8%98%E9%8C%84/#disqus_thread" class="article-comment-link">留言</a>
@@ -375,7 +277,7 @@ ga('send', 'pageview');
       
         <strong class="toc-title">文章目錄</strong>
         <div class="toc-widget-list">
-              <ol class="toc"><li class="toc-item toc-level-2"><a class="toc-link" href="#00"><span class="toc-number">1.</span> <span class="toc-text">00</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#00-JS參考解"><span class="toc-number">1.1.</span> <span class="toc-text">00 JS參考解</span></a></li></ol></li><li class="toc-item toc-level-2"><a class="toc-link" href="#01"><span class="toc-number">2.</span> <span class="toc-text">01</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#01-JS參考解"><span class="toc-number">2.1.</span> <span class="toc-text">01 JS參考解</span></a></li></ol></li><li class="toc-item toc-level-2"><a class="toc-link" href="#03"><span class="toc-number">3.</span> <span class="toc-text">03</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#03-JS參考解"><span class="toc-number">4.</span> <span class="toc-text">03 JS參考解</span></a></li></ol>
+              <ol class="toc"><li class="toc-item toc-level-2"><a class="toc-link" href="#00"><span class="toc-number">1.</span> <span class="toc-text">00</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#00-JS參考解"><span class="toc-number">1.1.</span> <span class="toc-text">00 JS參考解</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#01-JS參考解"><span class="toc-number">1.2.</span> <span class="toc-text">01 JS參考解</span></a></li></ol></li><li class="toc-item toc-level-2"><a class="toc-link" href="#03-JS參考解"><span class="toc-number">2.</span> <span class="toc-text">03 JS參考解</span></a></li></ol>
           </div>
       </div>
     </div>
