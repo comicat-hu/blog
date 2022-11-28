@@ -3,7 +3,7 @@ name: 'hexo deploy'
 on:
   push:
     branches:
-      - action-test
+      - source
 
 env:
   TZ: 'Asia/Taipei'
