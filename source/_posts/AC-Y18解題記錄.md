@@ -14,29 +14,6 @@ tags:
 
 ## 00
 
-Write a function:
-
-  `function solution(A);`
-
-that, given an array A of N integers, returns the smallest positive integer (greater than 0) that does not occur in A.
-
-For example, given A = [1, 3, 6, 4, 1, 2], the function should return 5.
-
-Given A = [1, 2, 3], the function should return 4.
-Given A = [-1, -3], the function should return 1.
-
-Assume that:
-
-* N is an integer within the range [1..100,000];
-* each element of array A is an integer within the range [-1,000,000..1,000,000].
-
-Complexity:
-
-* expected worst-case time complexity is O(N);
-* expected worst-case space complexity is O(N), beyond input storage (not counting the storage required for input arguments).
-
----
-
 ### 00 JS參考解
 
 * time: O(N), space: O(1)
@@ -68,65 +45,6 @@ console.log(solution([-1, -3])) // 1
 ```
 
 * Ref: <https://leetcode.com/problems/first-missing-positive/discuss/17071/My-short-c++-solution-O(1)-space-and-O(n)-time>
-
----
----
-
-## 01
-
-An interval is a pair (A, B) of integers such that A <= B. Two intervals (A, B) and (C, D) overlap if there exists an integer L such that A <= L <= B and C <= L <= D. Intervals that do not overlap are called disjoint. The union of intervals (A, B) and (C, D) is defined as:
-
-* either a single interval (min(A, C), max(B, D)), when (A, B) and (C, D) overlap, or
-* the intervals (A, B) and (C, D) themselves, when they are disjoint.
-
-Taking the union of two intervals is a commutative and associative operation, so it
-can be extended to an arbitrary number of intervals.
-
-For example, consider the following eight intervals:
-
-```Text
-    ( 1,   5)       (12,   15)        (42,   44)
-    (70,  72)       (36,   36)        (-4,    2)
-    (43,  69)       (15,   24)
-```
-
-Intervals (1, 5) and (-4, 2) overlap and their union is (-4, 5). Intervals (12, 15) and (15, 24) overlap and their union is (12, 24). Intervals (42, 44) and (43, 69) overlap and their union is (42, 69). Intervals (70, 72) and (36, 36) are disjoint and do not overlap with other intervals. The union of all eight intervals consists of the following five pairwise disjoint intervals:
-
-```Text
-    (-4,  5)        (12, 24)         (42, 69)
-    (70, 72)        (36, 36)
-```
-
-Write a function:
-
-  `function solution(A, B);`
-
-that, given two zero-indexed arrays A and B consisting of N elements each, returns the number of pairwise disjoint intervals constituting the union of N intervals described by arrays A and B. The K-th interval, where K is an integer within the range [0..(N - 1)], is defined as (A[K], B[K]).
-
-For example, given the following arrays A and B consisting of eight elements each:
-
-```Text
-    A[0] =  1    A[1] = 12    A[2] = 42
-    A[3] = 70    A[4] = 36    A[5] = -4
-    A[6] = 43    A[7] = 15
-```
-
-```Text
-    B[0] =  5    B[1] = 15    B[2] = 44
-    B[3] = 72    B[4] = 36    B[5] = 2
-    B[6] = 69    B[7] = 24
-```
-
-the function should return 5, because the intervals described by these arrays correspond to the example above. Assume that:
-
-* N is an integer within the range [0..100,000];
-* each element of arrays A, B is an integer within the range [-1,000,000,000..1,000,000,000];
-* A[K] <= B[K] for integers K within the range [0..(N - 1)].
-
-Complexity:
-
-* expected worst-case time complexity is O(N*log(N));
-* expected worst-case space complexity is O(N), beyond input storage (not counting the storage required for input arguments).
 
 ---
 
@@ -172,78 +90,6 @@ console.log(solution(A, B)); // 5
 ```
 
 Ref: <https://www.geeksforgeeks.org/merging-intervals/>
-
----
----
-
-## 03
-
-A chessboard consisting of N rows and M columns is given. Each square of the board is either empty or blocked.
-
-A knight is a chess piece that perform the following moves in one turn:
-
-* two squares up and one square left;
-* two squares up and one square right;
-* one square up and two squares left;
-* one square up and two squares right;
-* one square down and two squares left;
-* one square down and two squares right;
-* two squares down and one square left;
-* two squares down and one square right.
-
-The number of possible moves can be reduced if the knight would fall off the board or if the destination square is blocked.
-
-The board can be described by a zero-indexed matrix consisting of N rows and M columns of integers. A square of the board is empty if its corresponding matrix element has value 0 and blocked if its corresponding matrix element has value 1.
-
-For example, consider the following matrix A consisting of four rows and three columns:
-
-```Text
-    A[0][0] = 0    A[0][1] = 0    A[0][2] = 0
-    A[1][0] = 0    A[1][1] = 0    A[1][2] = 1
-    A[2][0] = 1    A[2][1] = 0    A[2][2] = 0
-    A[3][0] = 0    A[3][1] = 0    A[3][2] = 0
-```
-
-Consider a knight standing on the upper-left square. It requires seven turns to move to the lower-right square:
-
-* in the first turn the knight moves from square (0, 0) to square (2, 1);
-* in the second turn the knight moves from square (2, 1) to square (0, 2);
-* in the third turn the knight moves from square (0, 2) to square (1, 0);
-* in the fourth turn the knight moves from square (1, 0) to square (2, 2);
-* in the fifth turn the knight moves from square (2, 2) to square (3, 0);
-* in the sixth turn the knight moves from square (3, 0) to square (1, 1);
-* in the seventh turn the knight moves from square (1, 1) to square (3, 2).
-
-Note that a shorter path of length three exists, but the knight cannot take it because some of the squares along this path are blocked.
-
-Write a function:
-
-  `function solution(A);`
-
-that, given a zero-indexed matrix A consisting of N rows and M columns describing chessboard, returns the minimum number of turns that the knight requires to move from the upper-left square to the lower-right square. The function should return -1 if it is impossible for the knight to move from the upper-left square to the lower-right square.
-
-Assume that:
-
-* N and M are integers within the range [1..1,000,000];
-* the number of elements in matrix A is within the range [1..1,000,000];
-* each element of matrix A is an integer that can have one of the following values: 0, 1;
-* A[0][0] = A[N-1][M-1] = 0
-
-For example, given matrix A consisting of four rows and three columns such that:
-
-```Text
-    A[0][0] = 0    A[0][1] = 0    A[0][2] = 0
-    A[1][0] = 0    A[1][1] = 0    A[1][2] = 1
-    A[2][0] = 1    A[2][1] = 0    A[2][2] = 0
-    A[3][0] = 0    A[3][1] = 0    A[3][2] = 0
-```
-
-the function should return 7, as explained in the example above.
-
-Complexity:
-
-* expected worst-case time complexity is O(N*M);
-* expected worst-case space complexity is O(N*M).
 
 ---
 
