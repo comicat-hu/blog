@@ -81,7 +81,7 @@ theme: hexo-theme-cafe
 ## Docs: https://hexo.io/docs/deployment.html
 deploy:
   type: git
-  repo: https://github.com/comicat-hu/blog.git
+  repo: git@github.com:comicat-hu/blog.git
   branch: master
 
 # Disqus

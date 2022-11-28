@@ -1,0 +1,53 @@
+name: 'hexo deploy'
+
+on:
+  push:
+    branches:
+      - action-test
+
+env:
+  TZ: 'Asia/Taipei'
+
+jobs:
+  pages:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v3
+        with:
+          token: ${{ secrets.GITHUB_TOKEN }}
+          submodules: recursive
+      - name: Use Node.js 12.x
+        uses: actions/setup-node@v3
+        with:
+          node-version: '12'
+      - name: Cache NPM dependencies
+        uses: actions/cache@v2
+        with:
+          path: node_modules
+          key: ${{ runner.OS }}-npm-cache
+          restore-keys: |
+            ${{ runner.OS }}-npm-cache
+      - name: Add Deploy Private Key
+        env:
+          HEXO_DEPLOY_PRIVATE_KEY: ${{ secrets.HEXO_GITHUB_ACTION }}
+        run: |
+          mkdir -p ~/.ssh/
+          echo "$HEXO_DEPLOY_PRIVATE_KEY" > ~/.ssh/id_rsa 
+          chmod 600 ~/.ssh/id_rsa
+          ssh-keyscan github.com >> ~/.ssh/known_hosts
+      - name: Add Git Settings
+        run: |
+          git config --global user.email "senline39518@gmail.com"
+          git config --global user.name "comicat-hu"
+      - name: Install Dependencies
+        run: |
+          npm install
+          npm install -g hexo-cli 
+      - name: Build
+        run: |
+          chmod +x build.sh
+          sh build.sh
+      - name: Deploy
+        run: |
+          hexo clean
+          hexo deploy

@@ -7,7 +7,7 @@ if [ -d "./.deploy_git" ]; then
 fi
 
 # Initialize target with currently deployed files
-git clone --depth 1 --branch=master https://github.com/comicat-hu/blog.git .deploy_git
+git clone --depth 1 --branch=master git@github.com:comicat-hu/blog.git .deploy_git
 
 cd .deploy_git
 
@@ -22,4 +22,4 @@ if [ ! -d "./public" ]; then
 fi
 
 # Run deployment
-hexo deploy
+# hexo deploy
