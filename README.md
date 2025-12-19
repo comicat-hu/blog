@@ -10,8 +10,8 @@ theme use [comicat-hu/hexo-theme-cafe](https://github.com/comicat-hu/hexo-theme-
 
 ### clone Project
 
-* `git clone -b source https://github.com/comicat-hu/blog`
-* `git submodule update --init --recursive`
+* `git clone -b source git@github.com:comicat-hu/blog.git`
+* `cd blog && git submodule update --init --recursive`
 
 ### install dependencies
 
@@ -35,7 +35,7 @@ theme use [comicat-hu/hexo-theme-cafe](https://github.com/comicat-hu/hexo-theme-
 
 ### deploy to github-pages
 
-* `git push origin source`: build and deploy by travis-ci, keep deploy commit history.
+* `git push origin source`: build and deploy by github-action keep deploy commit history.
 
 ### update theme submodule
 
